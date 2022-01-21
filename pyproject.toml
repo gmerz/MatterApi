@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "matterapi"
+version = "0.1.0"
+description = "A client library for accessing Mattermost API supporting sync/async"
+license = "MIT"
+authors = [ "Georg Merzdovnik" ]
+
+homepage = "https://matterapi.readthedocs.io/"
+repository = "https://github.com/gmerz/MatterApi"
+
+readme = "README.md"
+
+packages = [
+    {include = "matterapi"},
+]
+include = ["matterapi/py.typed"]
+
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4.0.0"
+httpx = "^0.21.0"
+pydantic = "^1.9.0"
+websockets = "^10.0"
+python-dateutil = "^2.8.0"
+
+[tool.poetry.dev-dependencies]
+Sphinx = ">=4.4.0"
+myst-parser = ">0.16.0"
+sphinx-rtd-theme = "^1.0.0"
+sphinxcontrib-programoutput = "^0.17"
+
+
+[build-system]
+requires = ["poetry>=1.0"]
+build-backend = "poetry.masonry.api"
