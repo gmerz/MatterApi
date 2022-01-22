@@ -18,7 +18,8 @@ class EmojiApi(ApiBaseClass):
     ) -> Emoji:
         """Get a list of custom emoji
 
-        Get a page of metadata for custom emoji on the system. Since server version 4.7, sort using the `sort` query parameter.
+        Get a page of metadata for custom emoji on the system. Since server
+        version 4.7, sort using the `sort` query parameter.
 
         Permissions:
             Must be authenticated.
@@ -45,7 +46,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -78,14 +79,13 @@ class EmojiApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = await self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -120,7 +120,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -138,7 +138,8 @@ class EmojiApi(ApiBaseClass):
         Delete a custom emoji.
 
         Permissions:
-            Must have the `manage_team` or `manage_system` permissions or be the user who created the emoji.
+            Must have the `manage_team` or `manage_system` permissions or be the
+        user who created the emoji.
         """
 
         url = "{}/emoji/{emoji_id}".format(self.client.base_url, emoji_id=emoji_id)
@@ -155,7 +156,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -194,7 +195,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -231,7 +232,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -243,7 +244,8 @@ class EmojiApi(ApiBaseClass):
     ) -> List[Emoji]:
         """Search custom emoji
 
-        Search for custom emoji by name based on search criteria provided in the request body. A maximum of 200 results are returned.
+        Search for custom emoji by name based on search criteria provided in the
+        request body. A maximum of 200 results are returned.
 
         Permissions:
             Must be authenticated.
@@ -271,7 +273,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -292,7 +294,8 @@ class EmojiApi(ApiBaseClass):
     ) -> Emoji:
         """Autocomplete custom emoji
 
-        Get a list of custom emoji with names starting with or matching the provided name. Returns a maximum of 100 results.
+        Get a list of custom emoji with names starting with or matching the
+        provided name. Returns a maximum of 100 results.
 
         Permissions:
             Must be authenticated.
@@ -319,7 +322,7 @@ class EmojiApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

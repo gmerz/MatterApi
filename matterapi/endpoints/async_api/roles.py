@@ -36,7 +36,7 @@ class RolesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -78,7 +78,7 @@ class RolesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -117,7 +117,7 @@ class RolesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -134,7 +134,9 @@ class RolesApi(ApiBaseClass):
     ) -> Role:
         """Patch a role
 
-        Partially update a role by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a role by providing only the fields you want to update.
+        Omitted fields will not be updated. The fields that can be updated are
+        defined in the request body, all other provided fields will be ignored.
 
         Permissions:
             `manage_system` permission is required.
@@ -162,7 +164,7 @@ class RolesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -202,7 +204,7 @@ class RolesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

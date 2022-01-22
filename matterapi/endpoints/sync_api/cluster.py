@@ -5,14 +5,16 @@ from ..base import ApiBaseClass
 
 
 class ClusterApi(ApiBaseClass):
-    """Endpoints for configuring and interacting with high availability clusters."""
+    """Endpoints for configuring and interacting with high availability
+    clusters."""
 
     def get_cluster_status(
         self,
     ) -> List[ClusterInfo]:
         """Get cluster status
 
-        Get a set of information for each node in the cluster, useful for checking the status and health of each node.
+        Get a set of information for each node in the cluster, useful for
+        checking the status and health of each node.
 
         Permissions:
             Must have `manage_system` permission.
@@ -32,7 +34,7 @@ class ClusterApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

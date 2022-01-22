@@ -52,7 +52,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -99,7 +99,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -136,7 +136,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -187,7 +187,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -212,7 +212,8 @@ class CommandsApi(ApiBaseClass):
         Get a command definition based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the command is in.
+            Must have `manage_slash_commands` permission for the team the
+        command is in.
         Minimum Server Version:
             5.22
         """
@@ -233,7 +234,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -253,7 +254,8 @@ class CommandsApi(ApiBaseClass):
         Update a single command based on command id string and Command struct.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the command is in.
+            Must have `manage_slash_commands` permission for the team the
+        command is in.
         """
 
         url = "{}/commands/{command_id}".format(
@@ -278,7 +280,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -296,7 +298,8 @@ class CommandsApi(ApiBaseClass):
         Delete a command based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the command is in.
+            Must have `manage_slash_commands` permission for the team the
+        command is in.
         """
 
         url = "{}/commands/{command_id}".format(
@@ -315,7 +318,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -335,7 +338,8 @@ class CommandsApi(ApiBaseClass):
         Move a command to a different team based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the command is currently in and the destination team.
+            Must have `manage_slash_commands` permission for the team the
+        command is currently in and the destination team.
         Minimum Server Version:
             5.22
         """
@@ -362,7 +366,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -380,7 +384,8 @@ class CommandsApi(ApiBaseClass):
         Generate a new token for the command based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the command is in.
+            Must have `manage_slash_commands` permission for the team the
+        command is in.
         """
 
         url = "{}/commands/{command_id}/regen_token".format(
@@ -399,7 +404,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -418,7 +423,8 @@ class CommandsApi(ApiBaseClass):
         Execute a command on a team.
 
         Permissions:
-            Must have `use_slash_commands` permission for the team the command is in.
+            Must have `use_slash_commands` permission for the team the command
+        is in.
         """
 
         url = "{}/commands/execute".format(self.client.base_url)
@@ -441,7 +447,7 @@ class CommandsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

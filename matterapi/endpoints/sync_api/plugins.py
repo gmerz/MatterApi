@@ -24,7 +24,8 @@ class PluginsApi(ApiBaseClass):
     ) -> GetPluginsResponse_200:
         """Get plugins
 
-        Get a list of inactive and a list of active plugin manifests. Plugins must be enabled in the server's config settings.
+        Get a list of inactive and a list of active plugin manifests. Plugins
+        must be enabled in the server's config settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -46,7 +47,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -62,7 +63,9 @@ class PluginsApi(ApiBaseClass):
     ) -> StatusOK:
         """Upload plugin
 
-        Upload a plugin that is contained within a compressed .tar.gz file. Plugins and plugin uploads must be enabled in the server's config settings.
+        Upload a plugin that is contained within a compressed .tar.gz file.
+        Plugins and plugin uploads must be enabled in the server's config
+        settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -81,14 +84,13 @@ class PluginsApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -105,7 +107,8 @@ class PluginsApi(ApiBaseClass):
     ) -> StatusOK:
         """Install plugin from url
 
-        Supply a URL to a plugin compressed in a .tar.gz file. Plugins must be enabled in the server's config settings.
+        Supply a URL to a plugin compressed in a .tar.gz file. Plugins must be
+        enabled in the server's config settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -133,7 +136,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -148,7 +151,8 @@ class PluginsApi(ApiBaseClass):
     ) -> StatusOK:
         """Remove plugin
 
-        Remove the plugin with the provided ID from the server. All plugin files are deleted. Plugins must be enabled in the server's config settings.
+        Remove the plugin with the provided ID from the server. All plugin files
+        are deleted. Plugins must be enabled in the server's config settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -170,7 +174,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -185,7 +189,8 @@ class PluginsApi(ApiBaseClass):
     ) -> StatusOK:
         """Enable plugin
 
-        Enable a previously uploaded plugin. Plugins must be enabled in the server's config settings.
+        Enable a previously uploaded plugin. Plugins must be enabled in the
+        server's config settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -209,7 +214,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -224,7 +229,8 @@ class PluginsApi(ApiBaseClass):
     ) -> StatusOK:
         """Disable plugin
 
-        Disable a previously enabled plugin. Plugins must be enabled in the server's config settings.
+        Disable a previously enabled plugin. Plugins must be enabled in the
+        server's config settings.
 
         Permissions:
             Must have `manage_system` permission.
@@ -248,7 +254,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -284,7 +290,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -327,7 +333,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -352,7 +358,9 @@ class PluginsApi(ApiBaseClass):
     ) -> List[MarketplacePlugin]:
         """Gets all the marketplace plugins
 
-        Gets all plugins from the marketplace server, merging data from locally installed plugins as well as prepackaged plugins shipped with the server.
+        Gets all plugins from the marketplace server, merging data from locally
+        installed plugins as well as prepackaged plugins shipped with the
+        server.
 
         Permissions:
             Must have `manage_system` permission.
@@ -383,7 +391,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -432,7 +440,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -446,7 +454,8 @@ class PluginsApi(ApiBaseClass):
     ) -> System:
         """Get if the Plugin Marketplace has been visited by at least an admin.
 
-        Retrieves the status that specifies that at least one System Admin has visited the in-product Plugin Marketplace.
+        Retrieves the status that specifies that at least one System Admin has
+        visited the in-product Plugin Marketplace.
 
         Permissions:
             Must have `manage_system` permissions.
@@ -468,7 +477,7 @@ class PluginsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

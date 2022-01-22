@@ -46,7 +46,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -68,7 +68,8 @@ class BotsApi(ApiBaseClass):
         Get a page of a list of bots.
 
         Permissions:
-            Must have `read_bots` permission for bots you are managing, and `read_others_bots` permission for bots others are managing.
+            Must have `read_bots` permission for bots you are managing, and
+        `read_others_bots` permission for bots others are managing.
         Minimum Server Version:
             5.10
         """
@@ -95,7 +96,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -144,7 +145,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -164,7 +165,8 @@ class BotsApi(ApiBaseClass):
         Get a bot specified by its bot id.
 
         Permissions:
-            Must have `read_bots` permission for bots you are managing, and `read_others_bots` permission for bots others are managing.
+            Must have `read_bots` permission for bots you are managing, and
+        `read_others_bots` permission for bots others are managing.
         Minimum Server Version:
             5.10
         """
@@ -190,7 +192,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -207,7 +209,9 @@ class BotsApi(ApiBaseClass):
     ) -> Bot:
         """Patch a bot
 
-        Partially update a bot by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a bot by providing only the fields you want to update.
+        Omitted fields will not be updated. The fields that can be updated are
+        defined in the request body, all other provided fields will be ignored.
 
         Permissions:
             Must have `manage_bots` permission.
@@ -237,7 +241,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -276,7 +280,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -315,7 +319,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -355,7 +359,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -394,7 +398,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -407,7 +411,8 @@ class BotsApi(ApiBaseClass):
     ) -> StatusOK:
         """Set bot's LHS icon image
 
-        Set a bot's LHS icon image based on bot_user_id string parameter. Icon image must be SVG format, all other formats are rejected.
+        Set a bot's LHS icon image based on bot_user_id string parameter. Icon
+        image must be SVG format, all other formats are rejected.
 
         Permissions:
             Must have `manage_bots` permission.
@@ -428,14 +433,13 @@ class BotsApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = await self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -474,7 +478,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -527,7 +531,7 @@ class BotsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

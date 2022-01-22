@@ -44,7 +44,7 @@ class UploadsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -79,7 +79,7 @@ class UploadsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -93,7 +93,8 @@ class UploadsApi(ApiBaseClass):
         """Perform a file upload
 
         Starts or resumes a file upload.
-        To resume an existing (incomplete) upload, data should be sent starting from the offset specified in the upload session object.
+        To resume an existing (incomplete) upload, data should be sent starting
+        from the offset specified in the upload session object.
 
         The request body can be in one of two formats:
         - Binary file content streamed in request's body
@@ -118,7 +119,7 @@ class UploadsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:

@@ -16,7 +16,8 @@ class OpenGraphApi(ApiBaseClass):
     ) -> OpenGraph:
         """Get open graph metadata for url
 
-        Get Open Graph Metadata for a specif URL. Use the Open Graph protocol to get some generic metadata about a URL. Used for creating link previews.
+        Get Open Graph Metadata for a specif URL. Use the Open Graph protocol to
+        get some generic metadata about a URL. Used for creating link previews.
 
         Permissions:
             No permission required but must be logged in.
@@ -44,7 +45,7 @@ class OpenGraphApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

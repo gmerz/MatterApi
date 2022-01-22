@@ -16,7 +16,9 @@ class AuthenticationApi(ApiBaseClass):
     ) -> None:
         """Migrate user accounts authentication type to LDAP.
 
-        Migrates accounts from one authentication provider to another. For example, you can upgrade your authentication provider from email to LDAP.
+        Migrates accounts from one authentication provider to another. For
+        example, you can upgrade your authentication provider from email to
+        LDAP.
 
         Permissions:
             Must have `manage_system` permission.
@@ -44,7 +46,7 @@ class AuthenticationApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -56,7 +58,9 @@ class AuthenticationApi(ApiBaseClass):
     ) -> None:
         """Migrate user accounts authentication type to SAML.
 
-        Migrates accounts from one authentication provider to another. For example, you can upgrade your authentication provider from email to SAML.
+        Migrates accounts from one authentication provider to another. For
+        example, you can upgrade your authentication provider from email to
+        SAML.
 
         Permissions:
             Must have `manage_system` permission.
@@ -84,7 +88,7 @@ class AuthenticationApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response

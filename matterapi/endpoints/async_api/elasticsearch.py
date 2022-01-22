@@ -12,8 +12,10 @@ class ElasticsearchApi(ApiBaseClass):
     ) -> StatusOK:
         """Test Elasticsearch configuration
 
-        Test the current Elasticsearch configuration to see if the Elasticsearch server can be contacted successfully.
-        Optionally provide a configuration in the request body to test. If no valid configuration is present in the
+        Test the current Elasticsearch configuration to see if the Elasticsearch
+        server can be contacted successfully.
+        Optionally provide a configuration in the request body to test. If no
+        valid configuration is present in the
         request body the current server configuration will be tested.
 
         Permissions:
@@ -36,7 +38,7 @@ class ElasticsearchApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -50,8 +52,10 @@ class ElasticsearchApi(ApiBaseClass):
     ) -> StatusOK:
         """Purge all Elasticsearch indexes
 
-        Deletes all Elasticsearch indexes and their contents. After calling this endpoint, it is
-        necessary to schedule a new Elasticsearch indexing job to repopulate the indexes.
+        Deletes all Elasticsearch indexes and their contents. After calling this
+        endpoint, it is
+        necessary to schedule a new Elasticsearch indexing job to repopulate the
+        indexes.
 
         Permissions:
             Must have `manage_system` permission.
@@ -73,7 +77,7 @@ class ElasticsearchApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

@@ -31,13 +31,15 @@ class DataRetentionApi(ApiBaseClass):
     ) -> RetentionPolicyForTeamList:
         """Get the policies which are applied to a user's teams
 
-        Gets the policies which are applied to the all of the teams to which a user belongs.
+        Gets the policies which are applied to the all of the teams to which a
+        user belongs.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must be logged in as the user or have the `manage_system` permission.
+            Must be logged in as the user or have the `manage_system`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -64,7 +66,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -82,13 +84,15 @@ class DataRetentionApi(ApiBaseClass):
     ) -> RetentionPolicyForChannelList:
         """Get the policies which are applied to a user's channels
 
-        Gets the policies which are applied to the all of the channels to which a user belongs.
+        Gets the policies which are applied to the all of the channels to which
+        a user belongs.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must be logged in as the user or have the `manage_system` permission.
+            Must be logged in as the user or have the `manage_system`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -115,7 +119,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -156,7 +160,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -170,14 +174,16 @@ class DataRetentionApi(ApiBaseClass):
     ) -> GetDataRetentionPoliciesCountResponse_200:
         """Get the number of granular data retention policies
 
-        Gets the number of granular (i.e. team or channel-specific) data retention
+        Gets the number of granular (i.e. team or channel-specific) data
+        retention
         policies from the server.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -196,7 +202,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -215,14 +221,16 @@ class DataRetentionApi(ApiBaseClass):
     ) -> List[DataRetentionPolicyWithTeamAndChannelCounts]:
         """Get the granular data retention policies
 
-        Gets details about the granular (i.e. team or channel-specific) data retention
+        Gets details about the granular (i.e. team or channel-specific) data
+        retention
         policies from the server.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -247,7 +255,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -279,7 +287,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -304,7 +313,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -327,7 +336,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -348,7 +358,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -371,7 +381,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -392,7 +403,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -416,7 +427,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -443,7 +455,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -469,7 +481,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -496,7 +509,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -526,7 +539,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -549,7 +563,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -574,7 +588,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -597,7 +612,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -614,13 +629,15 @@ class DataRetentionApi(ApiBaseClass):
     ) -> List[Team]:
         """Search for the teams in a granular data retention policy
 
-        Searches for the teams to which a granular data retention policy is applied.
+        Searches for the teams to which a granular data retention policy is
+        applied.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -647,7 +664,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -676,7 +693,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -703,7 +721,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -728,7 +746,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -751,7 +770,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -776,7 +795,8 @@ class DataRetentionApi(ApiBaseClass):
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_write_compliance_data_retention` permission.
+            Must have the `sysconsole_write_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -799,7 +819,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -816,13 +836,15 @@ class DataRetentionApi(ApiBaseClass):
     ) -> ChannelListWithTeamData:
         """Search for the channels in a granular data retention policy
 
-        Searches for the channels to which a granular data retention policy is applied.
+        Searches for the channels to which a granular data retention policy is
+        applied.
 
         ##### License
         Requires an E20 license.
 
         Permissions:
-            Must have the `sysconsole_read_compliance_data_retention` permission.
+            Must have the `sysconsole_read_compliance_data_retention`
+        permission.
         Minimum Server Version:
             5.35
         """
@@ -849,7 +871,7 @@ class DataRetentionApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

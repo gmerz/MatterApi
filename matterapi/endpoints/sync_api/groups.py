@@ -52,7 +52,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -74,13 +74,16 @@ class GroupsApi(ApiBaseClass):
     ) -> List[Group]:
         """Get groups
 
-        Retrieve a list of all groups not associated to a particular channel or team.
+        Retrieve a list of all groups not associated to a particular channel or
+        team.
 
         `not_associated_to_team` **OR** `not_associated_to_channel` is required.
 
-        If you use `not_associated_to_team`, you must be a team admin for that particular team (permission to manage that team).
+        If you use `not_associated_to_team`, you must be a team admin for that
+        particular team (permission to manage that team).
 
-        If you use `not_associated_to_channel`, you must be a channel admin for that particular channel (permission to manage that channel).
+        If you use `not_associated_to_channel`, you must be a channel admin for
+        that particular channel (permission to manage that channel).
 
         Minimum Server Version:
             5.11
@@ -111,7 +114,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -153,7 +156,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -170,7 +173,10 @@ class GroupsApi(ApiBaseClass):
     ) -> Group:
         """Patch a group
 
-        Partially update a group by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a group by providing only the fields you want to
+        update. Omitted fields will not be updated. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
             Must have `manage_system` permission.
@@ -200,7 +206,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -240,7 +246,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -280,7 +286,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -300,7 +306,8 @@ class GroupsApi(ApiBaseClass):
         Otherwise, you must have the `manage_public_channel_members` permission.
 
         Permissions:
-            If the channel is private, you must have `manage_private_channel_members` permission.
+            If the channel is private, you must have
+        `manage_private_channel_members` permission.
         Minimum Server Version:
             5.11
         """
@@ -321,7 +328,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -341,7 +348,8 @@ class GroupsApi(ApiBaseClass):
         Otherwise, you must have the `manage_public_channel_members` permission.
 
         Permissions:
-            If the channel is private, you must have `manage_private_channel_members` permission.
+            If the channel is private, you must have
+        `manage_private_channel_members` permission.
         Minimum Server Version:
             5.11
         """
@@ -362,7 +370,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -402,7 +410,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -442,7 +450,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -481,7 +489,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -525,7 +533,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -550,7 +558,10 @@ class GroupsApi(ApiBaseClass):
     ) -> GroupSyncableTeam:
         """Patch a GroupSyncable associated to Team
 
-        Partially update a GroupSyncable by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a GroupSyncable by providing only the fields you want
+        to update. Omitted fields will not be updated. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
             Must have `manage_system` permission.
@@ -580,7 +591,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -598,7 +609,10 @@ class GroupsApi(ApiBaseClass):
     ) -> GroupSyncableChannel:
         """Patch a GroupSyncable associated to Channel
 
-        Partially update a GroupSyncable by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a GroupSyncable by providing only the fields you want
+        to update. Omitted fields will not be updated. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
             Must have `manage_system` permission.
@@ -628,7 +642,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -676,7 +690,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -715,7 +729,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -765,7 +779,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -816,7 +830,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -840,10 +854,12 @@ class GroupsApi(ApiBaseClass):
     ) -> GetGroupsAssociatedToChannelsByTeamResponse_200:
         """Get team groups by channels
 
-        Retrieve the set of groups associated with the channels in the given team grouped by channel.
+        Retrieve the set of groups associated with the channels in the given
+        team grouped by channel.
 
         Permissions:
-            Must have `manage_system` permission or can access only for current user
+            Must have `manage_system` permission or can access only for current
+        user
         Minimum Server Version:
             5.11
         """
@@ -871,7 +887,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -908,7 +924,7 @@ class GroupsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

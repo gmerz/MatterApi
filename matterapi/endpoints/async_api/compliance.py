@@ -15,7 +15,8 @@ class ComplianceApi(ApiBaseClass):
     ) -> List[Compliance]:
         """Get reports
 
-        Get a list of compliance reports previously created by page, selected with `page` and `per_page` query parameters.
+        Get a list of compliance reports previously created by page, selected
+        with `page` and `per_page` query parameters.
 
         Permissions:
             Must have `manage_system` permission.
@@ -41,7 +42,7 @@ class ComplianceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -80,7 +81,7 @@ class ComplianceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -117,7 +118,7 @@ class ComplianceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -154,7 +155,7 @@ class ComplianceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response

@@ -7,7 +7,8 @@ from ..base import ApiBaseClass
 
 
 class JobsApi(ApiBaseClass):
-    """Endpoints related to various background jobs that can be run by the server or separately by job servers."""
+    """Endpoints related to various background jobs that can be run by the
+    server or separately by job servers."""
 
     async def get_jobs(
         self,
@@ -17,7 +18,8 @@ class JobsApi(ApiBaseClass):
     ) -> List[Job]:
         """Get the jobs.
 
-        Get a page of jobs. Use the query parameters to modify the behaviour of this endpoint.
+        Get a page of jobs. Use the query parameters to modify the behaviour of
+        this endpoint.
 
         Permissions:
             Must have `manage_jobs` permission.
@@ -45,7 +47,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -94,7 +96,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -131,7 +133,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -168,7 +170,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -201,7 +203,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -219,7 +221,8 @@ class JobsApi(ApiBaseClass):
     ) -> List[Job]:
         """Get the jobs of the given type.
 
-        Get a page of jobs of the given type. Use the query parameters to modify the behaviour of this endpoint.
+        Get a page of jobs of the given type. Use the query parameters to modify
+        the behaviour of this endpoint.
 
         Permissions:
             Must have `manage_jobs` permission.
@@ -247,7 +250,7 @@ class JobsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

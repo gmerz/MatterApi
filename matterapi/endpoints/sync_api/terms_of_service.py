@@ -19,10 +19,12 @@ class TermsOfServiceApi(ApiBaseClass):
         self,
         user_id: str,
     ) -> Union[AppError, UserTermsOfService]:
-        """Fetches user's latest terms of service action if the latest action was for acceptance.
+        """Fetches user's latest terms of service action if the latest action was
+        for acceptance.
 
         Will be deprecated in v6.0
-        Fetches user's latest terms of service action if the latest action was for acceptance.
+        Fetches user's latest terms of service action if the latest action was
+        for acceptance.
 
         Permissions:
             Must be logged in as the user being acted on.
@@ -46,7 +48,7 @@ class TermsOfServiceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -67,7 +69,8 @@ class TermsOfServiceApi(ApiBaseClass):
     ) -> StatusOK:
         """Records user action when they accept or decline custom terms of service
 
-        Records user action when they accept or decline custom terms of service. Records the action in audit table.
+        Records user action when they accept or decline custom terms of service.
+        Records the action in audit table.
         Updates user's last accepted terms of service ID if they accepted it.
 
         Permissions:
@@ -98,7 +101,7 @@ class TermsOfServiceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -134,7 +137,7 @@ class TermsOfServiceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -170,7 +173,7 @@ class TermsOfServiceApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

@@ -26,10 +26,12 @@ class WebhooksApi(ApiBaseClass):
     ) -> List[IncomingWebhook]:
         """List incoming webhooks
 
-        Get a page of a list of incoming webhooks. Optionally filter for a specific team using query parameters.
+        Get a page of a list of incoming webhooks. Optionally filter for a
+        specific team using query parameters.
 
         Permissions:
-            `manage_webhooks` for the system or `manage_webhooks` for the specific team.
+            `manage_webhooks` for the system or `manage_webhooks` for the
+        specific team.
         """
 
         url = "{}/hooks/incoming".format(self.client.base_url)
@@ -53,7 +55,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -76,7 +78,8 @@ class WebhooksApi(ApiBaseClass):
 
         Create an incoming webhook for a channel.
 
-        `manage_others_incoming_webhooks` for the team the webhook is in if the user is different than the requester.
+        `manage_others_incoming_webhooks` for the team the webhook is in if the
+        user is different than the requester.
 
         Permissions:
             `manage_webhooks` for the team the webhook is in.
@@ -102,7 +105,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -120,7 +123,8 @@ class WebhooksApi(ApiBaseClass):
         Get an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/incoming/{hook_id}".format(
@@ -139,7 +143,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -159,7 +163,8 @@ class WebhooksApi(ApiBaseClass):
         Update an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/incoming/{hook_id}".format(
@@ -184,7 +189,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -202,7 +207,8 @@ class WebhooksApi(ApiBaseClass):
         Delete an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/incoming/{hook_id}".format(
@@ -221,7 +227,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -240,10 +246,12 @@ class WebhooksApi(ApiBaseClass):
     ) -> List[OutgoingWebhook]:
         """List outgoing webhooks
 
-        Get a page of a list of outgoing webhooks. Optionally filter for a specific team or channel using query parameters.
+        Get a page of a list of outgoing webhooks. Optionally filter for a
+        specific team or channel using query parameters.
 
         Permissions:
-            `manage_webhooks` for the system or `manage_webhooks` for the specific team/channel.
+            `manage_webhooks` for the system or `manage_webhooks` for the
+        specific team/channel.
         """
 
         url = "{}/hooks/outgoing".format(self.client.base_url)
@@ -268,7 +276,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -291,7 +299,8 @@ class WebhooksApi(ApiBaseClass):
 
         Create an outgoing webhook for a team.
 
-        `manage_others_outgoing_webhooks` for the team the webhook is in if the user is different than the requester.
+        `manage_others_outgoing_webhooks` for the team the webhook is in if the
+        user is different than the requester.
 
         Permissions:
             `manage_webhooks` for the team the webhook is in.
@@ -317,7 +326,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -335,7 +344,8 @@ class WebhooksApi(ApiBaseClass):
         Get an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/outgoing/{hook_id}".format(
@@ -354,7 +364,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -374,7 +384,8 @@ class WebhooksApi(ApiBaseClass):
         Update an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/outgoing/{hook_id}".format(
@@ -399,7 +410,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -417,7 +428,8 @@ class WebhooksApi(ApiBaseClass):
         Delete an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/outgoing/{hook_id}".format(
@@ -436,7 +448,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -454,7 +466,8 @@ class WebhooksApi(ApiBaseClass):
         Regenerate the token for the outgoing webhook.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the specific
+        team or `manage_webhooks` for the channel.
         """
 
         url = "{}/hooks/outgoing/{hook_id}/regen_token".format(
@@ -473,7 +486,7 @@ class WebhooksApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

@@ -18,7 +18,8 @@ class PreferencesApi(ApiBaseClass):
         Get a list of the user's preferences.
 
         Permissions:
-            Must be logged in as the user being updated or have the `edit_other_users` permission.
+            Must be logged in as the user being updated or have the
+        `edit_other_users` permission.
         """
 
         url = "{}/users/{user_id}/preferences".format(
@@ -37,7 +38,7 @@ class PreferencesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -62,7 +63,8 @@ class PreferencesApi(ApiBaseClass):
         Save a list of the user's preferences.
 
         Permissions:
-            Must be logged in as the user being updated or have the `edit_other_users` permission.
+            Must be logged in as the user being updated or have the
+        `edit_other_users` permission.
         """
 
         url = "{}/users/{user_id}/preferences".format(
@@ -91,7 +93,7 @@ class PreferencesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -111,7 +113,8 @@ class PreferencesApi(ApiBaseClass):
         Delete a list of the user's preferences.
 
         Permissions:
-            Must be logged in as the user being updated or have the `edit_other_users` permission.
+            Must be logged in as the user being updated or have the
+        `edit_other_users` permission.
         """
 
         url = "{}/users/{user_id}/preferences/delete".format(
@@ -140,7 +143,7 @@ class PreferencesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -159,7 +162,8 @@ class PreferencesApi(ApiBaseClass):
         Lists the current user's stored preferences in the given category.
 
         Permissions:
-            Must be logged in as the user being updated or have the `edit_other_users` permission.
+            Must be logged in as the user being updated or have the
+        `edit_other_users` permission.
         """
 
         url = "{}/users/{user_id}/preferences/{category}".format(
@@ -178,7 +182,7 @@ class PreferencesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -200,10 +204,12 @@ class PreferencesApi(ApiBaseClass):
     ) -> Preference:
         """Get a specific user preference
 
-        Gets a single preference for the current user with the given category and name.
+        Gets a single preference for the current user with the given category
+        and name.
 
         Permissions:
-            Must be logged in as the user being updated or have the `edit_other_users` permission.
+            Must be logged in as the user being updated or have the
+        `edit_other_users` permission.
         """
 
         url = "{}/users/{user_id}/preferences/{category}/name/{preference_name}".format(
@@ -225,7 +231,7 @@ class PreferencesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

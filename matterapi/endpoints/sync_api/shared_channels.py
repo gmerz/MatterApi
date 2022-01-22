@@ -46,7 +46,7 @@ class SharedChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -69,7 +69,8 @@ class SharedChannelsApi(ApiBaseClass):
         Get remote cluster info based on remoteId.
 
         Permissions:
-            Must be authenticated and user must belong to at least one channel shared with the remote cluster.
+            Must be authenticated and user must belong to at least one channel
+        shared with the remote cluster.
         Minimum Server Version:
             5.50
         """
@@ -90,7 +91,7 @@ class SharedChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

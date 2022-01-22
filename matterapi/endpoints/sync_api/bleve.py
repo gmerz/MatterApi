@@ -5,15 +5,17 @@ from ..base import ApiBaseClass
 
 
 class BleveApi(ApiBaseClass):
-    """None"""
+    """ """
 
     def purge_bleve_indexes(
         self,
     ) -> StatusOK:
         """Purge all Bleve indexes
 
-        Deletes all Bleve indexes and their contents. After calling this endpoint, it is
-        necessary to schedule a new Bleve indexing job to repopulate the indexes.
+        Deletes all Bleve indexes and their contents. After calling this
+        endpoint, it is
+        necessary to schedule a new Bleve indexing job to repopulate the
+        indexes.
 
         Permissions:
             Must have `sysconsole_write_experimental` permission.
@@ -35,7 +37,7 @@ class BleveApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

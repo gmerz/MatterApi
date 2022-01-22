@@ -25,11 +25,15 @@ class FilesApi(ApiBaseClass):
 
         Uploads a file that can later be attached to a post.
 
-        This request can either be a multipart/form-data request with a channel_id, files and optional
-        client_ids defined in the FormData, or it can be a request with the channel_id and filename
-        defined as query parameters with the contents of a single file in the body of the request.
+        This request can either be a multipart/form-data request with a
+        channel_id, files and optional
+        client_ids defined in the FormData, or it can be a request with the
+        channel_id and filename
+        defined as query parameters with the contents of a single file in the
+        body of the request.
 
-        Only multipart/form-data requests are supported by server versions up to and including 4.7.
+        Only multipart/form-data requests are supported by server versions up to
+        and including 4.7.
         Server versions 4.8 and higher support both types of requests.
 
         Permissions:
@@ -52,7 +56,6 @@ class FilesApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
             "params": params,
         }
 
@@ -60,7 +63,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -95,7 +98,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -128,7 +131,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -159,7 +162,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -170,7 +173,8 @@ class FilesApi(ApiBaseClass):
     ) -> GetFileLinkResponse_200:
         """Get a public file link
 
-        Gets a public link for a file that can be accessed without logging into Mattermost.
+        Gets a public link for a file that can be accessed without logging into
+        Mattermost.
 
         Permissions:
             Must have `read_channel` permission or be uploader of the file.
@@ -190,7 +194,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -225,7 +229,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -267,7 +271,7 @@ class FilesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -280,7 +284,9 @@ class FilesApi(ApiBaseClass):
     ) -> FileInfoList:
         """Search files in a team
 
-        Search for files in a team based on file name, extention and file content (if file content extraction is enabled and supported for the files).
+        Search for files in a team based on file name, extention and file
+        content (if file content extraction is enabled and supported for the
+        files).
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
@@ -301,14 +307,13 @@ class FilesApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = await self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

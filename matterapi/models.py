@@ -24,7 +24,8 @@ class Team(BaseConfig):
     Attributes:
         id (Optional[str]):
         create_at (Optional[int]): The time in milliseconds a team was created
-        update_at (Optional[int]): The time in milliseconds a team was last updated
+        update_at (Optional[int]): The time in milliseconds a team was last
+            updated
         delete_at (Optional[int]): The time in milliseconds a team was deleted
         display_name (Optional[str]):
         name (Optional[str]):
@@ -34,9 +35,10 @@ class Team(BaseConfig):
         allowed_domains (Optional[str]):
         invite_id (Optional[str]):
         allow_open_invite (Optional[bool]):
-        policy_id (Optional[str]): The data retention policy to which this team has been assigned. If no such policy
-            exists, or the caller does not have the `sysconsole_read_compliance_data_retention` permission, this field will
-            be null.
+        policy_id (Optional[str]): The data retention policy to which this team
+            has been assigned. If no such policy exists, or the caller does not have
+            the `sysconsole_read_compliance_data_retention` permission, this field
+            will be null.
     """
 
     id: Optional[str] = None
@@ -80,16 +82,20 @@ class Channel(BaseConfig):
     """
     Attributes:
         id (Optional[str]):
-        create_at (Optional[int]): The time in milliseconds a channel was created
-        update_at (Optional[int]): The time in milliseconds a channel was last updated
-        delete_at (Optional[int]): The time in milliseconds a channel was deleted
+        create_at (Optional[int]): The time in milliseconds a channel was
+            created
+        update_at (Optional[int]): The time in milliseconds a channel was last
+            updated
+        delete_at (Optional[int]): The time in milliseconds a channel was
+            deleted
         team_id (Optional[str]):
         type (Optional[str]):
         display_name (Optional[str]):
         name (Optional[str]):
         header (Optional[str]):
         purpose (Optional[str]):
-        last_post_at (Optional[int]): The time in milliseconds of the last post of a channel
+        last_post_at (Optional[int]): The time in milliseconds of the last post
+            of a channel
         total_msg_count (Optional[int]):
         extra_update_at (Optional[int]): Deprecated in Mattermost 5.0 release
         creator_id (Optional[str]):
@@ -126,25 +132,33 @@ class ChannelWithTeamData(BaseConfig):
     """
     Attributes:
         id (Optional[str]):
-        create_at (Optional[int]): The time in milliseconds a channel was created
-        update_at (Optional[int]): The time in milliseconds a channel was last updated
-        delete_at (Optional[int]): The time in milliseconds a channel was deleted
+        create_at (Optional[int]): The time in milliseconds a channel was
+            created
+        update_at (Optional[int]): The time in milliseconds a channel was last
+            updated
+        delete_at (Optional[int]): The time in milliseconds a channel was
+            deleted
         team_id (Optional[str]):
         type (Optional[str]):
         display_name (Optional[str]):
         name (Optional[str]):
         header (Optional[str]):
         purpose (Optional[str]):
-        last_post_at (Optional[int]): The time in milliseconds of the last post of a channel
+        last_post_at (Optional[int]): The time in milliseconds of the last post
+            of a channel
         total_msg_count (Optional[int]):
         extra_update_at (Optional[int]): Deprecated in Mattermost 5.0 release
         creator_id (Optional[str]):
-        team_display_name (Optional[str]): The display name of the team to which this channel belongs.
-        team_name (Optional[str]): The name of the team to which this channel belongs.
-        team_update_at (Optional[int]): The time at which the team to which this channel belongs was last updated.
-        policy_id (Optional[str]): The data retention policy to which this team has been assigned. If no such policy
-            exists, or the caller does not have the `sysconsole_read_compliance_data_retention` permission, this field will
-            be null.
+        team_display_name (Optional[str]): The display name of the team to which
+            this channel belongs.
+        team_name (Optional[str]): The name of the team to which this channel
+            belongs.
+        team_update_at (Optional[int]): The time at which the team to which this
+            channel belongs was last updated.
+        policy_id (Optional[str]): The data retention policy to which this team
+            has been assigned. If no such policy exists, or the caller does not have
+            the `sysconsole_read_compliance_data_retention` permission, this field
+            will be null.
     """
 
     id: Optional[str] = None
@@ -188,15 +202,19 @@ class TeamMember(BaseConfig):
     Attributes:
         team_id (Optional[str]): The ID of the team this member belongs to.
         user_id (Optional[str]): The ID of the user this member relates to.
-        roles (Optional[str]): The complete list of roles assigned to this team member, as a space-separated list of
-            role names, including any roles granted implicitly through permissions schemes.
-        delete_at (Optional[int]): The time in milliseconds that this team member was deleted.
-        scheme_user (Optional[bool]): Whether this team member holds the default user role defined by the team's
-            permissions scheme.
-        scheme_admin (Optional[bool]): Whether this team member holds the default admin role defined by the team's
-            permissions scheme.
-        explicit_roles (Optional[str]): The list of roles explicitly assigned to this team member, as a space separated
-            list of role names. This list does *not* include any roles granted implicitly through permissions schemes.
+        roles (Optional[str]): The complete list of roles assigned to this team
+            member, as a space-separated list of role names, including any roles
+            granted implicitly through permissions schemes.
+        delete_at (Optional[int]): The time in milliseconds that this team
+            member was deleted.
+        scheme_user (Optional[bool]): Whether this team member holds the default
+            user role defined by the team's permissions scheme.
+        scheme_admin (Optional[bool]): Whether this team member holds the
+            default admin role defined by the team's permissions scheme.
+        explicit_roles (Optional[str]): The list of roles explicitly assigned to
+            this team member, as a space separated list of role names. This list
+            does *not* include any roles granted implicitly through permissions
+            schemes.
     """
 
     team_id: Optional[str] = None
@@ -240,10 +258,13 @@ class ChannelUnreadAt(BaseConfig):
     """
     Attributes:
         team_id (Optional[str]): The ID of the team the channel belongs to.
-        channel_id (Optional[str]): The ID of the channel the user has access to..
+        channel_id (Optional[str]): The ID of the channel the user has access
+            to..
         msg_count (Optional[int]): No. of messages the user has already read.
-        mention_count (Optional[int]): No. of mentions the user has within the unread posts of the channel.
-        last_viewed_at (Optional[int]): time in milliseconds when the user last viewed the channel.
+        mention_count (Optional[int]): No. of mentions the user has within the
+            unread posts of the channel.
+        last_viewed_at (Optional[int]): time in milliseconds when the user last
+            viewed the channel.
     """
 
     team_id: Optional[str] = None
@@ -256,12 +277,15 @@ class ChannelUnreadAt(BaseConfig):
 class Session(BaseConfig):
     """
     Attributes:
-        create_at (Optional[int]): The time in milliseconds a session was created
+        create_at (Optional[int]): The time in milliseconds a session was
+            created
         device_id (Optional[str]):
-        expires_at (Optional[int]): The time in milliseconds a session will expire
+        expires_at (Optional[int]): The time in milliseconds a session will
+            expire
         id (Optional[str]):
         is_oauth (Optional[bool]):
-        last_activity_at (Optional[int]): The time in milliseconds of the last activity of a session
+        last_activity_at (Optional[int]): The time in milliseconds of the last
+            activity of a session
         props (Optional[Props]):
         roles (Optional[str]):
         team_members (Optional[List[TeamMember]]):
@@ -290,9 +314,11 @@ class FileInfo(BaseConfig):
     Attributes:
         id (Optional[str]): The unique identifier for this file
         user_id (Optional[str]): The ID of the user that uploaded this file
-        post_id (Optional[str]): If this file is attached to a post, the ID of that post
+        post_id (Optional[str]): If this file is attached to a post, the ID of
+            that post
         create_at (Optional[int]): The time in milliseconds a file was created
-        update_at (Optional[int]): The time in milliseconds a file was last updated
+        update_at (Optional[int]): The time in milliseconds a file was last
+            updated
         delete_at (Optional[int]): The time in milliseconds a file was deleted
         name (Optional[str]): The name of the file
         extension (Optional[str]): The extension at the end of the file name
@@ -300,7 +326,8 @@ class FileInfo(BaseConfig):
         mime_type (Optional[str]): The MIME type of the file
         width (Optional[int]): If this file is an image, the width of the file
         height (Optional[int]): If this file is an image, the height of the file
-        has_preview_image (Optional[bool]): If this file is an image, whether or not it has a preview-sized version
+        has_preview_image (Optional[bool]): If this file is an image, whether or
+            not it has a preview-sized version
     """
 
     id: Optional[str] = None
@@ -337,7 +364,8 @@ class UserAuthData(BaseConfig):
     """
     Attributes:
         auth_data (str): Service-specific authentication data
-        auth_service (str): The authentication service such as "email", "gitlab", or "ldap"
+        auth_service (str): The authentication service such as "email",
+            "gitlab", or "ldap"
     """
 
     auth_data: str
@@ -348,10 +376,14 @@ class IncomingWebhook(BaseConfig):
     """
     Attributes:
         id (Optional[str]): The unique identifier for this incoming webhook
-        create_at (Optional[int]): The time in milliseconds a incoming webhook was created
-        update_at (Optional[int]): The time in milliseconds a incoming webhook was last updated
-        delete_at (Optional[int]): The time in milliseconds a incoming webhook was deleted
-        channel_id (Optional[str]): The ID of a public channel or private group that receives the webhook payloads
+        create_at (Optional[int]): The time in milliseconds a incoming webhook
+            was created
+        update_at (Optional[int]): The time in milliseconds a incoming webhook
+            was last updated
+        delete_at (Optional[int]): The time in milliseconds a incoming webhook
+            was deleted
+        channel_id (Optional[str]): The ID of a public channel or private group
+            that receives the webhook payloads
         description (Optional[str]): The description for this incoming webhook
         display_name (Optional[str]): The display name for this incoming webhook
     """
@@ -369,20 +401,27 @@ class OutgoingWebhook(BaseConfig):
     """
     Attributes:
         id (Optional[str]): The unique identifier for this outgoing webhook
-        create_at (Optional[int]): The time in milliseconds a outgoing webhook was created
-        update_at (Optional[int]): The time in milliseconds a outgoing webhook was last updated
-        delete_at (Optional[int]): The time in milliseconds a outgoing webhook was deleted
+        create_at (Optional[int]): The time in milliseconds a outgoing webhook
+            was created
+        update_at (Optional[int]): The time in milliseconds a outgoing webhook
+            was last updated
+        delete_at (Optional[int]): The time in milliseconds a outgoing webhook
+            was deleted
         creator_id (Optional[str]): The Id of the user who created the webhook
         team_id (Optional[str]): The ID of the team that the webhook watchs
-        channel_id (Optional[str]): The ID of a public channel that the webhook watchs
+        channel_id (Optional[str]): The ID of a public channel that the webhook
+            watchs
         description (Optional[str]): The description for this outgoing webhook
         display_name (Optional[str]): The display name for this outgoing webhook
-        trigger_words (Optional[List[str]]): List of words for the webhook to trigger on
-        trigger_when (Optional[int]): When to trigger the webhook, `0` when a trigger word is present at all and `1` if
-            the message starts with a trigger word
-        callback_urls (Optional[List[str]]): The URLs to POST the payloads to when the webhook is triggered
-        content_type (Optional[str]): The format to POST the data in, either `application/json` or `application/x-www-
-            form-urlencoded`
+        trigger_words (Optional[List[str]]): List of words for the webhook to
+            trigger on
+        trigger_when (Optional[int]): When to trigger the webhook, `0` when a
+            trigger word is present at all and `1` if the message starts with a
+            trigger word
+        callback_urls (Optional[List[str]]): The URLs to POST the payloads to
+            when the webhook is triggered
+        content_type (Optional[str]): The format to POST the data in, either
+            `application/json` or `application/x-www-form-urlencoded`
              Default: 'application/x-www-form-urlencoded'.
     """
 
@@ -405,9 +444,12 @@ class Reaction(BaseConfig):
     """
     Attributes:
         user_id (Optional[str]): The ID of the user that made this reaction
-        post_id (Optional[str]): The ID of the post to which this reaction was made
-        emoji_name (Optional[str]): The name of the emoji that was used for this reaction
-        create_at (Optional[int]): The time in milliseconds this reaction was made
+        post_id (Optional[str]): The ID of the post to which this reaction was
+            made
+        emoji_name (Optional[str]): The name of the emoji that was used for this
+            reaction
+        create_at (Optional[int]): The time in milliseconds this reaction was
+            made
     """
 
     user_id: Optional[str] = None
@@ -423,8 +465,10 @@ class Emoji(BaseConfig):
         creator_id (Optional[str]): The ID of the user that made the emoji
         name (Optional[str]): The name of the emoji
         create_at (Optional[int]): The time in milliseconds the emoji was made
-        update_at (Optional[int]): The time in milliseconds the emoji was last updated
-        delete_at (Optional[int]): The time in milliseconds the emoji was deleted
+        update_at (Optional[int]): The time in milliseconds the emoji was last
+            updated
+        delete_at (Optional[int]): The time in milliseconds the emoji was
+            deleted
     """
 
     id: Optional[str] = None
@@ -439,18 +483,25 @@ class Command(BaseConfig):
     """
     Attributes:
         id (Optional[str]): The ID of the slash command
-        token (Optional[str]): The token which is used to verify the source of the payload
-        create_at (Optional[int]): The time in milliseconds the command was created
-        update_at (Optional[int]): The time in milliseconds the command was last updated
-        delete_at (Optional[int]): The time in milliseconds the command was deleted, 0 if never deleted
+        token (Optional[str]): The token which is used to verify the source of
+            the payload
+        create_at (Optional[int]): The time in milliseconds the command was
+            created
+        update_at (Optional[int]): The time in milliseconds the command was last
+            updated
+        delete_at (Optional[int]): The time in milliseconds the command was
+            deleted, 0 if never deleted
         creator_id (Optional[str]): The user id for the commands creator
-        team_id (Optional[str]): The team id for which this command is configured
+        team_id (Optional[str]): The team id for which this command is
+            configured
         trigger (Optional[str]): The string that triggers this command
-        method (Optional[str]): Is the trigger done with HTTP Get ('G') or HTTP Post ('P')
+        method (Optional[str]): Is the trigger done with HTTP Get ('G') or HTTP
+            Post ('P')
         username (Optional[str]): What is the username for the response post
         icon_url (Optional[str]): The url to find the icon for this users avatar
         auto_complete (Optional[bool]): Use auto complete for this command
-        auto_complete_desc (Optional[str]): The description for this command shown when selecting the command
+        auto_complete_desc (Optional[str]): The description for this command
+            shown when selecting the command
         auto_complete_hint (Optional[str]): The hint for this command
         display_name (Optional[str]): Display name for the command
         description (Optional[str]): Description for this command
@@ -497,7 +548,8 @@ class SlackAttachmentField(BaseConfig):
     """
     Attributes:
         title (Optional[str]):
-        value (Optional[str]): The value of the attachment, set as string but capable with golang interface
+        value (Optional[str]): The value of the attachment, set as string but
+            capable with golang interface
         short (Optional[bool]):
     """
 
@@ -509,7 +561,8 @@ class SlackAttachmentField(BaseConfig):
 class StatusOK(BaseConfig):
     """
     Attributes:
-        status (Optional[str]): Will contain "ok" if the request was successful and there was nothing else to return
+        status (Optional[str]): Will contain "ok" if the request was successful
+            and there was nothing else to return
     """
 
     status: Optional[str] = None
@@ -610,21 +663,24 @@ class OpenGraph(BaseConfig):
         images (Optional[List[OpenGraphImagesItem]]):
         videos (Optional[List[OpenGraphVideosItem]]):
         audios (Optional[List[OpenGraphAudiosItem]]):
-        article (Optional[Article]): Article object used in OpenGraph metadata of a webpage, if type is article
-        book (Optional[Book]): Book object used in OpenGraph metadata of a webpage, if type is book
+        article (Optional[Article]): Article object used in OpenGraph metadata
+            of a webpage, if type is article
+        book (Optional[Book]): Book object used in OpenGraph metadata of a
+            webpage, if type is book
         profile (Optional[Profile]):
     """
 
     class Article(BaseConfig):
-        """Article object used in OpenGraph metadata of a webpage, if type is article
+        """Article object used in OpenGraph metadata of a webpage, if type is
+        article
 
-        Attributes:
-            published_time (Optional[str]):
-            modified_time (Optional[str]):
-            expiration_time (Optional[str]):
-            section (Optional[str]):
-            tags (Optional[List[str]]):
-            authors (Optional[List[ArticleAuthorsItem]]):
+            Attributes:
+                published_time (Optional[str]):
+                modified_time (Optional[str]):
+                expiration_time (Optional[str]):
+                section (Optional[str]):
+                tags (Optional[List[str]]):
+                authors (Optional[List[ArticleAuthorsItem]]):
         """
 
         published_time: Optional[str] = None
@@ -1905,8 +1961,10 @@ class ClusterInfo(BaseConfig):
     Attributes:
         id (Optional[str]): The unique ID for the node
         version (Optional[str]): The server version the node is on
-        config_hash (Optional[str]): The hash of the configuartion file the node is using
-        internode_url (Optional[str]): The URL used to communicate with those node from other nodes
+        config_hash (Optional[str]): The hash of the configuartion file the node
+            is using
+        internode_url (Optional[str]): The URL used to communicate with those
+            node from other nodes
         hostname (Optional[str]): The hostname for this node
         last_ping (Optional[int]): The time of the last ping to this node
         is_alive (Optional[bool]): Whether or not the node is alive and well
@@ -1958,10 +2016,13 @@ class OAuthApp(BaseConfig):
         client_secret (Optional[str]): The client secret of the application
         name (Optional[str]): The name of the client application
         description (Optional[str]): A short description of the application
-        icon_url (Optional[str]): A URL to an icon to display with the application
-        callback_urls (Optional[List[str]]): A list of callback URLs for the appliation
+        icon_url (Optional[str]): A URL to an icon to display with the
+            application
+        callback_urls (Optional[List[str]]): A list of callback URLs for the
+            appliation
         homepage (Optional[str]): A link to the website of the application
-        is_trusted (Optional[bool]): Set this to `true` to skip asking users for permission
+        is_trusted (Optional[bool]): Set this to `true` to skip asking users for
+            permission
         create_at (Optional[int]): The time of registration for the application
         update_at (Optional[int]): The last time of update for the application
     """
@@ -1985,10 +2046,12 @@ class Job(BaseConfig):
         type (Optional[str]): The type of job
         create_at (Optional[int]): The time at which the job was created
         start_at (Optional[int]): The time at which the job was started
-        last_activity_at (Optional[int]): The last time at which the job had activity
+        last_activity_at (Optional[int]): The last time at which the job had
+            activity
         status (Optional[str]): The status of the job
         progress (Optional[int]): The progress (as a percentage) of the job
-        data (Optional[Data]): A freeform data field containing additional information about the job
+        data (Optional[Data]): A freeform data field containing additional
+            information about the job
     """
 
     class Data(BaseConfig):
@@ -2037,12 +2100,14 @@ class UserAccessTokenSanitized(BaseConfig):
 class GlobalDataRetentionPolicy(BaseConfig):
     """
     Attributes:
-        message_deletion_enabled (Optional[bool]): Indicates whether data retention policy deletion of messages is
-            enabled globally.
-        file_deletion_enabled (Optional[bool]): Indicates whether data retention policy deletion of file attachments is
-            enabled globally.
-        message_retention_cutoff (Optional[int]): The current server timestamp before which messages should be deleted.
-        file_retention_cutoff (Optional[int]): The current server timestamp before which files should be deleted.
+        message_deletion_enabled (Optional[bool]): Indicates whether data
+            retention policy deletion of messages is enabled globally.
+        file_deletion_enabled (Optional[bool]): Indicates whether data retention
+            policy deletion of file attachments is enabled globally.
+        message_retention_cutoff (Optional[int]): The current server timestamp
+            before which messages should be deleted.
+        file_retention_cutoff (Optional[int]): The current server timestamp
+            before which files should be deleted.
     """
 
     message_deletion_enabled: Optional[bool] = None
@@ -2054,9 +2119,11 @@ class GlobalDataRetentionPolicy(BaseConfig):
 class DataRetentionPolicyWithoutId(BaseConfig):
     """
     Attributes:
-        display_name (Optional[str]): The display name for this retention policy.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy. If this value is less than 0, the policy has infinite retention (i.e. messages are never deleted).
+        display_name (Optional[str]): The display name for this retention
+            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy. If this value is less than
+            0, the policy has infinite retention (i.e. messages are never deleted).
     """
 
     display_name: Optional[str] = None
@@ -2066,9 +2133,11 @@ class DataRetentionPolicyWithoutId(BaseConfig):
 class DataRetentionPolicy(BaseConfig):
     """
     Attributes:
-        display_name (Optional[str]): The display name for this retention policy.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy. If this value is less than 0, the policy has infinite retention (i.e. messages are never deleted).
+        display_name (Optional[str]): The display name for this retention
+            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy. If this value is less than
+            0, the policy has infinite retention (i.e. messages are never deleted).
         id (Optional[str]): The ID of this retention policy.
     """
 
@@ -2080,12 +2149,16 @@ class DataRetentionPolicy(BaseConfig):
 class DataRetentionPolicyWithTeamAndChannelCounts(BaseConfig):
     """
     Attributes:
-        display_name (Optional[str]): The display name for this retention policy.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy. If this value is less than 0, the policy has infinite retention (i.e. messages are never deleted).
+        display_name (Optional[str]): The display name for this retention
+            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy. If this value is less than
+            0, the policy has infinite retention (i.e. messages are never deleted).
         id (Optional[str]): The ID of this retention policy.
-        team_count (Optional[int]): The number of teams to which this policy is applied.
-        channel_count (Optional[int]): The number of channels to which this policy is applied.
+        team_count (Optional[int]): The number of teams to which this policy is
+            applied.
+        channel_count (Optional[int]): The number of channels to which this
+            policy is applied.
     """
 
     display_name: Optional[str] = None
@@ -2098,11 +2171,15 @@ class DataRetentionPolicyWithTeamAndChannelCounts(BaseConfig):
 class DataRetentionPolicyWithTeamAndChannelIds(BaseConfig):
     """
     Attributes:
-        display_name (Optional[str]): The display name for this retention policy.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy. If this value is less than 0, the policy has infinite retention (i.e. messages are never deleted).
-        team_ids (Optional[List[str]]): The IDs of the teams to which this policy should be applied.
-        channel_ids (Optional[List[str]]): The IDs of the channels to which this policy should be applied.
+        display_name (Optional[str]): The display name for this retention
+            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy. If this value is less than
+            0, the policy has infinite retention (i.e. messages are never deleted).
+        team_ids (Optional[List[str]]): The IDs of the teams to which this
+            policy should be applied.
+        channel_ids (Optional[List[str]]): The IDs of the channels to which this
+            policy should be applied.
     """
 
     display_name: Optional[str] = None
@@ -2114,11 +2191,15 @@ class DataRetentionPolicyWithTeamAndChannelIds(BaseConfig):
 class DataRetentionPolicyCreate(BaseConfig):
     """
     Attributes:
-        display_name (Optional[str]): The display name for this retention policy.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy. If this value is less than 0, the policy has infinite retention (i.e. messages are never deleted).
-        team_ids (Optional[List[str]]): The IDs of the teams to which this policy should be applied.
-        channel_ids (Optional[List[str]]): The IDs of the channels to which this policy should be applied.
+        display_name (Optional[str]): The display name for this retention
+            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy. If this value is less than
+            0, the policy has infinite retention (i.e. messages are never deleted).
+        team_ids (Optional[List[str]]): The IDs of the teams to which this
+            policy should be applied.
+        channel_ids (Optional[List[str]]): The IDs of the channels to which this
+            policy should be applied.
     """
 
     display_name: Optional[str] = None
@@ -2131,8 +2212,8 @@ class DataRetentionPolicyForTeam(BaseConfig):
     """
     Attributes:
         team_id (Optional[str]): The team ID.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy.
     """
 
     team_id: Optional[str] = None
@@ -2142,7 +2223,8 @@ class DataRetentionPolicyForTeam(BaseConfig):
 class RetentionPolicyForTeamList(BaseConfig):
     """
     Attributes:
-        policies (Optional[List[DataRetentionPolicyForTeam]]): The list of team policies.
+        policies (Optional[List[DataRetentionPolicyForTeam]]): The list of team
+            policies.
         total_count (Optional[int]): The total number of team policies.
     """
 
@@ -2154,8 +2236,8 @@ class DataRetentionPolicyForChannel(BaseConfig):
     """
     Attributes:
         channel_id (Optional[str]): The channel ID.
-        post_duration (Optional[int]): The number of days a message will be retained before being deleted by this
-            policy.
+        post_duration (Optional[int]): The number of days a message will be
+            retained before being deleted by this policy.
     """
 
     channel_id: Optional[str] = None
@@ -2165,7 +2247,8 @@ class DataRetentionPolicyForChannel(BaseConfig):
 class RetentionPolicyForChannelList(BaseConfig):
     """
     Attributes:
-        policies (Optional[List[DataRetentionPolicyForChannel]]): The list of channel policies.
+        policies (Optional[List[DataRetentionPolicyForChannel]]): The list of
+            channel policies.
         total_count (Optional[int]): The total number of channel policies.
     """
 
@@ -2176,19 +2259,23 @@ class RetentionPolicyForChannelList(BaseConfig):
 class UserNotifyProps(BaseConfig):
     """
     Attributes:
-        email (Optional[bool]): Set to "true" to enable email notifications, "false" to disable. Defaults to "true".
-        push (Optional[str]): Set to "all" to receive push notifications for all activity, "mention" for mentions and
-            direct messages only, and "none" to disable. Defaults to "mention".
-        desktop (Optional[str]): Set to "all" to receive desktop notifications for all activity, "mention" for mentions
-            and direct messages only, and "none" to disable. Defaults to "all".
-        desktop_sound (Optional[bool]): Set to "true" to enable sound on desktop notifications, "false" to disable.
-            Defaults to "true".
-        mention_keys (Optional[str]): A comma-separated list of words to count as mentions. Defaults to username and
-            @username.
-        channel (Optional[bool]): Set to "true" to enable channel-wide notifications (@channel, @all, etc.), "false" to
-            disable. Defaults to "true".
-        first_name (Optional[bool]): Set to "true" to enable mentions for first name. Defaults to "true" if a first name
-            is set, "false" otherwise.
+        email (Optional[bool]): Set to "true" to enable email notifications,
+            "false" to disable. Defaults to "true".
+        push (Optional[str]): Set to "all" to receive push notifications for all
+            activity, "mention" for mentions and direct messages only, and "none" to
+            disable. Defaults to "mention".
+        desktop (Optional[str]): Set to "all" to receive desktop notifications
+            for all activity, "mention" for mentions and direct messages only, and
+            "none" to disable. Defaults to "all".
+        desktop_sound (Optional[bool]): Set to "true" to enable sound on desktop
+            notifications, "false" to disable. Defaults to "true".
+        mention_keys (Optional[str]): A comma-separated list of words to count
+            as mentions. Defaults to username and @username.
+        channel (Optional[bool]): Set to "true" to enable channel-wide
+            notifications (@channel, @all, etc.), "false" to disable. Defaults to
+            "true".
+        first_name (Optional[bool]): Set to "true" to enable mentions for first
+            name. Defaults to "true" if a first name is set, "false" otherwise.
     """
 
     email: Optional[bool] = None
@@ -2203,11 +2290,12 @@ class UserNotifyProps(BaseConfig):
 class Timezone(BaseConfig):
     """
     Attributes:
-        use_automatic_timezone (Optional[bool]): Set to "true" to use the browser/system timezone, "false" to set
-            manually. Defaults to "true".
-        manual_timezone (Optional[str]): Value when setting manually the timezone, i.e. "Europe/Berlin".
-        automatic_timezone (Optional[str]): This value is set automatically when the "useAutomaticTimezone" is set to
-            "true".
+        use_automatic_timezone (Optional[bool]): Set to "true" to use the
+            browser/system timezone, "false" to set manually. Defaults to "true".
+        manual_timezone (Optional[str]): Value when setting manually the
+            timezone, i.e. "Europe/Berlin".
+        automatic_timezone (Optional[str]): This value is set automatically when
+            the "useAutomaticTimezone" is set to "true".
     """
 
     use_automatic_timezone: Optional[bool] = None
@@ -2218,14 +2306,19 @@ class Timezone(BaseConfig):
 class ChannelNotifyProps(BaseConfig):
     """
     Attributes:
-        email (Optional[bool]): Set to "true" to enable email notifications, "false" to disable, or "default" to use the
-            global user notification setting.
-        push (Optional[str]): Set to "all" to receive push notifications for all activity, "mention" for mentions and
-            direct messages only, "none" to disable, or "default" to use the global user notification setting.
-        desktop (Optional[str]): Set to "all" to receive desktop notifications for all activity, "mention" for mentions
-            and direct messages only, "none" to disable, or "default" to use the global user notification setting.
-        mark_unread (Optional[str]): Set to "all" to mark the channel unread for any new message, "mention" to mark
-            unread for new mentions only. Defaults to "all".
+        email (Optional[bool]): Set to "true" to enable email notifications,
+            "false" to disable, or "default" to use the global user notification
+            setting.
+        push (Optional[str]): Set to "all" to receive push notifications for all
+            activity, "mention" for mentions and direct messages only, "none" to
+            disable, or "default" to use the global user notification setting.
+        desktop (Optional[str]): Set to "all" to receive desktop notifications
+            for all activity, "mention" for mentions and direct messages only,
+            "none" to disable, or "default" to use the global user notification
+            setting.
+        mark_unread (Optional[str]): Set to "all" to mark the channel unread for
+            any new message, "mention" to mark unread for new mentions only.
+            Defaults to "all".
     """
 
     email: Optional[bool] = None
@@ -2237,17 +2330,20 @@ class ChannelNotifyProps(BaseConfig):
 class PluginManifest(BaseConfig):
     """
     Attributes:
-        id (Optional[str]): Globally unique identifier that represents the plugin.
+        id (Optional[str]): Globally unique identifier that represents the
+            plugin.
         name (Optional[str]): Name of the plugin.
         description (Optional[str]): Description of what the plugin is and does.
         version (Optional[str]): Version number of the plugin.
-        min_server_version (Optional[str]): The minimum Mattermost server version required for the plugin.
+        min_server_version (Optional[str]): The minimum Mattermost server
+            version required for the plugin.
 
             Available as server version 5.6.
         backend (Optional[Backend]): Deprecated in Mattermost 5.2 release.
         server (Optional[Server]):
         webapp (Optional[Webapp]):
-        settings_schema (Optional[SettingsSchema]): Settings schema used to define the System Console UI for the plugin.
+        settings_schema (Optional[SettingsSchema]): Settings schema used to
+            define the System Console UI for the plugin.
     """
 
     class Backend(BaseConfig):
@@ -2262,14 +2358,15 @@ class PluginManifest(BaseConfig):
     class Server(BaseConfig):
         """
         Attributes:
-            executables (Optional[Executables]): Paths to executable binaries, specifying multiple entry points for
-                different platforms when bundled together in a single plugin.
+            executables (Optional[Executables]): Paths to executable binaries,
+                specifying multiple entry points for different platforms when bundled
+                together in a single plugin.
             executable (Optional[str]): Path to the executable binary.
         """
 
         class Executables(BaseConfig):
-            """Paths to executable binaries, specifying multiple entry points for different platforms when bundled together in a
-            single plugin.
+            """Paths to executable binaries, specifying multiple entry points for
+            different platforms when bundled together in a single plugin.
 
                 Attributes:
                     linux_amd64 (Optional[str]):
@@ -2309,14 +2406,17 @@ class PluginManifest(BaseConfig):
 class MarketplacePlugin(BaseConfig):
     """
     Attributes:
-        homepage_url (Optional[str]): URL that leads to the homepage of the plugin.
+        homepage_url (Optional[str]): URL that leads to the homepage of the
+            plugin.
         icon_data (Optional[str]): Base64 encoding of a plugin icon SVG.
         download_url (Optional[str]): URL to download the plugin.
-        release_notes_url (Optional[str]): URL that leads to the release notes of the plugin.
+        release_notes_url (Optional[str]): URL that leads to the release notes
+            of the plugin.
         labels (Optional[List[str]]): A list of the plugin labels.
         signature (Optional[str]): Base64 encoded signature of the plugin.
         manifest (Optional[PluginManifest]):
-        installed_version (Optional[str]): Version number of the already installed plugin, if any.
+        installed_version (Optional[str]): Version number of the already
+            installed plugin, if any.
     """
 
     homepage_url: Optional[str] = None
@@ -2383,7 +2483,8 @@ class PushNotification(BaseConfig):
 class PluginStatus(BaseConfig):
     """
     Attributes:
-        plugin_id (Optional[str]): Globally unique identifier that represents the plugin.
+        plugin_id (Optional[str]): Globally unique identifier that represents
+            the plugin.
         name (Optional[str]): Name of the plugin.
         description (Optional[str]): Description of what the plugin is and does.
         version (Optional[str]): Version number of the plugin.
@@ -2404,7 +2505,8 @@ class PluginStatus(BaseConfig):
 class PluginManifestWebapp(BaseConfig):
     """
     Attributes:
-        id (Optional[str]): Globally unique identifier that represents the plugin.
+        id (Optional[str]): Globally unique identifier that represents the
+            plugin.
         version (Optional[str]): Version number of the plugin.
         webapp (Optional[Webapp]):
     """
@@ -2426,12 +2528,14 @@ class Role(BaseConfig):
     """
     Attributes:
         id (Optional[str]): The unique identifier of the role.
-        name (Optional[str]): The unique name of the role, used when assigning roles to users/groups in contexts.
+        name (Optional[str]): The unique name of the role, used when assigning
+            roles to users/groups in contexts.
         display_name (Optional[str]): The human readable name for the role.
         description (Optional[str]): A human readable description of the role.
-        permissions (Optional[List[str]]): A list of the unique names of the permissions this role grants.
-        scheme_managed (Optional[bool]): indicates if this role is managed by a scheme (true), or is a custom stand-
-            alone role (false).
+        permissions (Optional[List[str]]): A list of the unique names of the
+            permissions this role grants.
+        scheme_managed (Optional[bool]): indicates if this role is managed by a
+            scheme (true), or is a custom stand-alone role (false).
     """
 
     id: Optional[str] = None
@@ -2449,13 +2553,19 @@ class Scheme(BaseConfig):
         name (Optional[str]): The human readable name for the scheme.
         description (Optional[str]): A human readable description of the scheme.
         create_at (Optional[int]): The time at which the scheme was created.
-        update_at (Optional[int]): The time at which the scheme was last updated.
+        update_at (Optional[int]): The time at which the scheme was last
+            updated.
         delete_at (Optional[int]): The time at which the scheme was deleted.
-        scope (Optional[str]): The scope to which this scheme can be applied, either "team" or "channel".
-        default_team_admin_role (Optional[str]): The id of the default team admin role for this scheme.
-        default_team_user_role (Optional[str]): The id of the default team user role for this scheme.
-        default_channel_admin_role (Optional[str]): The id of the default channel admin role for this scheme.
-        default_channel_user_role (Optional[str]): The id of the default channel user role for this scheme.
+        scope (Optional[str]): The scope to which this scheme can be applied,
+            either "team" or "channel".
+        default_team_admin_role (Optional[str]): The id of the default team
+            admin role for this scheme.
+        default_team_user_role (Optional[str]): The id of the default team user
+            role for this scheme.
+        default_channel_admin_role (Optional[str]): The id of the default
+            channel admin role for this scheme.
+        default_channel_user_role (Optional[str]): The id of the default channel
+            user role for this scheme.
     """
 
     id: Optional[str] = None
@@ -2475,8 +2585,10 @@ class TermsOfService(BaseConfig):
     """
     Attributes:
         id (Optional[str]): The unique identifier of the terms of service.
-        create_at (Optional[int]): The time at which the terms of service was created.
-        user_id (Optional[str]): The unique identifier of the user who created these terms of service.
+        create_at (Optional[int]): The time at which the terms of service was
+            created.
+        user_id (Optional[str]): The unique identifier of the user who created
+            these terms of service.
         text (Optional[str]): The text of terms of service. Supports Markdown.
     """
 
@@ -2489,9 +2601,12 @@ class TermsOfService(BaseConfig):
 class UserTermsOfService(BaseConfig):
     """
     Attributes:
-        user_id (Optional[str]): The unique identifier of the user who performed this terms of service action.
-        terms_of_service_id (Optional[str]): The unique identifier of the terms of service the action was performed on.
-        create_at (Optional[int]): The time in milliseconds that this action was performed.
+        user_id (Optional[str]): The unique identifier of the user who performed
+            this terms of service action.
+        terms_of_service_id (Optional[str]): The unique identifier of the terms
+            of service the action was performed on.
+        create_at (Optional[int]): The time in milliseconds that this action was
+            performed.
     """
 
     user_id: Optional[str] = None
@@ -2808,9 +2923,10 @@ class ChannelMemberCountByGroup(BaseConfig):
 
     Attributes:
         group_id (Optional[str]): ID of the group
-        channel_member_count (Optional[float]): Total number of group members in the channel
-        channel_member_timezones_count (Optional[float]): Total number of unique timezones for the group members in the
-            channel
+        channel_member_count (Optional[float]): Total number of group members in
+            the channel
+        channel_member_timezones_count (Optional[float]): Total number of unique
+            timezones for the group members in the channel
     """
 
     group_id: Optional[str] = None
@@ -2890,12 +3006,14 @@ class Bot(BaseConfig):
     Attributes:
         user_id (Optional[str]): The user id of the associated user entry.
         create_at (Optional[int]): The time in milliseconds a bot was created
-        update_at (Optional[int]): The time in milliseconds a bot was last updated
+        update_at (Optional[int]): The time in milliseconds a bot was last
+            updated
         delete_at (Optional[int]): The time in milliseconds a bot was deleted
         username (Optional[str]):
         display_name (Optional[str]):
         description (Optional[str]):
-        owner_id (Optional[str]): The user id of the user that currently owns this bot.
+        owner_id (Optional[str]): The user id of the user that currently owns
+            this bot.
     """
 
     user_id: Optional[str] = None
@@ -2911,8 +3029,10 @@ class Bot(BaseConfig):
 class Server_Busy(BaseConfig):
     """
     Attributes:
-        busy (Optional[bool]): True if the server is marked as busy (under high load)
-        expires (Optional[int]): timestamp - number of seconds since Jan 1, 1970 UTC.
+        busy (Optional[bool]): True if the server is marked as busy (under high
+            load)
+        expires (Optional[int]): timestamp - number of seconds since Jan 1, 1970
+            UTC.
     """
 
     busy: Optional[bool] = None
@@ -2932,7 +3052,10 @@ class GroupWithSchemeAdmin(BaseConfig):
 
 
 class GroupsAssociatedToChannels(BaseMapping):
-    """a map of channel id(s) to the set of groups that constrain the corresponding channel in a team"""
+    """a map of channel id(s) to the set of groups that constrain the
+    corresponding channel in a team
+
+    """
 
     __root__: Dict[str, List[GroupWithSchemeAdmin]]
 
@@ -2955,9 +3078,12 @@ class RelationalIntegrityCheckData(BaseConfig):
     Attributes:
         parent_name (Optional[str]): the name of the parent relation (table).
         child_name (Optional[str]): the name of the child relation (table).
-        parent_id_attr (Optional[str]): the name of the attribute (column) containing the parent id.
-        child_id_attr (Optional[str]): the name of the attribute (column) containing the child id.
-        records (Optional[List[OrphanedRecord]]): the list of orphaned records found.
+        parent_id_attr (Optional[str]): the name of the attribute (column)
+            containing the parent id.
+        child_id_attr (Optional[str]): the name of the attribute (column)
+            containing the child id.
+        records (Optional[List[OrphanedRecord]]): the list of orphaned records
+            found.
     """
 
     parent_name: Optional[str] = None
@@ -2971,7 +3097,8 @@ class IntegrityCheckResult(BaseConfig):
     """an object with the result of the integrity check.
 
     Attributes:
-        data (Optional[RelationalIntegrityCheckData]): an object containing the results of a relational integrity check.
+        data (Optional[RelationalIntegrityCheckData]): an object containing the
+            results of a relational integrity check.
         err (Optional[str]): a string value set in case of error.
     """
 
@@ -2985,7 +3112,8 @@ class UploadSession(BaseConfig):
     Attributes:
         id (Optional[str]): The unique identifier for the upload.
         type (Optional[UploadSessionType]): The type of the upload.
-        create_at (Optional[int]): The time the upload was created in milliseconds.
+        create_at (Optional[int]): The time the upload was created in
+            milliseconds.
         user_id (Optional[str]): The ID of the user performing the upload.
         channel_id (Optional[str]): The ID of the channel to upload to.
         filename (Optional[str]): The name of the file to upload.
@@ -3007,17 +3135,21 @@ class Notice(BaseConfig):
     """
     Attributes:
         id (Optional[str]): Notice ID
-        sys_admin_only (Optional[bool]): Does this notice apply only to sysadmins
-        team_admin_only (Optional[bool]): Does this notice apply only to team admins
-        action (Optional[str]): Optional action to perform on action button click. (defaults to closing the notice)
+        sys_admin_only (Optional[bool]): Does this notice apply only to
+            sysadmins
+        team_admin_only (Optional[bool]): Does this notice apply only to team
+            admins
+        action (Optional[str]): Optional action to perform on action button
+            click. (defaults to closing the notice)
         action_param (Optional[str]): Optional action parameter.
             Example: {"action": "url", actionParam: "/console/some-page"}
-        action_text (Optional[str]): Optional override for the action button text (defaults to OK)
-        description (Optional[str]): Notice content. Use {{Mattermost}} instead of plain text to support white-labeling.
-            Text supports Markdown.
+        action_text (Optional[str]): Optional override for the action button
+            text (defaults to OK)
+        description (Optional[str]): Notice content. Use {{Mattermost}} instead
+            of plain text to support white-labeling. Text supports Markdown.
         image (Optional[str]): URL of image to display
-        title (Optional[str]): Notice title. Use {{Mattermost}} instead of plain text to support white-labeling. Text
-            supports Markdown.
+        title (Optional[str]): Notice title. Use {{Mattermost}} instead of plain
+            text to support white-labeling. Text supports Markdown.
     """
 
     id: Optional[str] = None
@@ -3038,14 +3170,18 @@ class SharedChannel(BaseConfig):
         team_id (Optional[str]):
         home (Optional[bool]): Is this the home cluster for the shared channel
         readonly (Optional[bool]): Is this shared channel shared as read only
-        name (Optional[str]): Channel name as it is shared (may be different than original channel name)
+        name (Optional[str]): Channel name as it is shared (may be different
+            than original channel name)
         display_name (Optional[str]): Channel display name as it appears locally
         purpose (Optional[str]):
         header (Optional[str]):
         creator_id (Optional[str]): Id of the user that shared the channel
-        create_at (Optional[int]): Time in milliseconds that the channel was shared
-        update_at (Optional[int]): Time in milliseconds that the shared channel record was last updated
-        remote_id (Optional[str]): Id of the remote cluster where the shared channel is homed
+        create_at (Optional[int]): Time in milliseconds that the channel was
+            shared
+        update_at (Optional[int]): Time in milliseconds that the shared channel
+            record was last updated
+        remote_id (Optional[str]): Id of the remote cluster where the shared
+            channel is homed
     """
 
     id: Optional[str] = None
@@ -3066,8 +3202,10 @@ class RemoteClusterInfo(BaseConfig):
     """
     Attributes:
         display_name (Optional[str]): The display name for the remote cluster
-        create_at (Optional[int]): The time in milliseconds a remote cluster was created
-        last_ping_at (Optional[int]): The time in milliseconds a remote cluster was last pinged successfully
+        create_at (Optional[int]): The time in milliseconds a remote cluster was
+            created
+        last_ping_at (Optional[int]): The time in milliseconds a remote cluster
+            was last pinged successfully
     """
 
     display_name: Optional[str] = None
@@ -3084,11 +3222,12 @@ class SystemStatusResponse(BaseConfig):
         desktop_min_version (Optional[str]): Minimum desktop version supported
         ios_latest_version (Optional[str]): Latest iOS version supported
         ios_min_version (Optional[str]): Minimum iOS version supported
-        database_status (Optional[str]): Status of database ("OK" or "UNHEALTHY"). Included when get_server_status
-            parameter set.
-        filestore_status (Optional[str]): Status of filestore ("OK" or "UNHEALTHY"). Included when get_server_status
-            parameter set.
-        status (Optional[str]): Status of server ("OK" or "UNHEALTHY"). Included when get_server_status parameter set.
+        database_status (Optional[str]): Status of database ("OK" or
+            "UNHEALTHY"). Included when get_server_status parameter set.
+        filestore_status (Optional[str]): Status of filestore ("OK" or
+            "UNHEALTHY"). Included when get_server_status parameter set.
+        status (Optional[str]): Status of server ("OK" or "UNHEALTHY"). Included
+            when get_server_status parameter set.
     """
 
     android_latest_version: Optional[str] = None
@@ -3127,7 +3266,8 @@ class User(BaseConfig):
     Attributes:
         id (Optional[str]):
         create_at (Optional[int]): The time in milliseconds a user was created
-        update_at (Optional[int]): The time in milliseconds a user was last updated
+        update_at (Optional[int]): The time in milliseconds a user was last
+            updated
         delete_at (Optional[int]): The time in milliseconds a user was deleted
         username (Optional[str]):
         first_name (Optional[str]):
@@ -3145,9 +3285,10 @@ class User(BaseConfig):
         failed_attempts (Optional[int]):
         mfa_active (Optional[bool]):
         timezone (Optional[Timezone]):
-        terms_of_service_id (Optional[str]): ID of accepted terms of service, if any. This field is not present if
-            empty.
-        terms_of_service_create_at (Optional[int]): The time in milliseconds the user accepted the terms of service
+        terms_of_service_id (Optional[str]): ID of accepted terms of service, if
+            any. This field is not present if empty.
+        terms_of_service_create_at (Optional[int]): The time in milliseconds the
+            user accepted the terms of service
     """
 
     class Props(BaseConfig):
@@ -3183,11 +3324,13 @@ class ChannelMember(BaseConfig):
         channel_id (Optional[str]):
         user_id (Optional[str]):
         roles (Optional[str]):
-        last_viewed_at (Optional[int]): The time in milliseconds the channel was last viewed by the user
+        last_viewed_at (Optional[int]): The time in milliseconds the channel was
+            last viewed by the user
         msg_count (Optional[int]):
         mention_count (Optional[int]):
         notify_props (Optional[ChannelNotifyProps]):
-        last_update_at (Optional[int]): The time in milliseconds the channel member was last updated
+        last_update_at (Optional[int]): The time in milliseconds the channel
+            member was last updated
     """
 
     channel_id: Optional[str] = None
@@ -3206,14 +3349,19 @@ class ChannelMemberWithTeamData(BaseConfig):
         channel_id (Optional[str]):
         user_id (Optional[str]):
         roles (Optional[str]):
-        last_viewed_at (Optional[int]): The time in milliseconds the channel was last viewed by the user
+        last_viewed_at (Optional[int]): The time in milliseconds the channel was
+            last viewed by the user
         msg_count (Optional[int]):
         mention_count (Optional[int]):
         notify_props (Optional[ChannelNotifyProps]):
-        last_update_at (Optional[int]): The time in milliseconds the channel member was last updated
-        team_display_name (Optional[str]): The display name of the team to which this channel belongs.
-        team_name (Optional[str]): The name of the team to which this channel belongs.
-        team_update_at (Optional[int]): The time at which the team to which this channel belongs was last updated.
+        last_update_at (Optional[int]): The time in milliseconds the channel
+            member was last updated
+        team_display_name (Optional[str]): The display name of the team to which
+            this channel belongs.
+        team_name (Optional[str]): The name of the team to which this channel
+            belongs.
+        team_update_at (Optional[int]): The time at which the team to which this
+            channel belongs was last updated.
     """
 
     channel_id: Optional[str] = None
@@ -3243,10 +3391,13 @@ class ChannelData(BaseConfig):
 class FileInfoList(BaseConfig):
     """
     Attributes:
-        order (Optional[List[str]]):  Example: ['file_info_id1', 'file_info_id2'].
+        order (Optional[List[str]]):  Example: ['file_info_id1',
+            'file_info_id2'].
         file_infos (Optional[FileInfos]):
-        next_file_id (Optional[str]): The ID of next file info. Not omitted when empty or not relevant.
-        prev_file_id (Optional[str]): The ID of previous file info. Not omitted when empty or not relevant.
+        next_file_id (Optional[str]): The ID of next file info. Not omitted when
+            empty or not relevant.
+        prev_file_id (Optional[str]): The ID of previous file info. Not omitted
+            when empty or not relevant.
     """
 
     class FileInfos(BaseMapping):
@@ -3263,15 +3414,17 @@ class FileInfoList(BaseConfig):
 class PostMetadataEmbedsItem(BaseConfig):
     """
     Attributes:
-        type (Optional[PostMetadataEmbedsItemType]): The type of content that is embedded in this point.
+        type (Optional[PostMetadataEmbedsItemType]): The type of content that is
+            embedded in this point.
         url (Optional[str]): The URL of the embedded content, if one exists.
-        data (Optional[Data]): Any additional information about the embedded content. Only used at this time to store
-            OpenGraph metadata.
+        data (Optional[Data]): Any additional information about the embedded
+            content. Only used at this time to store OpenGraph metadata.
             This field will be null for non-OpenGraph embeds.
     """
 
     class Data(BaseConfig):
-        """Any additional information about the embedded content. Only used at this time to store OpenGraph metadata.
+        """Any additional information about the embedded content. Only used at this
+        time to store OpenGraph metadata.
         This field will be null for non-OpenGraph embeds.
 
         """
@@ -3285,23 +3438,28 @@ class PostMetadata(BaseConfig):
     """Additional information used to display a post.
 
     Attributes:
-        embeds (Optional[List[PostMetadataEmbedsItem]]): Information about content embedded in the post including
-            OpenGraph previews, image link previews, and message attachments. This field will be null if the post does not
-            contain embedded content.
-        emojis (Optional[List[Emoji]]): The custom emojis that appear in this point or have been used in reactions to
-            this post. This field will be null if the post does not contain custom emojis.
-        files (Optional[List[FileInfo]]): The FileInfo objects for any files attached to the post. This field will be
-            null if the post does not have any file attachments.
-        images (Optional[Images]): An object mapping the URL of an external image to an object containing the dimensions
-            of that image. This field will be null if the post or its embedded content does not reference any external
-            images.
-        reactions (Optional[List[Reaction]]): Any reactions made to this point. This field will be null if no reactions
-            have been made to this post.
+        embeds (Optional[List[PostMetadataEmbedsItem]]): Information about
+            content embedded in the post including OpenGraph previews, image link
+            previews, and message attachments. This field will be null if the post
+            does not contain embedded content.
+        emojis (Optional[List[Emoji]]): The custom emojis that appear in this
+            point or have been used in reactions to this post. This field will be
+            null if the post does not contain custom emojis.
+        files (Optional[List[FileInfo]]): The FileInfo objects for any files
+            attached to the post. This field will be null if the post does not have
+            any file attachments.
+        images (Optional[Images]): An object mapping the URL of an external
+            image to an object containing the dimensions of that image. This field
+            will be null if the post or its embedded content does not reference any
+            external images.
+        reactions (Optional[List[Reaction]]): Any reactions made to this point.
+            This field will be null if no reactions have been made to this post.
     """
 
     class Images(BaseConfig):
-        """An object mapping the URL of an external image to an object containing the dimensions of that image. This field will
-        be null if the post or its embedded content does not reference any external images.
+        """An object mapping the URL of an external image to an object containing
+        the dimensions of that image. This field will be null if the post or its
+        embedded content does not reference any external images.
 
         """
 
@@ -3315,9 +3473,11 @@ class PostMetadata(BaseConfig):
 class UserAutocomplete(BaseConfig):
     """
     Attributes:
-        users (Optional[List[User]]): A list of users that are the main result of the query
-        out_of_channel (Optional[List[User]]): A special case list of users returned when autocompleting in a specific
-            channel. Omitted when empty or not relevant
+        users (Optional[List[User]]): A list of users that are the main result
+            of the query
+        out_of_channel (Optional[List[User]]): A special case list of users
+            returned when autocompleting in a specific channel. Omitted when empty
+            or not relevant
     """
 
     users: Optional[List[User]] = None
@@ -3337,7 +3497,8 @@ class UserAutocompleteInChannel(BaseConfig):
     """
     Attributes:
         in_channel (Optional[List[User]]): A list of user objects in the channel
-        out_of_channel (Optional[List[User]]): A list of user objects not in the channel
+        out_of_channel (Optional[List[User]]): A list of user objects not in the
+            channel
     """
 
     in_channel: Optional[List[User]] = None
@@ -3362,7 +3523,8 @@ class SlackAttachment(BaseConfig):
         thumb_url (Optional[str]):
         footer (Optional[str]):
         footer_icon (Optional[str]):
-        timestamp (Optional[str]): The timestamp of the slack attachment, either type of string or integer
+        timestamp (Optional[str]): The timestamp of the slack attachment, either
+            type of string or integer
     """
 
     id: Optional[str] = None
@@ -3455,7 +3617,8 @@ class Post(BaseConfig):
     Attributes:
         id (Optional[str]):
         create_at (Optional[int]): The time in milliseconds a post was created
-        update_at (Optional[int]): The time in milliseconds a post was last updated
+        update_at (Optional[int]): The time in milliseconds a post was last
+            updated
         delete_at (Optional[int]): The time in milliseconds a post was deleted
         edit_at (Optional[int]):
         user_id (Optional[str]):
@@ -3468,7 +3631,8 @@ class Post(BaseConfig):
         hashtag (Optional[str]):
         file_ids (Optional[List[str]]):
         pending_post_id (Optional[str]):
-        metadata (Optional[PostMetadata]): Additional information used to display a post.
+        metadata (Optional[PostMetadata]): Additional information used to
+            display a post.
     """
 
     class Props(BaseConfig):
@@ -3497,8 +3661,10 @@ class PostList(BaseConfig):
     Attributes:
         order (Optional[List[str]]):  Example: ['post_id1', 'post_id12'].
         posts (Optional[Posts]):
-        next_post_id (Optional[str]): The ID of next post. Not omitted when empty or not relevant.
-        prev_post_id (Optional[str]): The ID of previous post. Not omitted when empty or not relevant.
+        next_post_id (Optional[str]): The ID of next post. Not omitted when
+            empty or not relevant.
+        prev_post_id (Optional[str]): The ID of previous post. Not omitted when
+            empty or not relevant.
     """
 
     class Posts(BaseMapping):
@@ -3517,8 +3683,9 @@ class PostListWithSearchMatches(BaseConfig):
     Attributes:
         order (Optional[List[str]]):  Example: ['post_id1', 'post_id12'].
         posts (Optional[Posts]):
-        matches (Optional[Matches]): A mapping of post IDs to a list of matched terms within the post. This field will
-            only be populated on servers running version 5.1 or greater with Elasticsearch enabled.
+        matches (Optional[Matches]): A mapping of post IDs to a list of matched
+            terms within the post. This field will only be populated on servers
+            running version 5.1 or greater with Elasticsearch enabled.
              Example: {'post_id1': ['search match 1', 'search match 2']}.
     """
 
@@ -3528,8 +3695,9 @@ class PostListWithSearchMatches(BaseConfig):
         __root__: Dict[str, Post]
 
     class Matches(BaseMapping):
-        """A mapping of post IDs to a list of matched terms within the post. This field will only be populated on servers
-        running version 5.1 or greater with Elasticsearch enabled.
+        """A mapping of post IDs to a list of matched terms within the post. This
+        field will only be populated on servers running version 5.1 or greater
+        with Elasticsearch enabled.
 
             Example:
                 {'post_id1': ['search match 1', 'search match 2']}
@@ -3546,7 +3714,8 @@ class PostListWithSearchMatches(BaseConfig):
 class CommandResponse(BaseConfig):
     """
     Attributes:
-        response_type (Optional[str]): The response type either in_channel or ephemeral
+        response_type (Optional[str]): The response type either in_channel or
+            ephemeral
         text (Optional[str]):
         username (Optional[str]):
         icon_url (Optional[str]):
@@ -3580,9 +3749,10 @@ class UserThread(BaseConfig):
         id (Optional[str]): ID of the post that is this thread's root
         reply_count (Optional[int]): number of replies in this thread
         last_reply_at (Optional[int]): timestamp of the last post to this thread
-        last_viewed_at (Optional[int]): timestamp of the last time the user viewed this thread
-        participants (Optional[List[Post]]): list of users participating in this thread. only includes IDs unless
-            'extended' was set to 'true'
+        last_viewed_at (Optional[int]): timestamp of the last time the user
+            viewed this thread
+        participants (Optional[List[Post]]): list of users participating in this
+            thread. only includes IDs unless 'extended' was set to 'true'
         post (Optional[Post]):
     """
 
@@ -3643,9 +3813,10 @@ class CreateUserJsonBody(BaseConfig):
         first_name (Optional[str]):
         last_name (Optional[str]):
         nickname (Optional[str]):
-        auth_data (Optional[str]): Service-specific authentication data, such as email address.
-        auth_service (Optional[str]): The authentication service, one of "email", "gitlab", "ldap", "saml", "office365",
-            "google", and "".
+        auth_data (Optional[str]): Service-specific authentication data, such as
+            email address.
+        auth_service (Optional[str]): The authentication service, one of
+            "email", "gitlab", "ldap", "saml", "office365", "google", and "".
         password (Optional[str]): The password used for email authentication.
         locale (Optional[str]):
         props (Optional[Props]):
@@ -3680,21 +3851,30 @@ class GetUsersByGroupChannelIdsResponse_200(BaseConfig):
 class SearchUsersJsonBody(BaseConfig):
     """
     Attributes:
-        term (str): The term to match against username, full name, nickname and email
+        term (str): The term to match against username, full name, nickname and
+            email
         team_id (Optional[str]): If provided, only search users on this team
-        not_in_team_id (Optional[str]): If provided, only search users not on this team
-        in_channel_id (Optional[str]): If provided, only search users in this channel
-        not_in_channel_id (Optional[str]): If provided, only search users not in this channel. Must specifiy `team_id`
-            when using this option
-        in_group_id (Optional[str]): If provided, only search users in this group. Must have `manage_system` permission.
-        group_constrained (Optional[bool]): When used with `not_in_channel_id` or `not_in_team_id`, returns only the
-            users that are allowed to join the channel or team based on its group constrains.
-        allow_inactive (Optional[bool]): When `true`, include deactivated users in the results
-        without_team (Optional[bool]): Set this to `true` if you would like to search for users that are not on a team.
-            This option takes precendence over `team_id`, `in_channel_id`, and `not_in_channel_id`.
-        limit (Optional[int]): The maximum number of users to return in the results
+        not_in_team_id (Optional[str]): If provided, only search users not on
+            this team
+        in_channel_id (Optional[str]): If provided, only search users in this
+            channel
+        not_in_channel_id (Optional[str]): If provided, only search users not in
+            this channel. Must specifiy `team_id` when using this option
+        in_group_id (Optional[str]): If provided, only search users in this
+            group. Must have `manage_system` permission.
+        group_constrained (Optional[bool]): When used with `not_in_channel_id`
+            or `not_in_team_id`, returns only the users that are allowed to join the
+            channel or team based on its group constrains.
+        allow_inactive (Optional[bool]): When `true`, include deactivated users
+            in the results
+        without_team (Optional[bool]): Set this to `true` if you would like to
+            search for users that are not on a team. This option takes precendence
+            over `team_id`, `in_channel_id`, and `not_in_channel_id`.
+        limit (Optional[int]): The maximum number of users to return in the
+            results
 
-            __Available as of server version 5.6. Defaults to `100` if not provided or on an earlier server version.__
+            __Available as of server version 5.6. Defaults to `100` if not provided
+            or on an earlier server version.__
              Default: 100.
     """
 
@@ -3842,7 +4022,8 @@ class UpdateUserMfaJsonBody(BaseConfig):
     """
     Attributes:
         activate (bool): Use `true` to activate, `false` to deactivate
-        code (Optional[str]): The code produced by your MFA client. Required if `activate` is true
+        code (Optional[str]): The code produced by your MFA client. Required if
+            `activate` is true
     """
 
     activate: bool
@@ -3863,7 +4044,8 @@ class GenerateMfaSecretResponse_200(BaseConfig):
 class CheckUserMfaResponse_200(BaseConfig):
     """
     Attributes:
-        mfa_required (Optional[bool]): Value will `true` if MFA is active, `false` otherwise
+        mfa_required (Optional[bool]): Value will `true` if MFA is active,
+            `false` otherwise
     """
 
     mfa_required: Optional[bool] = None
@@ -3910,7 +4092,8 @@ class RevokeSessionJsonBody(BaseConfig):
 class AttachDeviceIdJsonBody(BaseConfig):
     """
     Attributes:
-        device_id (str): Mobile device id. For Android prefix the id with `android:` and Apple with `apple:`
+        device_id (str): Mobile device id. For Android prefix the id with
+            `android:` and Apple with `apple:`
     """
 
     device_id: str
@@ -3937,8 +4120,9 @@ class SendVerificationEmailJsonBody(BaseConfig):
 class SwitchAccountTypeResponse_200(BaseConfig):
     """
     Attributes:
-        follow_link (Optional[str]): The link for the user to follow to login or to complete the account switching when
-            the current service is OAuth2/SAML
+        follow_link (Optional[str]): The link for the user to follow to login or
+            to complete the account switching when the current service is
+            OAuth2/SAML
     """
 
     follow_link: Optional[str] = None
@@ -4002,7 +4186,8 @@ class EnableUserAccessTokenJsonBody(BaseConfig):
 class SearchUserAccessTokensJsonBody(BaseConfig):
     """
     Attributes:
-        term (str): The search term to match against the token id, user id or username.
+        term (str): The search term to match against the token id, user id or
+            username.
     """
 
     term: str
@@ -4011,8 +4196,10 @@ class SearchUserAccessTokensJsonBody(BaseConfig):
 class RegisterTermsOfServiceActionJsonBody(BaseConfig):
     """
     Attributes:
-        service_terms_id (str): terms of service ID on which the user is acting on
-        accepted (str): true or false, indicates whether the user accepted or rejected the terms of service.
+        service_terms_id (str): terms of service ID on which the user is acting
+            on
+        accepted (str): true or false, indicates whether the user accepted or
+            rejected the terms of service.
     """
 
     service_terms_id: str
@@ -4022,9 +4209,11 @@ class RegisterTermsOfServiceActionJsonBody(BaseConfig):
 class PublishUserTypingJsonBody(BaseConfig):
     """
     Attributes:
-        channel_id (str): The id of the channel to which to direct the typing event.
-        parent_id (Optional[str]): The optional id of the root post of the thread to which the user is replying. If
-            unset, the typing event is directed at the entire channel.
+        channel_id (str): The id of the channel to which to direct the typing
+            event.
+        parent_id (Optional[str]): The optional id of the root post of the
+            thread to which the user is replying. If unset, the typing event is
+            directed at the entire channel.
     """
 
     channel_id: str
@@ -4065,7 +4254,8 @@ class UpdateUserStatusJsonBody(BaseConfig):
     Attributes:
         user_id (str): User ID
         status (str): User status, can be `online`, `away`, `offline` and `dnd`
-        dnd_end_time (Optional[int]): Time in epoch seconds at which a dnd status would be unset.
+        dnd_end_time (Optional[int]): Time in epoch seconds at which a dnd
+            status would be unset.
     """
 
     user_id: str
@@ -4078,9 +4268,11 @@ class UpdateUserCustomStatusJsonBody(BaseConfig):
     Attributes:
         emoji (str): Any emoji
         text (str): Any custom status text
-        duration (Optional[str]): Duration of custom status, can be `thirty_minutes`, `one_hour`, `four_hours`, `today`,
-            `this_week` or `date_and_time`
-        expires_at (Optional[str]): The time at which custom status should be expired. It should be in ISO format.
+        duration (Optional[str]): Duration of custom status, can be
+            `thirty_minutes`, `one_hour`, `four_hours`, `today`, `this_week` or
+            `date_and_time`
+        expires_at (Optional[str]): The time at which custom status should be
+            expired. It should be in ISO format.
     """
 
     emoji: str
@@ -4094,9 +4286,10 @@ class RemoveRecentCustomStatusJsonBody(BaseConfig):
     Attributes:
         emoji (str): Any emoji
         text (str): Any custom status text
-        duration (str): Duration of custom status, can be `thirty_minutes`, `one_hour`, `four_hours`, `today`,
-            `this_week` or `date_and_time`
-        expires_at (str): The time at which custom status should be expired. It should be in ISO format.
+        duration (str): Duration of custom status, can be `thirty_minutes`,
+            `one_hour`, `four_hours`, `today`, `this_week` or `date_and_time`
+        expires_at (str): The time at which custom status should be expired. It
+            should be in ISO format.
     """
 
     emoji: str
@@ -4110,9 +4303,10 @@ class PostUserRecentCustomStatusDeleteJsonBody(BaseConfig):
     Attributes:
         emoji (str): Any emoji
         text (str): Any custom status text
-        duration (str): Duration of custom status, can be `thirty_minutes`, `one_hour`, `four_hours`, `today`,
-            `this_week` or `date_and_time`
-        expires_at (str): The time at which custom status should be expired. It should be in ISO format.
+        duration (str): Duration of custom status, can be `thirty_minutes`,
+            `one_hour`, `four_hours`, `today`, `this_week` or `date_and_time`
+        expires_at (str): The time at which custom status should be expired. It
+            should be in ISO format.
     """
 
     emoji: str
@@ -4175,7 +4369,8 @@ class PatchTeamJsonBody(BaseConfig):
 class UpdateTeamPrivacyJsonBody(BaseConfig):
     """
     Attributes:
-        privacy (str): Team privacy setting: 'O' for a public (open) team, 'I' for a private (invitation only) team
+        privacy (str): Team privacy setting: 'O' for a public (open) team, 'I'
+            for a private (invitation only) team
     """
 
     privacy: str
@@ -4185,7 +4380,8 @@ class SearchTeamsResponse_200(BaseConfig):
     """
     Attributes:
         teams (Optional[List[Team]]): The teams that matched the query.
-        total_count (Optional[float]): The total number of results, regardless of page and per_page requested.
+        total_count (Optional[float]): The total number of results, regardless
+            of page and per_page requested.
     """
 
     teams: Optional[List[Team]] = None
@@ -4195,26 +4391,33 @@ class SearchTeamsResponse_200(BaseConfig):
 class SearchTeamsJsonBody(BaseConfig):
     """
     Attributes:
-        term (Optional[str]): The search term to match against the name or display name of teams
-        page (Optional[str]): The page number to return, if paginated. If this parameter is not present with the
-            `per_page` parameter then the results will be returned un-paged.
-        per_page (Optional[str]): The number of entries to return per page, if paginated. If this parameter is not
-            present with the `page` parameter then the results will be returned un-paged.
-        allow_open_invite (Optional[bool]): Filters results to teams where `allow_open_invite` is set to true or false,
-            excludes group constrained channels if this filter option is passed.
-            If this filter option is not passed then the query will remain unchanged.
+        term (Optional[str]): The search term to match against the name or
+            display name of teams
+        page (Optional[str]): The page number to return, if paginated. If this
+            parameter is not present with the `per_page` parameter then the results
+            will be returned un-paged.
+        per_page (Optional[str]): The number of entries to return per page, if
+            paginated. If this parameter is not present with the `page` parameter
+            then the results will be returned un-paged.
+        allow_open_invite (Optional[bool]): Filters results to teams where
+            `allow_open_invite` is set to true or false, excludes group constrained
+            channels if this filter option is passed.
+            If this filter option is not passed then the query will remain
+            unchanged.
 
             Minimum Server Version:
                 5.28
-        group_constrained (Optional[bool]): Filters results to teams where `group_constrained` is set to true or false,
-            returns the union of results when used with `allow_open_invite`
+        group_constrained (Optional[bool]): Filters results to teams where
+            `group_constrained` is set to true or false, returns the union of
+            results when used with `allow_open_invite`
             If the filter option is not passed then the query will remain unchanged.
 
             Minimum Server Version:
                 5.28
-        exclude_policy_constrained (Optional[bool]): If set to true, only teams which do not have a granular retention
-            policy assigned to them will be returned. The `sysconsole_read_compliance_data_retention` permission is required
-            to use this parameter.
+        exclude_policy_constrained (Optional[bool]): If set to true, only teams
+            which do not have a granular retention policy assigned to them will be
+            returned. The `sysconsole_read_compliance_data_retention` permission is
+            required to use this parameter.
 
             Minimum Server Version:
                 5.35
@@ -4327,8 +4530,8 @@ class ImportTeamMultipartData(BaseConfig):
     Attributes:
         file (File): A file to be uploaded in zip format.
         filesize (int): The size of the zip file to be imported.
-        import_from (str): String that defines from which application the team was exported to be imported into
-            Mattermost.
+        import_from (str): String that defines from which application the team
+            was exported to be imported into Mattermost.
     """
 
     file: File
@@ -4396,11 +4599,14 @@ class CreateChannelJsonBody(BaseConfig):
     """
     Attributes:
         team_id (str): The team ID of the team to create the channel on
-        name (str): The unique handle for the channel, will be present in the channel URL
+        name (str): The unique handle for the channel, will be present in the
+            channel URL
         display_name (str): The non-unique UI name for the channel
         type (str): 'O' for a public channel, 'P' for a private channel
-        purpose (Optional[str]): A short description of the purpose of the channel
-        header (Optional[str]): Markdown-formatted text to display in the header of the channel
+        purpose (Optional[str]): A short description of the purpose of the
+            channel
+        header (Optional[str]): Markdown-formatted text to display in the header
+            of the channel
     """
 
     team_id: str
@@ -4415,7 +4621,8 @@ class SearchAllChannelsResponse_200(BaseConfig):
     """
     Attributes:
         channels (Optional[List[Channel]]): The channels that matched the query.
-        total_count (Optional[float]): The total number of results, regardless of page and per_page requested.
+        total_count (Optional[float]): The total number of results, regardless
+            of page and per_page requested.
     """
 
     channels: Optional[List[Channel]] = None
@@ -4425,7 +4632,8 @@ class SearchAllChannelsResponse_200(BaseConfig):
 class SearchGroupChannelsJsonBody(BaseConfig):
     """
     Attributes:
-        term (str): The search term to match against the members' usernames of the group channels
+        term (str): The search term to match against the members' usernames of
+            the group channels
     """
 
     term: str
@@ -4435,10 +4643,13 @@ class UpdateChannelJsonBody(BaseConfig):
     """
     Attributes:
         id (str): The channel's id, not updatable
-        name (Optional[str]): The unique handle for the channel, will be present in the channel URL
+        name (Optional[str]): The unique handle for the channel, will be present
+            in the channel URL
         display_name (Optional[str]): The non-unique UI name for the channel
-        purpose (Optional[str]): A short description of the purpose of the channel
-        header (Optional[str]): Markdown-formatted text to display in the header of the channel
+        purpose (Optional[str]): A short description of the purpose of the
+            channel
+        header (Optional[str]): Markdown-formatted text to display in the header
+            of the channel
     """
 
     id: str
@@ -4451,10 +4662,13 @@ class UpdateChannelJsonBody(BaseConfig):
 class PatchChannelJsonBody(BaseConfig):
     """
     Attributes:
-        name (Optional[str]): The unique handle for the channel, will be present in the channel URL
+        name (Optional[str]): The unique handle for the channel, will be present
+            in the channel URL
         display_name (Optional[str]): The non-unique UI name for the channel
-        purpose (Optional[str]): A short description of the purpose of the channel
-        header (Optional[str]): Markdown-formatted text to display in the header of the channel
+        purpose (Optional[str]): A short description of the purpose of the
+            channel
+        header (Optional[str]): Markdown-formatted text to display in the header
+            of the channel
     """
 
     name: Optional[str] = None
@@ -4466,7 +4680,8 @@ class PatchChannelJsonBody(BaseConfig):
 class UpdateChannelPrivacyJsonBody(BaseConfig):
     """
     Attributes:
-        privacy (str): Channel privacy setting: 'O' for a public channel, 'P' for a private channel
+        privacy (str): Channel privacy setting: 'O' for a public channel, 'P'
+            for a private channel
     """
 
     privacy: str
@@ -4476,7 +4691,8 @@ class MoveChannelJsonBody(BaseConfig):
     """
     Attributes:
         team_id (str):
-        force (Optional[bool]): Remove members those are not member of target team before moving the channel.
+        force (Optional[bool]): Remove members those are not member of target
+            team before moving the channel.
     """
 
     team_id: str
@@ -4486,7 +4702,8 @@ class MoveChannelJsonBody(BaseConfig):
 class SearchChannelsJsonBody(BaseConfig):
     """
     Attributes:
-        term (str): The search term to match against the name or display name of channels
+        term (str): The search term to match against the name or display name of
+            channels
     """
 
     term: str
@@ -4495,7 +4712,8 @@ class SearchChannelsJsonBody(BaseConfig):
 class SearchArchivedChannelsJsonBody(BaseConfig):
     """
     Attributes:
-        term (str): The search term to match against the name or display name of archived channels
+        term (str): The search term to match against the name or display name of
+            archived channels
     """
 
     term: str
@@ -4505,7 +4723,8 @@ class AddChannelMemberJsonBody(BaseConfig):
     """
     Attributes:
         user_id (str): The ID of user to add into the channel
-        post_root_id (Optional[str]): The ID of root post where link to add channel member originates
+        post_root_id (Optional[str]): The ID of root post where link to add
+            channel member originates
     """
 
     user_id: str
@@ -4536,7 +4755,8 @@ class ViewChannelResponse_200(BaseConfig):
     """
     Attributes:
         status (Optional[str]): Value should be "OK" if successful
-        last_viewed_at_times (Optional[LastViewedAtTimes]): A JSON object mapping channel IDs to the channel view times
+        last_viewed_at_times (Optional[LastViewedAtTimes]): A JSON object
+            mapping channel IDs to the channel view times
     """
 
     class LastViewedAtTimes(BaseConfig):
@@ -4549,10 +4769,11 @@ class ViewChannelResponse_200(BaseConfig):
 class ViewChannelJsonBody(BaseConfig):
     """
     Attributes:
-        channel_id (str): The channel ID that is being viewed. Use a blank string to indicate that all channels have
-            lost focus.
-        prev_channel_id (Optional[str]): The channel ID of the previous channel, used when switching channels. Providing
-            this ID will cause push notifications to clear on the channel being switched to.
+        channel_id (str): The channel ID that is being viewed. Use a blank
+            string to indicate that all channels have lost focus.
+        prev_channel_id (Optional[str]): The channel ID of the previous channel,
+            used when switching channels. Providing this ID will cause push
+            notifications to clear on the channel being switched to.
     """
 
     channel_id: str
@@ -4574,9 +4795,11 @@ class CreatePostJsonBody(BaseConfig):
         channel_id (str): The channel ID to post in
         message (str): The message contents, can be formatted with Markdown
         root_id (Optional[str]): The post ID to comment on
-        file_ids (Optional[List[str]]): A list of file IDs to associate with the post. Note that posts are limited to 5
-            files maximum. Please use additional posts for more files.
-        props (Optional[Props]): A general JSON property bag to attach to the post
+        file_ids (Optional[List[str]]): A list of file IDs to associate with the
+            post. Note that posts are limited to 5 files maximum. Please use
+            additional posts for more files.
+        props (Optional[Props]): A general JSON property bag to attach to the
+            post
     """
 
     class Props(BaseConfig):
@@ -4615,9 +4838,11 @@ class UpdatePostJsonBody(BaseConfig):
     """
     Attributes:
         id (str): ID of the post to update
-        is_pinned (Optional[bool]): Set to `true` to pin the post to the channel it is in
+        is_pinned (Optional[bool]): Set to `true` to pin the post to the channel
+            it is in
         message (Optional[str]): The message text of the post
-        has_reactions (Optional[bool]): Set to `true` if the post has reactions to it
+        has_reactions (Optional[bool]): Set to `true` if the post has reactions
+            to it
         props (Optional[str]): A general JSON property bag to attach to the post
     """
 
@@ -4631,10 +4856,12 @@ class UpdatePostJsonBody(BaseConfig):
 class PatchPostJsonBody(BaseConfig):
     """
     Attributes:
-        is_pinned (Optional[bool]): Set to `true` to pin the post to the channel it is in
+        is_pinned (Optional[bool]): Set to `true` to pin the post to the channel
+            it is in
         message (Optional[str]): The message text of the post
         file_ids (Optional[List[str]]): The list of files attached to this post
-        has_reactions (Optional[bool]): Set to `true` if the post has reactions to it
+        has_reactions (Optional[bool]): Set to `true` if the post has reactions
+            to it
         props (Optional[str]): A general JSON property bag to attach to the post
     """
 
@@ -4648,15 +4875,20 @@ class PatchPostJsonBody(BaseConfig):
 class SearchPostsJsonBody(BaseConfig):
     """
     Attributes:
-        terms (str): The search terms as inputed by the user. To search for posts from a user include
-            `from:someusername`, using a user's username. To search in a specific channel include `in:somechannel`, using
-            the channel name (not the display name).
-        is_or_search (bool): Set to true if an Or search should be performed vs an And search.
-        time_zone_offset (Optional[int]): Offset from UTC of user timezone for date searches.
-        include_deleted_channels (Optional[bool]): Set to true if deleted channels should be included in the search.
-            (archived channels)
-        page (Optional[int]): The page to select. (Only works with Elasticsearch)
-        per_page (Optional[int]): The number of posts per page. (Only works with Elasticsearch)
+        terms (str): The search terms as inputed by the user. To search for
+            posts from a user include `from:someusername`, using a user's username.
+            To search in a specific channel include `in:somechannel`, using the
+            channel name (not the display name).
+        is_or_search (bool): Set to true if an Or search should be performed vs
+            an And search.
+        time_zone_offset (Optional[int]): Offset from UTC of user timezone for
+            date searches.
+        include_deleted_channels (Optional[bool]): Set to true if deleted
+            channels should be included in the search. (archived channels)
+        page (Optional[int]): The page to select. (Only works with
+            Elasticsearch)
+        per_page (Optional[int]): The number of posts per page. (Only works with
+            Elasticsearch)
              Default: 60.
     """
 
@@ -4671,8 +4903,10 @@ class SearchPostsJsonBody(BaseConfig):
 class UploadFileResponse_201(BaseConfig):
     """
     Attributes:
-        file_infos (Optional[List[FileInfo]]): A list of file metadata that has been stored in the database
-        client_ids (Optional[List[str]]): A list of the client_ids that were provided in the request
+        file_infos (Optional[List[FileInfo]]): A list of file metadata that has
+            been stored in the database
+        client_ids (Optional[List[str]]): A list of the client_ids that were
+            provided in the request
     """
 
     file_infos: Optional[List[FileInfo]] = None
@@ -4683,8 +4917,10 @@ class UploadFileMultipartData(BaseConfig):
     """
     Attributes:
         files (Optional[File]): A file to be uploaded
-        channel_id (Optional[str]): The ID of the channel that this file will be uploaded to
-        client_ids (Optional[str]): A unique identifier for the file that will be returned in the response
+        channel_id (Optional[str]): The ID of the channel that this file will be
+            uploaded to
+        client_ids (Optional[str]): A unique identifier for the file that will
+            be returned in the response
     """
 
     files: Optional[File] = None
@@ -4736,15 +4972,21 @@ class GetFileLinkResponse_200(BaseConfig):
 class SearchFilesMultipartData(BaseConfig):
     """
     Attributes:
-        terms (str): The search terms as inputed by the user. To search for files from a user include
-            `from:someusername`, using a user's username. To search in a specific channel include `in:somechannel`, using
-            the channel name (not the display name). To search for specific extensions included `ext:extension`.
-        is_or_search (bool): Set to true if an Or search should be performed vs an And search.
-        time_zone_offset (Optional[int]): Offset from UTC of user timezone for date searches.
-        include_deleted_channels (Optional[bool]): Set to true if deleted channels should be included in the search.
-            (archived channels)
-        page (Optional[int]): The page to select. (Only works with Elasticsearch)
-        per_page (Optional[int]): The number of posts per page. (Only works with Elasticsearch)
+        terms (str): The search terms as inputed by the user. To search for
+            files from a user include `from:someusername`, using a user's username.
+            To search in a specific channel include `in:somechannel`, using the
+            channel name (not the display name). To search for specific extensions
+            included `ext:extension`.
+        is_or_search (bool): Set to true if an Or search should be performed vs
+            an And search.
+        time_zone_offset (Optional[int]): Offset from UTC of user timezone for
+            date searches.
+        include_deleted_channels (Optional[bool]): Set to true if deleted
+            channels should be included in the search. (archived channels)
+        page (Optional[int]): The page to select. (Only works with
+            Elasticsearch)
+        per_page (Optional[int]): The number of posts per page. (Only works with
+            Elasticsearch)
              Default: 60.
     """
 
@@ -4754,6 +4996,13 @@ class SearchFilesMultipartData(BaseConfig):
     include_deleted_channels: Optional[bool] = None
     page: Optional[int] = 0
     per_page: Optional[int] = 60
+
+    def get_data(self):
+        """Get the `data` attributes for the request from the model
+
+        :meta private:
+        """
+        return self.dict(exclude_none=True)
 
 
 class CreateUploadJsonBody(BaseConfig):
@@ -4777,7 +5026,8 @@ class CreateJobJsonBody(BaseConfig):
     """
     Attributes:
         type (str): The type of job to create
-        data (Optional[Data]): An object containing any additional data required for this job type
+        data (Optional[Data]): An object containing any additional data required
+            for this job type
     """
 
     class Data(BaseConfig):
@@ -4886,8 +5136,9 @@ class UpgradeToEnterpriseStatusResponse_200(BaseConfig):
 class SendWarnMetricAckJsonBody(BaseConfig):
     """
     Attributes:
-        force_ack (Optional[bool]): Flag which determines if the ack for the metric warning should be directly stored
-            (without trying to send email first) or not
+        force_ack (Optional[bool]): Flag which determines if the ack for the
+            metric warning should be directly stored (without trying to send email
+            first) or not
     """
 
     force_ack: Optional[bool] = None
@@ -4897,8 +5148,9 @@ class CreateEmojiMultipartData(BaseConfig):
     """
     Attributes:
         image (File): A file to be uploaded
-        emoji (str): A JSON object containing a `name` field with the name of the emoji and a `creator_id` field with
-            the id of the authenticated user.
+        emoji (str): A JSON object containing a `name` field with the name of
+            the emoji and a `creator_id` field with the id of the authenticated
+            user.
     """
 
     image: File
@@ -4941,7 +5193,8 @@ class SearchEmojiJsonBody(BaseConfig):
     """
     Attributes:
         term (str): The term to match against the emoji name.
-        prefix_only (Optional[str]): Set to only search for names starting with the search term.
+        prefix_only (Optional[str]): Set to only search for names starting with
+            the search term.
     """
 
     term: str
@@ -4951,13 +5204,18 @@ class SearchEmojiJsonBody(BaseConfig):
 class CreateIncomingWebhookJsonBody(BaseConfig):
     """
     Attributes:
-        channel_id (str): The ID of a public channel or private group that receives the webhook payloads.
-        user_id (Optional[str]): The ID of the owner of the webhook if different than the requester. Required for [local
-            mode](https://docs.mattermost.com/administration/mmctl-cli-tool.html#local-mode).
+        channel_id (str): The ID of a public channel or private group that
+            receives the webhook payloads.
+        user_id (Optional[str]): The ID of the owner of the webhook if different
+            than the requester. Required for [local
+            mode](https://docs.mattermost.com/administration/mmctl-cli-
+            tool.html#local-mode).
         display_name (Optional[str]): The display name for this incoming webhook
         description (Optional[str]): The description for this incoming webhook
-        username (Optional[str]): The username this incoming webhook will post as.
-        icon_url (Optional[str]): The profile picture this incoming webhook will use when posting.
+        username (Optional[str]): The username this incoming webhook will post
+            as.
+        icon_url (Optional[str]): The profile picture this incoming webhook will
+            use when posting.
     """
 
     channel_id: str
@@ -4971,12 +5229,15 @@ class CreateIncomingWebhookJsonBody(BaseConfig):
 class UpdateIncomingWebhookJsonBody(BaseConfig):
     """
     Attributes:
-        channel_id (str): The ID of a public channel or private group that receives the webhook payloads.
+        channel_id (str): The ID of a public channel or private group that
+            receives the webhook payloads.
         display_name (str): The display name for this incoming webhook
         description (str): The description for this incoming webhook
         hook_id (Optional[str]): Incoming webhook GUID
-        username (Optional[str]): The username this incoming webhook will post as.
-        icon_url (Optional[str]): The profile picture this incoming webhook will use when posting.
+        username (Optional[str]): The username this incoming webhook will post
+            as.
+        icon_url (Optional[str]): The profile picture this incoming webhook will
+            use when posting.
     """
 
     channel_id: str
@@ -4993,15 +5254,20 @@ class CreateOutgoingWebhookJsonBody(BaseConfig):
         team_id (str): The ID of the team that the webhook watchs
         display_name (str): The display name for this outgoing webhook
         trigger_words (List[str]): List of words for the webhook to trigger on
-        callback_urls (List[str]): The URLs to POST the payloads to when the webhook is triggered
-        channel_id (Optional[str]): The ID of a public channel that the webhook watchs
-        creator_id (Optional[str]): The ID of the owner of the webhook if different than the requester. Required in
-            [local mode](https://docs.mattermost.com/administration/mmctl-cli-tool.html#local-mode).
+        callback_urls (List[str]): The URLs to POST the payloads to when the
+            webhook is triggered
+        channel_id (Optional[str]): The ID of a public channel that the webhook
+            watchs
+        creator_id (Optional[str]): The ID of the owner of the webhook if
+            different than the requester. Required in [local
+            mode](https://docs.mattermost.com/administration/mmctl-cli-
+            tool.html#local-mode).
         description (Optional[str]): The description for this outgoing webhook
-        trigger_when (Optional[int]): When to trigger the webhook, `0` when a trigger word is present at all and `1` if
-            the message starts with a trigger word
-        content_type (Optional[str]): The format to POST the data in, either `application/json` or `application/x-www-
-            form-urlencoded`
+        trigger_when (Optional[int]): When to trigger the webhook, `0` when a
+            trigger word is present at all and `1` if the message starts with a
+            trigger word
+        content_type (Optional[str]): The format to POST the data in, either
+            `application/json` or `application/x-www-form-urlencoded`
              Default: 'application/x-www-form-urlencoded'.
     """
 
@@ -5019,7 +5285,8 @@ class CreateOutgoingWebhookJsonBody(BaseConfig):
 class UpdateOutgoingWebhookJsonBody(BaseConfig):
     """
     Attributes:
-        channel_id (str): The ID of a public channel or private group that receives the webhook payloads.
+        channel_id (str): The ID of a public channel or private group that
+            receives the webhook payloads.
         display_name (str): The display name for this incoming webhook
         description (str): The description for this incoming webhook
         hook_id (Optional[str]): Outgoing webhook GUID
@@ -5157,7 +5424,8 @@ class UploadSamlPrivateCertificateMultipartData(BaseConfig):
 class ResetSamlAuthDataToEmailResponse_200(BaseConfig):
     """
     Attributes:
-        num_affected (Optional[int]): The number of users whose AuthData field was reset.
+        num_affected (Optional[int]): The number of users whose AuthData field
+            was reset.
     """
 
     num_affected: Optional[int] = None
@@ -5167,9 +5435,10 @@ class ResetSamlAuthDataToEmailJsonBody(BaseConfig):
     """
     Attributes:
         include_deleted (Optional[bool]): Whether to include deleted users.
-        dry_run (Optional[bool]): If set to true, the number of users who would be affected is returned.
-        user_ids (Optional[List[str]]): If set to a non-empty array, then users whose IDs are not in the array will be
-            excluded.
+        dry_run (Optional[bool]): If set to true, the number of users who would
+            be affected is returned.
+        user_ids (Optional[List[str]]): If set to a non-empty array, then users
+            whose IDs are not in the array will be excluded.
     """
 
     include_deleted: Optional[bool] = False
@@ -5417,8 +5686,10 @@ class CreateOAuthAppJsonBody(BaseConfig):
         description (str): A short description of the application
         callback_urls (List[str]): A list of callback URLs for the appliation
         homepage (str): A link to the website of the application
-        icon_url (Optional[str]): A URL to an icon to display with the application
-        is_trusted (Optional[bool]): Set this to `true` to skip asking users for permission
+        icon_url (Optional[str]): A URL to an icon to display with the
+            application
+        is_trusted (Optional[bool]): Set this to `true` to skip asking users for
+            permission
     """
 
     name: str
@@ -5437,9 +5708,10 @@ class UpdateOAuthAppJsonBody(BaseConfig):
         description (str): A short description of the application
         callback_urls (List[str]): A list of callback URLs for the appliation
         homepage (str): A link to the website of the application
-        icon_url (Optional[str]): A URL to an icon to display with the application
-        is_trusted (Optional[bool]): Set this to `true` to skip asking users for permission. It will be set to false if
-            value is not provided.
+        icon_url (Optional[str]): A URL to an icon to display with the
+            application
+        is_trusted (Optional[bool]): Set this to `true` to skip asking users for
+            permission. It will be set to false if value is not provided.
     """
 
     id: str
@@ -5463,7 +5735,8 @@ class GetDataRetentionPoliciesCountResponse_200(BaseConfig):
 class SearchTeamsForRetentionPolicyJsonBody(BaseConfig):
     """
     Attributes:
-        term (Optional[str]): The search term to match against the name or display name of teams
+        term (Optional[str]): The search term to match against the name or
+            display name of teams
     """
 
     term: Optional[str] = None
@@ -5472,13 +5745,18 @@ class SearchTeamsForRetentionPolicyJsonBody(BaseConfig):
 class SearchChannelsForRetentionPolicyJsonBody(BaseConfig):
     """
     Attributes:
-        term (Optional[str]): The string to search in the channel name, display name, and purpose.
-        team_ids (Optional[List[str]]): Filters results to channels belonging to the given team ids
-        public (Optional[bool]): Filters results to only return Public / Open channels, can be used in conjunction with
-            `private` to return both `public` and `private` channels
-        private (Optional[bool]): Filters results to only return Private channels, can be used in conjunction with
-            `public` to return both `private` and `public` channels
-        deleted (Optional[bool]): Filters results to only return deleted / archived channels
+        term (Optional[str]): The string to search in the channel name, display
+            name, and purpose.
+        team_ids (Optional[List[str]]): Filters results to channels belonging to
+            the given team ids
+        public (Optional[bool]): Filters results to only return Public / Open
+            channels, can be used in conjunction with `private` to return both
+            `public` and `private` channels
+        private (Optional[bool]): Filters results to only return Private
+            channels, can be used in conjunction with `public` to return both
+            `private` and `public` channels
+        deleted (Optional[bool]): Filters results to only return deleted /
+            archived channels
     """
 
     term: Optional[str] = None
@@ -5503,7 +5781,8 @@ class UploadPluginMultipartData(BaseConfig):
     """
     Attributes:
         plugin (File): The plugin image to be uploaded
-        force (Optional[str]): Set to 'true' to overwrite a previously installed plugin with the same ID, if any
+        force (Optional[str]): Set to 'true' to overwrite a previously installed
+            plugin with the same ID, if any
     """
 
     plugin: File
@@ -5556,7 +5835,8 @@ class InstallMarketplacePluginJsonBody(BaseConfig):
 class PatchRoleJsonBody(BaseConfig):
     """
     Attributes:
-        permissions (Optional[List[str]]): The permissions the role should grant.
+        permissions (Optional[List[str]]): The permissions the role should
+            grant.
     """
 
     permissions: Optional[List[str]] = None
@@ -5612,13 +5892,17 @@ class OpenInteractiveDialogJsonBody(BaseConfig):
 
         Attributes:
             title (str): Title of the dialog
-            elements (List[DialogElementsItem]): Input elements, see https://docs.mattermost.com/developer/interactive-
-                dialogs.html#elements
-            callback_id (Optional[str]): Set an ID that will be included when the dialog is submitted
-            introduction_text (Optional[str]): Markdown formatted introductory paragraph
+            elements (List[DialogElementsItem]): Input elements, see
+                https://docs.mattermost.com/developer/interactive-dialogs.html#elements
+            callback_id (Optional[str]): Set an ID that will be included when the
+                dialog is submitted
+            introduction_text (Optional[str]): Markdown formatted introductory
+                paragraph
             submit_label (Optional[str]): Label on the submit button
-            notify_on_cancel (Optional[bool]): Set true to receive payloads when user cancels a dialog
-            state (Optional[str]): Set some state to be echoed back with the dialog submission
+            notify_on_cancel (Optional[bool]): Set true to receive payloads when
+                user cancels a dialog
+            state (Optional[str]): Set some state to be echoed back with the dialog
+                submission
         """
 
         title: str
@@ -5640,14 +5924,18 @@ class SubmitInteractiveDialogJsonBody(BaseConfig):
         url (str): The URL to send the submitted dialog payload to
         channel_id (str): Channel ID the user submitted the dialog from
         team_id (str): Team ID the user submitted the dialog from
-        submission (Submission): String map where keys are element names and values are the element input values
+        submission (Submission): String map where keys are element names and
+            values are the element input values
         callback_id (Optional[str]): Callback ID sent when the dialog was opened
         state (Optional[str]): State sent when the dialog was opened
         cancelled (Optional[bool]): Set to true if the dialog was cancelled
     """
 
     class Submission(BaseConfig):
-        """String map where keys are element names and values are the element input values"""
+        """String map where keys are element names and values are the element input
+        values
+
+        """
 
     url: str
     channel_id: str
@@ -5762,6 +6050,13 @@ class ConfirmCustomerPaymentMultipartData(BaseConfig):
     """
 
     stripe_setup_intent_id: Optional[str] = None
+
+    def get_data(self):
+        """Get the `data` attributes for the request from the model
+
+        :meta private:
+        """
+        return self.dict(exclude_none=True)
 
 
 class UpdateCloudCustomerJsonBody(BaseConfig):

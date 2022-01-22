@@ -5,7 +5,7 @@ from ..base import ApiBaseClass
 
 
 class SearchApi(ApiBaseClass):
-    """None"""
+    """ """
 
     async def search_files(
         self,
@@ -15,7 +15,9 @@ class SearchApi(ApiBaseClass):
     ) -> FileInfoList:
         """Search files in a team
 
-        Search for files in a team based on file name, extention and file content (if file content extraction is enabled and supported for the files).
+        Search for files in a team based on file name, extention and file
+        content (if file content extraction is enabled and supported for the
+        files).
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
@@ -36,14 +38,13 @@ class SearchApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = await self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

@@ -25,7 +25,8 @@ class SchemesApi(ApiBaseClass):
     ) -> List[Scheme]:
         """Get the schemes.
 
-        Get a page of schemes. Use the query parameters to modify the behaviour of this endpoint.
+        Get a page of schemes. Use the query parameters to modify the behaviour
+        of this endpoint.
 
         Permissions:
             Must have `manage_system` permission.
@@ -54,7 +55,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -103,7 +104,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -140,7 +141,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -177,7 +178,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -194,7 +195,10 @@ class SchemesApi(ApiBaseClass):
     ) -> Scheme:
         """Patch a scheme
 
-        Partially update a scheme by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a scheme by providing only the fields you want to
+        update. Omitted fields will not be updated. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
             `manage_system` permission is required.
@@ -224,7 +228,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -242,7 +246,8 @@ class SchemesApi(ApiBaseClass):
     ) -> List[Team]:
         """Get a page of teams which use this scheme.
 
-        Get a page of teams which use this scheme. The provided Scheme ID should be for a Team-scoped Scheme.
+        Get a page of teams which use this scheme. The provided Scheme ID should
+        be for a Team-scoped Scheme.
         Use the query parameters to modify the behaviour of this endpoint.
 
         Permissions:
@@ -273,7 +278,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -296,7 +301,8 @@ class SchemesApi(ApiBaseClass):
     ) -> List[Channel]:
         """Get a page of channels which use this scheme.
 
-        Get a page of channels which use this scheme. The provided Scheme ID should be for a Channel-scoped Scheme.
+        Get a page of channels which use this scheme. The provided Scheme ID
+        should be for a Channel-scoped Scheme.
         Use the query parameters to modify the behaviour of this endpoint.
 
         Permissions:
@@ -327,7 +333,7 @@ class SchemesApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

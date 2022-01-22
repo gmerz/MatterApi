@@ -5,14 +5,18 @@ from ..base import ApiBaseClass
 
 
 class BrandApi(ApiBaseClass):
-    """Endpoints related to custom branding and white-labeling. See [our branding documentation](https://docs.mattermost.com/administration/branding.html) for more information."""
+    """Endpoints related to custom branding and white-labeling. See [our
+    branding
+    documentation](https://docs.mattermost.com/administration/branding.html)
+    for more information."""
 
     def get_brand_image(
         self,
     ) -> str:
         """Get brand image
 
-        Get the previously uploaded brand image. Returns 404 if no brand image has been uploaded.
+        Get the previously uploaded brand image. Returns 404 if no brand image
+        has been uploaded.
 
         Permissions:
             No permission required.
@@ -32,7 +36,7 @@ class BrandApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -64,14 +68,13 @@ class BrandApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -85,7 +88,8 @@ class BrandApi(ApiBaseClass):
     ) -> StatusOK:
         """Delete current brand image
 
-        Deletes the previously uploaded brand image. Returns 404 if no brand image has been uploaded.
+        Deletes the previously uploaded brand image. Returns 404 if no brand
+        image has been uploaded.
 
         Permissions:
             Must have `manage_system` permission.
@@ -107,7 +111,7 @@ class BrandApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

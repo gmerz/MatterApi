@@ -7,7 +7,8 @@ from ..base import ApiBaseClass
 
 
 class OauthApi(ApiBaseClass):
-    """Endpoints for configuring and interacting with Mattermost as an OAuth 2.0 service provider."""
+    """Endpoints for configuring and interacting with Mattermost as an OAuth
+    2.0 service provider."""
 
     def get_oauth_apps(
         self,
@@ -20,7 +21,9 @@ class OauthApi(ApiBaseClass):
         Get a page of OAuth 2.0 client applications registered with Mattermost.
 
         Permissions:
-            With `manage_oauth` permission, the apps registered by the logged in user are returned. With `manage_system_wide_oauth` permission, all apps regardless of creator are returned.
+            With `manage_oauth` permission, the apps registered by the logged in
+        user are returned. With `manage_system_wide_oauth` permission, all apps
+        regardless of creator are returned.
         """
 
         url = "{}/oauth/apps".format(self.client.base_url)
@@ -43,7 +46,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -64,7 +67,8 @@ class OauthApi(ApiBaseClass):
     ) -> OAuthApp:
         """Register OAuth app
 
-        Register an OAuth 2.0 client application with Mattermost as the service provider.
+        Register an OAuth 2.0 client application with Mattermost as the service
+        provider.
 
         Permissions:
             Must have `manage_oauth` permission.
@@ -90,7 +94,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -108,7 +112,8 @@ class OauthApi(ApiBaseClass):
         Get an OAuth 2.0 client application registered with Mattermost.
 
         Permissions:
-            If app creator, must have `mange_oauth` permission otherwise `manage_system_wide_oauth` permission is required.
+            If app creator, must have `mange_oauth` permission otherwise
+        `manage_system_wide_oauth` permission is required.
         """
 
         url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
@@ -125,7 +130,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -145,7 +150,8 @@ class OauthApi(ApiBaseClass):
         Update an OAuth 2.0 client application based on OAuth struct.
 
         Permissions:
-            If app creator, must have `mange_oauth` permission otherwise `manage_system_wide_oauth` permission is required.
+            If app creator, must have `mange_oauth` permission otherwise
+        `manage_system_wide_oauth` permission is required.
         """
 
         url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
@@ -168,7 +174,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -186,7 +192,8 @@ class OauthApi(ApiBaseClass):
         Delete and unregister an OAuth 2.0 client application
 
         Permissions:
-            If app creator, must have `mange_oauth` permission otherwise `manage_system_wide_oauth` permission is required.
+            If app creator, must have `mange_oauth` permission otherwise
+        `manage_system_wide_oauth` permission is required.
         """
 
         url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
@@ -203,7 +210,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -218,10 +225,12 @@ class OauthApi(ApiBaseClass):
     ) -> OAuthApp:
         """Regenerate OAuth app secret
 
-        Regenerate the client secret for an OAuth 2.0 client application registered with Mattermost.
+        Regenerate the client secret for an OAuth 2.0 client application
+        registered with Mattermost.
 
         Permissions:
-            If app creator, must have `mange_oauth` permission otherwise `manage_system_wide_oauth` permission is required.
+            If app creator, must have `mange_oauth` permission otherwise
+        `manage_system_wide_oauth` permission is required.
         """
 
         url = "{}/oauth/apps/{app_id}/regen_secret".format(
@@ -240,7 +249,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -255,7 +264,8 @@ class OauthApi(ApiBaseClass):
     ) -> OAuthApp:
         """Get info on an OAuth app
 
-        Get public information about an OAuth 2.0 client application registered with Mattermost. The application's client secret will be blanked out.
+        Get public information about an OAuth 2.0 client application registered
+        with Mattermost. The application's client secret will be blanked out.
 
         Permissions:
             Must be authenticated.
@@ -275,7 +285,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -293,10 +303,12 @@ class OauthApi(ApiBaseClass):
     ) -> List[OAuthApp]:
         """Get authorized OAuth apps
 
-        Get a page of OAuth 2.0 client applications authorized to access a user's account.
+        Get a page of OAuth 2.0 client applications authorized to access a
+        user's account.
 
         Permissions:
-            Must be authenticated as the user or have `edit_other_users` permission.
+            Must be authenticated as the user or have `edit_other_users`
+        permission.
         """
 
         url = "{}/users/{user_id}/oauth/apps/authorized".format(
@@ -321,7 +333,7 @@ class OauthApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

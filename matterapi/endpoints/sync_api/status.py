@@ -41,7 +41,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -58,7 +58,9 @@ class StatusApi(ApiBaseClass):
     ) -> Status:
         """Update user status
 
-        Manually set a user's status. When setting a user's status, the status will remain that value until set \"online\" again, which will return the status to being automatically updated based on user activity.
+        Manually set a user's status. When setting a user's status, the status
+        will remain that value until set \"online\" again, which will return the
+        status to being automatically updated based on user activity.
 
         Permissions:
             Must have `edit_other_users` permission for the team.
@@ -84,7 +86,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -122,7 +124,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -144,7 +146,9 @@ class StatusApi(ApiBaseClass):
     ) -> None:
         """Update user custom status
 
-        Updates a user's custom status by setting the value in the user's props and updates the user. Also save the given custom status to the recent custom statuses in the user's props
+        Updates a user's custom status by setting the value in the user's props
+        and updates the user. Also save the given custom status to the recent
+        custom statuses in the user's props
 
         Permissions:
             Must be logged in as the user whose custom status is being updated.
@@ -172,7 +176,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -183,7 +187,8 @@ class StatusApi(ApiBaseClass):
     ) -> None:
         """Unsets user custom status
 
-        Unsets a user's custom status by updating the user's props and updates the user
+        Unsets a user's custom status by updating the user's props and updates
+        the user
 
         Permissions:
             Must be logged in as the user whose custom status is being removed.
@@ -205,7 +210,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -218,10 +223,12 @@ class StatusApi(ApiBaseClass):
     ) -> None:
         """Delete user's recent custom status
 
-        Deletes a user's recent custom status by removing the specific status from the recentCustomStatuses in the user's props and updates the user.
+        Deletes a user's recent custom status by removing the specific status
+        from the recentCustomStatuses in the user's props and updates the user.
 
         Permissions:
-            Must be logged in as the user whose recent custom status is being deleted.
+            Must be logged in as the user whose recent custom status is being
+        deleted.
         """
 
         url = "{}/users/{user_id}/status/custom/recent".format(
@@ -246,7 +253,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -259,10 +266,12 @@ class StatusApi(ApiBaseClass):
     ) -> None:
         """Delete user's recent custom status
 
-        Deletes a user's recent custom status by removing the specific status from the recentCustomStatuses in the user's props and updates the user.
+        Deletes a user's recent custom status by removing the specific status
+        from the recentCustomStatuses in the user's props and updates the user.
 
         Permissions:
-            Must be logged in as the user whose recent custom status is being deleted.
+            Must be logged in as the user whose recent custom status is being
+        deleted.
         """
 
         url = "{}/users/{user_id}/status/custom/recent/delete".format(
@@ -287,7 +296,7 @@ class StatusApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response

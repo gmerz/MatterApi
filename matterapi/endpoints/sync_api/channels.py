@@ -76,7 +76,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -95,7 +95,9 @@ class ChannelsApi(ApiBaseClass):
         Create a new channel.
 
         Permissions:
-            If creating a public channel, `create_public_channel` permission is required. If creating a private channel, `create_private_channel` permission is required.
+            If creating a public channel, `create_public_channel` permission is
+        required. If creating a private channel, `create_private_channel`
+        permission is required.
         """
 
         url = "{}/channels".format(self.client.base_url)
@@ -118,7 +120,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -137,7 +139,9 @@ class ChannelsApi(ApiBaseClass):
         Create a new direct message channel between two users.
 
         Permissions:
-            Must be one of the two users and have `create_direct_channel` permission. Having the `manage_system` permission voids the previous requirements.
+            Must be one of the two users and have `create_direct_channel`
+        permission. Having the `manage_system` permission voids the previous
+        requirements.
         """
 
         url = "{}/channels/direct".format(self.client.base_url)
@@ -156,7 +160,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -172,7 +176,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> Channel:
         """Create a group message channel
 
-        Create a new group message channel to group of users. If the logged in user's id is not included in the list, it will be appended to the end.
+        Create a new group message channel to group of users. If the logged in
+        user's id is not included in the list, it will be appended to the end.
 
         Permissions:
             Must have `create_group_channel` permission.
@@ -194,7 +199,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -210,7 +215,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Search Group Channels
 
-        Get a list of group channels for a user which members' usernames match the search term.
+        Get a list of group channels for a user which members' usernames match
+        the search term.
 
         Minimum Server Version:
             5.14
@@ -236,7 +242,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -282,7 +288,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -326,7 +332,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -363,7 +369,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -380,10 +386,13 @@ class ChannelsApi(ApiBaseClass):
     ) -> Channel:
         """Update a channel
 
-        Update a channel. The fields that can be updated are listed as parameters. Omitted fields will be treated as blanks.
+        Update a channel. The fields that can be updated are listed as
+        parameters. Omitted fields will be treated as blanks.
 
         Permissions:
-            If updating a public channel, `manage_public_channel_members` permission is required. If updating a private channel, `manage_private_channel_members` permission is required.
+            If updating a public channel, `manage_public_channel_members`
+        permission is required. If updating a private channel,
+        `manage_private_channel_members` permission is required.
         """
 
         url = "{}/channels/{channel_id}".format(
@@ -408,7 +417,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -423,9 +432,14 @@ class ChannelsApi(ApiBaseClass):
     ) -> StatusOK:
         """Delete a channel
 
-        Soft deletes a channel, by marking the channel as deleted in the database. Soft deleted channels will not be accessible in the user interface. Direct and group message channels cannot be deleted.
+        Soft deletes a channel, by marking the channel as deleted in the
+        database. Soft deleted channels will not be accessible in the user
+        interface. Direct and group message channels cannot be deleted.
 
-        As of server version 5.28, optionally use the `permanent=true` query parameter to permanently delete the channel for compliance reasons. To use this feature `ServiceSettings.EnableAPIChannelDeletion` must be set to `true` in the server's configuration.
+        As of server version 5.28, optionally use the `permanent=true` query
+        parameter to permanently delete the channel for compliance reasons. To
+        use this feature `ServiceSettings.EnableAPIChannelDeletion` must be set
+        to `true` in the server's configuration.
 
         `delete_private_channel` permission if the channel is private,
         or have `manage_system` permission.
@@ -450,7 +464,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -467,10 +481,15 @@ class ChannelsApi(ApiBaseClass):
     ) -> Channel:
         """Patch a channel
 
-        Partially update a channel by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a channel by providing only the fields you want to
+        update. Omitted fields will not be updated. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
-            If updating a public channel, `manage_public_channel_members` permission is required. If updating a private channel, `manage_private_channel_members` permission is required.
+            If updating a public channel, `manage_public_channel_members`
+        permission is required. If updating a private channel,
+        `manage_private_channel_members` permission is required.
         """
 
         url = "{}/channels/{channel_id}/patch".format(
@@ -495,7 +514,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -512,10 +531,15 @@ class ChannelsApi(ApiBaseClass):
     ) -> Channel:
         """Update channel's privacy
 
-        Updates channel's privacy allowing changing a channel from Public to Private and back.
+        Updates channel's privacy allowing changing a channel from Public to
+        Private and back.
 
         Permissions:
-            `manage_team` permission for the channels team on version < 5.28. `convert_public_channel_to_private` permission for the channel if updating privacy to 'P' on version >= 5.28. `convert_private_channel_to_public` permission for the channel if updating privacy to 'O' on version >= 5.28.
+            `manage_team` permission for the channels team on version < 5.28.
+        `convert_public_channel_to_private` permission for the channel if
+        updating privacy to 'P' on version >= 5.28.
+        `convert_private_channel_to_public` permission for the channel if
+        updating privacy to 'O' on version >= 5.28.
         Minimum Server Version:
             5.16
         """
@@ -542,7 +566,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -581,7 +605,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -628,7 +652,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -665,7 +689,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -681,7 +705,6 @@ class ChannelsApi(ApiBaseClass):
         """Get a channel's pinned posts
 
         Get a list of pinned posts for channel.
-
         """
 
         url = "{}/channels/{channel_id}/pinned".format(
@@ -700,7 +723,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -718,7 +741,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Get public channels
 
-        Get a page of public channels on a team based on query string parameters - page and per_page.
+        Get a page of public channels on a team based on query string parameters
+        - page and per_page.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -746,7 +770,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -800,7 +824,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -823,7 +847,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Get deleted channels
 
-        Get a page of deleted channels on a team based on query string parameters - team_id, page and per_page.
+        Get a page of deleted channels on a team based on query string
+        parameters - team_id, page and per_page.
 
         Minimum Server Version:
             3.10
@@ -851,7 +876,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -873,7 +898,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Autocomplete channels
 
-        Autocomplete public channels on a team based on the search term provided in the request URL.
+        Autocomplete public channels on a team based on the search term provided
+        in the request URL.
 
         Permissions:
             Must have the `list_team_channels` permission.
@@ -902,7 +928,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -924,7 +950,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Autocomplete channels for search
 
-        Autocomplete your channels on a team based on the search term provided in the request URL.
+        Autocomplete your channels on a team based on the search term provided
+        in the request URL.
 
         Permissions:
             Must have the `list_team_channels` permission.
@@ -953,7 +980,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -975,9 +1002,12 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Search channels
 
-        Search public channels on a team based on the search term provided in the request body.
+        Search public channels on a team based on the search term provided in
+        the request body.
 
-        In server version 5.16 and later, a user without the `list_team_channels` permission will be able to use this endpoint, with the search results limited to the channels that the user is a member of.
+        In server version 5.16 and later, a user without the
+        `list_team_channels` permission will be able to use this endpoint, with
+        the search results limited to the channels that the user is a member of.
 
         Permissions:
             Must have the `list_team_channels` permission.
@@ -1005,7 +1035,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -1027,9 +1057,12 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[Channel]:
         """Search archived channels
 
-        Search archived channels on a team based on the search term provided in the request body.
+        Search archived channels on a team based on the search term provided in
+        the request body.
 
-        In server version 5.18 and later, a user without the `list_team_channels` permission will be able to use this endpoint, with the search results limited to the channels that the user is a member of.
+        In server version 5.18 and later, a user without the
+        `list_team_channels` permission will be able to use this endpoint, with
+        the search results limited to the channels that the user is a member of.
 
         Permissions:
             Must have the `list_team_channels` permission.
@@ -1059,7 +1092,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -1109,7 +1142,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1154,7 +1187,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1200,7 +1233,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1223,7 +1256,6 @@ class ChannelsApi(ApiBaseClass):
         """Add user to channel
 
         Add a user to a channel by creating a channel member object.
-
         """
 
         url = "{}/channels/{channel_id}/members".format(
@@ -1248,7 +1280,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -1289,7 +1321,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1332,7 +1364,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1350,7 +1382,8 @@ class ChannelsApi(ApiBaseClass):
 
         Delete a channel member, effectively removing them from a channel.
 
-        In server version 5.3 and later, channel members can only be deleted from public or private channels.
+        In server version 5.3 and later, channel members can only be deleted
+        from public or private channels.
         `manage_private_channel_members` permission if the channel is private.
 
         Permissions:
@@ -1373,7 +1406,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1419,7 +1452,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1437,10 +1470,14 @@ class ChannelsApi(ApiBaseClass):
     ) -> StatusOK:
         """Update the scheme-derived roles of a channel member.
 
-        Update a channel member's scheme_admin/scheme_user properties. Typically this should either be `scheme_admin=false, scheme_user=true` for ordinary channel member, or `scheme_admin=true, scheme_user=true` for a channel admin.
+        Update a channel member's scheme_admin/scheme_user properties. Typically
+        this should either be `scheme_admin=false, scheme_user=true` for
+        ordinary channel member, or `scheme_admin=true, scheme_user=true` for a
+        channel admin.
 
         Permissions:
-            Must be authenticated and have the `manage_channel_roles` permission.
+            Must be authenticated and have the `manage_channel_roles`
+        permission.
         Minimum Server Version:
             5.0
         """
@@ -1467,7 +1504,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1485,7 +1522,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> StatusOK:
         """Update channel notifications
 
-        Update a user's notification properties for a channel. Only the provided fields are updated.
+        Update a user's notification properties for a channel. Only the provided
+        fields are updated.
 
         Permissions:
             Must be logged in as the user or have `edit_other_users` permission.
@@ -1513,7 +1551,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1530,9 +1568,12 @@ class ChannelsApi(ApiBaseClass):
     ) -> ViewChannelResponse_200:
         """View channel
 
-        Perform all the actions involved in viewing a channel. This includes marking channels as read, clearing push notifications, and updating the active channel.
+        Perform all the actions involved in viewing a channel. This includes
+        marking channels as read, clearing push notifications, and updating the
+        active channel.
 
-        __Response only includes `last_viewed_at_times` in Mattermost server 4.3 and newer.__
+        __Response only includes `last_viewed_at_times` in Mattermost server 4.3
+        and newer.__
 
         Permissions:
             Must be logged in as user or have `edit_other_users` permission.
@@ -1560,7 +1601,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1576,10 +1617,12 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[ChannelMember]:
         """Get channel memberships and roles for a user
 
-        Get all channel memberships and associated membership roles (i.e. `channel_user`, `channel_admin`) for a user on a specific team.
+        Get all channel memberships and associated membership roles (i.e.
+        `channel_user`, `channel_admin`) for a user on a specific team.
 
         Permissions:
-            Logged in as the user and `view_team` permission for the team. Having `manage_system` permission voids the previous requirements.
+            Logged in as the user and `view_team` permission for the team.
+        Having `manage_system` permission voids the previous requirements.
         """
 
         url = "{}/users/{user_id}/teams/{team_id}/channels/members".format(
@@ -1598,7 +1641,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1625,7 +1668,8 @@ class ChannelsApi(ApiBaseClass):
         Get all the channels on a team for a user.
 
         Permissions:
-            Logged in as the user, or have `edit_other_users` permission, and `view_team` permission for the team.
+            Logged in as the user, or have `edit_other_users` permission, and
+        `view_team` permission for the team.
         """
 
         url = "{}/users/{user_id}/teams/{team_id}/channels".format(
@@ -1650,7 +1694,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1703,7 +1747,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1727,7 +1771,8 @@ class ChannelsApi(ApiBaseClass):
         Get the total unread messages and mentions for a channel for a user.
 
         Permissions:
-            Must be logged in as user and have the `read_channel` permission, or have `edit_other_usrs` permission.
+            Must be logged in as user and have the `read_channel` permission, or
+        have `edit_other_usrs` permission.
         """
 
         url = "{}/users/{user_id}/channels/{channel_id}/unread".format(
@@ -1746,7 +1791,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1763,7 +1808,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> StatusOK:
         """Set a channel's scheme
 
-        Set a channel's scheme, more specifically sets the scheme_id value of a channel record.
+        Set a channel's scheme, more specifically sets the scheme_id value of a
+        channel record.
 
         Permissions:
             Must have `manage_system` permission.
@@ -1793,7 +1839,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1812,9 +1858,13 @@ class ChannelsApi(ApiBaseClass):
     ) -> None:
         """Channel members minus group members.
 
-        Get the set of users who are members of the channel minus the set of users who are members of the given groups.
-        Each user object contains an array of group objects representing the group memberships for that user.
-        Each user object contains the boolean fields `scheme_guest`, `scheme_user`, and `scheme_admin` representing the roles that user has for the given channel.
+        Get the set of users who are members of the channel minus the set of
+        users who are members of the given groups.
+        Each user object contains an array of group objects representing the
+        group memberships for that user.
+        Each user object contains the boolean fields `scheme_guest`,
+        `scheme_user`, and `scheme_admin` representing the roles that user has
+        for the given channel.
 
         Permissions:
             Must have `manage_system` permission.
@@ -1845,7 +1895,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -1856,9 +1906,12 @@ class ChannelsApi(ApiBaseClass):
         *,
         include_timezones: Optional[bool] = False,
     ) -> None:
-        """Channel members counts for each group that has atleast one member in the channel
+        """Channel members counts for each group that has atleast one member in the
+        channel
 
-        Returns a set of ChannelMemberCountByGroup objects which contain a `group_id`, `channel_member_count` and a `channel_member_timezones_count`.
+        Returns a set of ChannelMemberCountByGroup objects which contain a
+        `group_id`, `channel_member_count` and a
+        `channel_member_timezones_count`.
 
         Permissions:
             Must have `read_channel` permission for the given channel.
@@ -1887,7 +1940,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -1922,7 +1975,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1974,7 +2027,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1995,7 +2048,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[OrderedSidebarCategories]:
         """Get user's sidebar categories
 
-        Get a list of sidebar categories that will appear in the user's sidebar on the given team, including a list of channel IDs in each category.
+        Get a list of sidebar categories that will appear in the user's sidebar
+        on the given team, including a list of channel IDs in each category.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -2019,7 +2073,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2044,7 +2098,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> SidebarCategory:
         """Update user's sidebar categories
 
-        Update any number of sidebar categories for the user on the given team. This can be used to reorder the channels in these categories.
+        Update any number of sidebar categories for the user on the given team.
+        This can be used to reorder the channels in these categories.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -2078,7 +2133,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2126,7 +2181,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2142,7 +2197,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[str]:
         """Get user's sidebar category order
 
-        Returns the order of the sidebar categories for a user on the given team as an array of IDs.
+        Returns the order of the sidebar categories for a user on the given team
+        as an array of IDs.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -2166,7 +2222,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2184,7 +2240,9 @@ class ChannelsApi(ApiBaseClass):
     ) -> List[str]:
         """Update user's sidebar category order
 
-        Updates the order of the sidebar categories for a user on the given team. The provided array must include the IDs of all categories on the team.
+        Updates the order of the sidebar categories for a user on the given
+        team. The provided array must include the IDs of all categories on the
+        team.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -2210,7 +2268,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2254,7 +2312,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2306,7 +2364,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -2323,7 +2381,8 @@ class ChannelsApi(ApiBaseClass):
     ) -> SidebarCategory:
         """Delete sidebar category
 
-        Deletes a single sidebar category for the user on the given team. Only custom categories can be deleted.
+        Deletes a single sidebar category for the user on the given team. Only
+        custom categories can be deleted.
 
         Permissions:
             Must be authenticated and have the `list_team_channels` permission.
@@ -2350,7 +2409,7 @@ class ChannelsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

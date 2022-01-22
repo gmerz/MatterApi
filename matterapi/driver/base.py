@@ -38,7 +38,7 @@ class DriverOptions(BaseModel):
     """Options to be passed to a driver"""
 
     url: AnyHttpUrl
-    """ Mattermost base url 
+    """ Mattermost base url
 
         Example: https://localhost:8065
     """
@@ -57,22 +57,24 @@ class DriverOptions(BaseModel):
     debug: bool = False
     """ Set to ``true`` to enable debugging """
     ws_concurrent: bool = True
-    """ Change handling behaviour of websocket messages 
+    """ Change handling behaviour of websocket messages
 
-    If set to true, websocket messages will be handled concurrently. This means that the loop will 
-    not wait until messages are handled but continue to wait/handle the next message.
-    If set to false, messages will be handled sequentially. Handling of a new message only starts 
-    after the event_handler returns.
+    If set to true, websocket messages will be handled concurrently.
+    This means that the loop will not wait until messages are handled
+    but continue to wait/handle the next message. If set to false,
+    messages will be handled sequentially. Handling of a new message
+    only starts after the event_handler returns.
     """
     ws_reconnect_wait_time: int = 5
     """ The waiting time between re-connect attempts for websocket connections """
     skip_response_parsing: bool = False
-    """ If this is set, responses will not be parsed into objects, but will be returned as raw httpx response """
+    """ If this is set, responses will not be parsed into objects, but
+        will be returned as raw httpx response """
 
     @validator("ws_url", pre=True, always=True)
     def _ws_url_setter(cls, v, values):
         """Set the websocket url from the url if not set explicitly"""
-        if v == None:
+        if v is None:
             if "url" in values:
                 url = urlparse(values["url"])
                 scheme_map = {"https": "wss", "http": "ws"}
@@ -98,13 +100,13 @@ class BaseDriver(BaseModel, metaclass=abc.ABCMeta):
     active_token: Optional[str]
     """ The currently active authentication token.
 
-    This will either be the token passed as :class:~AuthToken or the session token acquired 
+    This will either be the token passed as :class:~AuthToken or the session token acquired
     through username/password based authentication.
     """
 
     @validator("options")
     def set_logging_mode(cls, v):
-        if v.debug == True:
+        if v.debug:
             logger.setLevel(logging.DEBUG)
         return v
 
@@ -121,14 +123,16 @@ class BaseDriver(BaseModel, metaclass=abc.ABCMeta):
     async def start_ws(self, event_handler: Callable, relogin=False):
         """Start the websocket connection and pass messages to event_handler
 
-        Connects to the websocket, completes authentication, and handles incoming messages.
-        Will automatically try to reconnect to the server on connection errors.
+        Connects to the websocket, completes authentication, and
+        handles incoming messages. Will automatically try to reconnect
+        to the server on connection errors.
 
         Args:
-            event_handler: The message handler. Can be a function or coroutine. Get's the message passed as argument
+            event_handler: The message handler. Can be a function or coroutine.
+                Get's the message passed as argument
             relogin: Set to ``True`` to run login() after a connection error.
-
-                This might be useful in case a session ends for username/password based logins and you need to acquire a new session token.
+                This might be useful in case a session ends for username/password based logins
+                and you need to acquire a new session token.
         """
 
         while True:
@@ -140,7 +144,10 @@ class BaseDriver(BaseModel, metaclass=abc.ABCMeta):
                 ConnectionRefusedError,
             ) as e:
                 logger.info(
-                    "Connection to websocket closed. Either the server is not reachable or authentication failed. Reconnecting in %s seconds",
+                    (
+                        "Connection to websocket closed. Either the server is not"
+                        "reachable or authentication failed. Reconnecting in %s seconds"
+                    ),
                     self.options.ws_reconnect_wait_time,
                     exc_info=True,
                 )

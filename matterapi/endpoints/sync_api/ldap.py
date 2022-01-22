@@ -23,7 +23,9 @@ class LdapApi(ApiBaseClass):
     ) -> None:
         """Migrate user accounts authentication type to LDAP.
 
-        Migrates accounts from one authentication provider to another. For example, you can upgrade your authentication provider from email to LDAP.
+        Migrates accounts from one authentication provider to another. For
+        example, you can upgrade your authentication provider from email to
+        LDAP.
 
         Permissions:
             Must have `manage_system` permission.
@@ -51,7 +53,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -61,7 +63,8 @@ class LdapApi(ApiBaseClass):
     ) -> StatusOK:
         """Sync with LDAP
 
-        Synchronize any user attribute changes in the configured AD/LDAP server with Mattermost.
+        Synchronize any user attribute changes in the configured AD/LDAP server
+        with Mattermost.
 
         Permissions:
             Must have `manage_system` permission.
@@ -81,7 +84,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -95,7 +98,8 @@ class LdapApi(ApiBaseClass):
     ) -> StatusOK:
         """Test LDAP configuration
 
-        Test the current AD/LDAP configuration to see if the AD/LDAP server can be contacted successfully.
+        Test the current AD/LDAP configuration to see if the AD/LDAP server can
+        be contacted successfully.
 
         Permissions:
             Must have `manage_system` permission.
@@ -115,7 +119,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -162,7 +166,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -206,7 +210,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -250,7 +254,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -266,7 +270,9 @@ class LdapApi(ApiBaseClass):
     ) -> StatusOK:
         """Upload public certificate
 
-        Upload the public certificate to be used for TLS verification. The server will pick a hard-coded filename for the PublicCertificateFile setting in your `config.json`.
+        Upload the public certificate to be used for TLS verification. The
+        server will pick a hard-coded filename for the PublicCertificateFile
+        setting in your `config.json`.
 
         Permissions:
             Must have `manage_system` permission.
@@ -285,14 +291,13 @@ class LdapApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -326,7 +331,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -342,7 +347,9 @@ class LdapApi(ApiBaseClass):
     ) -> StatusOK:
         """Upload private key
 
-        Upload the private key to be used for TLS verification. The server will pick a hard-coded filename for the PrivateKeyFile setting in your `config.json`.
+        Upload the private key to be used for TLS verification. The server will
+        pick a hard-coded filename for the PrivateKeyFile setting in your
+        `config.json`.
 
         Permissions:
             Must have `manage_system` permission.
@@ -361,14 +368,13 @@ class LdapApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -402,7 +408,7 @@ class LdapApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

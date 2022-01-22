@@ -43,10 +43,13 @@ class TeamsApi(ApiBaseClass):
     ) -> List[Team]:
         """Get teams
 
-        For regular users only returns open teams. Users with the \"manage_system\" permission will return teams regardless of type. The result is based on query string parameters - page and per_page.
+        For regular users only returns open teams. Users with the
+        \"manage_system\" permission will return teams regardless of type. The
+        result is based on query string parameters - page and per_page.
 
         Permissions:
-            Must be authenticated. \"manage_system\" permission is required to show all teams.
+            Must be authenticated. \"manage_system\" permission is required to
+        show all teams.
         """
 
         url = "{}/teams".format(self.client.base_url)
@@ -71,7 +74,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -118,7 +121,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -153,7 +156,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -170,7 +173,9 @@ class TeamsApi(ApiBaseClass):
     ) -> Team:
         """Update a team
 
-        Update a team by providing the team object. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Update a team by providing the team object. The fields that can be
+        updated are defined in the request body, all other provided fields will
+        be ignored.
 
         Permissions:
             Must have the `manage_team` permission.
@@ -196,7 +201,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -213,9 +218,13 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Delete a team
 
-        Soft deletes a team, by marking the team as deleted in the database. Soft deleted teams will not be accessible in the user interface.
+        Soft deletes a team, by marking the team as deleted in the database.
+        Soft deleted teams will not be accessible in the user interface.
 
-        Optionally use the permanent query parameter to hard delete the team for compliance reasons. As of server version 5.0, to use this feature `ServiceSettings.EnableAPITeamDeletion` must be set to `true` in the server's configuration.
+        Optionally use the permanent query parameter to hard delete the team for
+        compliance reasons. As of server version 5.0, to use this feature
+        `ServiceSettings.EnableAPITeamDeletion` must be set to `true` in the
+        server's configuration.
 
         Permissions:
             Must have the `manage_team` permission.
@@ -240,7 +249,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -257,7 +266,9 @@ class TeamsApi(ApiBaseClass):
     ) -> Team:
         """Patch a team
 
-        Partially update a team by providing only the fields you want to update. Omitted fields will not be updated. The fields that can be updated are defined in the request body, all other provided fields will be ignored.
+        Partially update a team by providing only the fields you want to update.
+        Omitted fields will not be updated. The fields that can be updated are
+        defined in the request body, all other provided fields will be ignored.
 
         Permissions:
             Must have the `manage_team` permission.
@@ -283,7 +294,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -300,7 +311,8 @@ class TeamsApi(ApiBaseClass):
     ) -> Team:
         """Update teams's privacy
 
-        Updates team's privacy allowing changing a team from Public (open) to Private (invitation only) and back.
+        Updates team's privacy allowing changing a team from Public (open) to
+        Private (invitation only) and back.
 
         Permissions:
             `manage_team` permission for the team of the team.
@@ -328,7 +340,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -365,7 +377,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -383,7 +395,8 @@ class TeamsApi(ApiBaseClass):
         Get a team based on provided name string
 
         Permissions:
-            Must be authenticated, team type is open and have the `view_team` permission.
+            Must be authenticated, team type is open and have the `view_team`
+        permission.
         """
 
         url = "{}/teams/name/{name}".format(self.client.base_url, name=name)
@@ -400,7 +413,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -416,7 +429,8 @@ class TeamsApi(ApiBaseClass):
     ) -> SearchTeamsResponse_200:
         """Search teams
 
-        Search teams based on search term and options provided in the request body.
+        Search teams based on search term and options provided in the request
+        body.
 
         Logged in user with \"manage_system\" permission shows all teams
 
@@ -444,7 +458,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -479,7 +493,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -497,7 +511,8 @@ class TeamsApi(ApiBaseClass):
         Get a list of teams that a user is on.
 
         Permissions:
-            Must be authenticated as the user or have the `manage_system` permission.
+            Must be authenticated as the user or have the `manage_system`
+        permission.
         """
 
         url = "{}/users/{user_id}/teams".format(self.client.base_url, user_id=user_id)
@@ -514,7 +529,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -537,7 +552,8 @@ class TeamsApi(ApiBaseClass):
     ) -> List[TeamMember]:
         """Get team members
 
-        Get a page team members list based on query string parameters - team id, page and per page.
+        Get a page team members list based on query string parameters - team id,
+        page and per page.
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
@@ -563,7 +579,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -588,7 +604,9 @@ class TeamsApi(ApiBaseClass):
         Add user to the team by user_id.
 
         Permissions:
-            Must be authenticated and team be open to add self. For adding another user, authenticated user must have the `add_user_to_team` permission.
+            Must be authenticated and team be open to add self. For adding
+        another user, authenticated user must have the `add_user_to_team`
+        permission.
         """
 
         url = "{}/teams/{team_id}/members".format(self.client.base_url, team_id=team_id)
@@ -611,7 +629,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -627,7 +645,8 @@ class TeamsApi(ApiBaseClass):
     ) -> TeamMember:
         """Add user to team from invite
 
-        Using either an invite id or hash/data pair from an email invite link, add a user to a team.
+        Using either an invite id or hash/data pair from an email invite link,
+        add a user to a team.
 
         Permissions:
             Must be authenticated.
@@ -652,7 +671,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -673,7 +692,8 @@ class TeamsApi(ApiBaseClass):
         Add a number of users to the team by user_id.
 
         Permissions:
-            Must be authenticated. Authenticated user must have the `add_user_to_team` permission.
+            Must be authenticated. Authenticated user must have the
+        `add_user_to_team` permission.
         """
 
         url = "{}/teams/{team_id}/members/batch".format(
@@ -708,7 +728,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 201:
@@ -728,10 +748,12 @@ class TeamsApi(ApiBaseClass):
     ) -> List[TeamMember]:
         """Get team members for a user
 
-        Get a list of team members for a user. Useful for getting the ids of teams the user is on and the roles they have in those teams.
+        Get a list of team members for a user. Useful for getting the ids of
+        teams the user is on and the roles they have in those teams.
 
         Permissions:
-            Must be logged in as the user or have the `edit_other_users` permission.
+            Must be logged in as the user or have the `edit_other_users`
+        permission.
         """
 
         url = "{}/users/{user_id}/teams/members".format(
@@ -750,7 +772,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -793,7 +815,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -809,10 +831,12 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Remove user from team
 
-        Delete the team member object for a user, effectively removing them from a team.
+        Delete the team member object for a user, effectively removing them from
+        a team.
 
         Permissions:
-            Must be logged in as the user or have the `remove_user_from_team` permission.
+            Must be logged in as the user or have the `remove_user_from_team`
+        permission.
         """
 
         url = "{}/teams/{team_id}/members/{user_id}".format(
@@ -831,7 +855,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -872,7 +896,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -912,7 +936,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -949,7 +973,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -967,7 +991,8 @@ class TeamsApi(ApiBaseClass):
         Get the team icon of the team.
 
         Permissions:
-            User must be authenticated. In addition, team must be open or the user must have the `view_team` permission.
+            User must be authenticated. In addition, team must be open or the
+        user must have the `view_team` permission.
         Minimum Server Version:
             4.9
         """
@@ -986,7 +1011,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -1018,14 +1043,13 @@ class TeamsApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1062,7 +1086,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1080,7 +1104,9 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Update a team member roles
 
-        Update a team member roles. Valid team roles are \"team_user\", \"team_admin\" or both of them. Overwrites any previously assigned team roles.
+        Update a team member roles. Valid team roles are \"team_user\",
+        \"team_admin\" or both of them. Overwrites any previously assigned team
+        roles.
 
         Permissions:
             Must be authenticated and have the `manage_team_roles` permission.
@@ -1108,7 +1134,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1126,7 +1152,10 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Update the scheme-derived roles of a team member.
 
-        Update a team member's scheme_admin/scheme_user properties. Typically this should either be `scheme_admin=false, scheme_user=true` for ordinary team member, or `scheme_admin=true, scheme_user=true` for a team admin.
+        Update a team member's scheme_admin/scheme_user properties. Typically
+        this should either be `scheme_admin=false, scheme_user=true` for
+        ordinary team member, or `scheme_admin=true, scheme_user=true` for a
+        team admin.
 
         Permissions:
             Must be authenticated and have the `manage_team_roles` permission.
@@ -1156,7 +1185,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1173,7 +1202,8 @@ class TeamsApi(ApiBaseClass):
     ) -> List[TeamUnread]:
         """Get team unreads for a user
 
-        Get the count for unread messages and mentions in the teams the user is a member of.
+        Get the count for unread messages and mentions in the teams the user is
+        a member of.
 
         Permissions:
             Must be logged in.
@@ -1200,7 +1230,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1221,10 +1251,12 @@ class TeamsApi(ApiBaseClass):
     ) -> TeamUnread:
         """Get unreads for a team
 
-        Get the unread mention and message counts for a team for the specified user.
+        Get the unread mention and message counts for a team for the specified
+        user.
 
         Permissions:
-            Must be the user or have `edit_other_users` permission and have `view_team` permission for the team.
+            Must be the user or have `edit_other_users` permission and have
+        `view_team` permission for the team.
         """
 
         url = "{}/users/{user_id}/teams/{team_id}/unread".format(
@@ -1243,7 +1275,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1262,10 +1294,13 @@ class TeamsApi(ApiBaseClass):
 
         Invite users to the existing team using the user's email.
 
-        The number of emails that can be sent is rate limited to 20 per hour with a burst of 20 emails. If the rate limit exceeds, the error message contains details on when to retry and when the timer will be reset.
+        The number of emails that can be sent is rate limited to 20 per hour
+        with a burst of 20 emails. If the rate limit exceeds, the error message
+        contains details on when to retry and when the timer will be reset.
 
         Permissions:
-            Must have `invite_user` and `add_user_to_team` permissions for the team.
+            Must have `invite_user` and `add_user_to_team` permissions for the
+        team.
         """
 
         url = "{}/teams/{team_id}/invite/email".format(
@@ -1286,7 +1321,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1305,7 +1340,9 @@ class TeamsApi(ApiBaseClass):
 
         Invite guests to existing team channels usign the user's email.
 
-        The number of emails that can be sent is rate limited to 20 per hour with a burst of 20 emails. If the rate limit exceeds, the error message contains details on when to retry and when the timer will be reset.
+        The number of emails that can be sent is rate limited to 20 per hour
+        with a burst of 20 emails. If the rate limit exceeds, the error message
+        contains details on when to retry and when the timer will be reset.
 
         Permissions:
             Must have `invite_guest` permission for the team.
@@ -1335,7 +1372,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1349,7 +1386,8 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Invalidate active email invitations
 
-        Invalidate active email invitations that have not been accepted by the user.
+        Invalidate active email invitations that have not been accepted by the
+        user.
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
@@ -1369,7 +1407,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1386,7 +1424,8 @@ class TeamsApi(ApiBaseClass):
     ) -> ImportTeamResponse_200:
         """Import a Team from other application
 
-        Import a team into a existing team. Import users, channels, posts, hooks.
+        Import a team into a existing team. Import users, channels, posts,
+        hooks.
 
         Permissions:
             Must have `permission_import_team` permission.
@@ -1403,14 +1442,13 @@ class TeamsApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1425,7 +1463,8 @@ class TeamsApi(ApiBaseClass):
     ) -> GetTeamInviteInfoResponse_200:
         """Get invite info for a team
 
-        Get the `name`, `display_name`, `description` and `id` for a team from the invite id.
+        Get the `name`, `display_name`, `description` and `id` for a team from
+        the invite id.
 
         Permissions:
             No authentication required.
@@ -1449,7 +1488,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1466,7 +1505,8 @@ class TeamsApi(ApiBaseClass):
     ) -> StatusOK:
         """Set a team's scheme
 
-        Set a team's scheme, more specifically sets the scheme_id value of a team record.
+        Set a team's scheme, more specifically sets the scheme_id value of a
+        team record.
 
         Permissions:
             Must have `manage_system` permission.
@@ -1494,7 +1534,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -1513,9 +1553,13 @@ class TeamsApi(ApiBaseClass):
     ) -> None:
         """Team members minus group members.
 
-        Get the set of users who are members of the team minus the set of users who are members of the given groups.
-        Each user object contains an array of group objects representing the group memberships for that user.
-        Each user object contains the boolean fields `scheme_guest`, `scheme_user`, and `scheme_admin` representing the roles that user has for the given team.
+        Get the set of users who are members of the team minus the set of users
+        who are members of the given groups.
+        Each user object contains an array of group objects representing the
+        group memberships for that user.
+        Each user object contains the boolean fields `scheme_guest`,
+        `scheme_user`, and `scheme_admin` representing the roles that user has
+        for the given team.
 
         Permissions:
             Must have `manage_system` permission.
@@ -1546,7 +1590,7 @@ class TeamsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         return response
@@ -1559,7 +1603,9 @@ class TeamsApi(ApiBaseClass):
     ) -> FileInfoList:
         """Search files in a team
 
-        Search for files in a team based on file name, extention and file content (if file content extraction is enabled and supported for the files).
+        Search for files in a team based on file name, extention and file
+        content (if file content extraction is enabled and supported for the
+        files).
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
@@ -1580,14 +1626,13 @@ class TeamsApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
-            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

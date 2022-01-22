@@ -20,7 +20,10 @@ class IntegrationActionsApi(ApiBaseClass):
     ) -> StatusOK:
         """Open a dialog
 
-        Open an interactive dialog using a trigger ID provided by a slash command, or some other action payload. See https://docs.mattermost.com/developer/interactive-dialogs.html for more information on interactive dialogs.
+        Open an interactive dialog using a trigger ID provided by a slash
+        command, or some other action payload. See
+        https://docs.mattermost.com/developer/interactive-dialogs.html for more
+        information on interactive dialogs.
 
         Minimum Server Version:
             5.6
@@ -46,7 +49,7 @@ class IntegrationActionsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
@@ -62,7 +65,9 @@ class IntegrationActionsApi(ApiBaseClass):
     ) -> StatusOK:
         """Submit a dialog
 
-        Endpoint used by the Mattermost clients to submit a dialog. See https://docs.mattermost.com/developer/interactive-dialogs.html for more information on interactive dialogs.
+        Endpoint used by the Mattermost clients to submit a dialog. See
+        https://docs.mattermost.com/developer/interactive-dialogs.html for more
+        information on interactive dialogs.
 
         Minimum Server Version:
             5.6
@@ -88,7 +93,7 @@ class IntegrationActionsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

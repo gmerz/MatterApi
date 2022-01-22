@@ -5,7 +5,7 @@ from ..base import ApiBaseClass
 
 
 class RootApi(ApiBaseClass):
-    """None"""
+    """ """
 
     def acknowledge_notification(
         self,
@@ -34,7 +34,7 @@ class RootApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:

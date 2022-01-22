@@ -65,7 +65,7 @@ class BaseMapping(BaseConfig):
         return iter(self.__root__)
 
     def __unicode__(self):
-        return unicode(repr(self.__root__))
+        return str(repr(self.__root__))
 
 
 class BaseArray(BaseConfig):
@@ -128,7 +128,7 @@ class BaseArray(BaseConfig):
         return iter(self.__root__)
 
     def __unicode__(self):
-        return unicode(repr(self.__root__))
+        return str(repr(self.__root__))
 
 
 FileJsonType = Tuple[Optional[str], Union[BinaryIO, TextIO], Optional[str]]

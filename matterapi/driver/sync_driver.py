@@ -47,6 +47,7 @@ from ..endpoints.sync_api.webhooks import WebhooksApi
 from ..models import User
 from .base import AuthLogin, AuthToken, BaseDriver
 from .client import SyncAuthenticatedClient, SyncClient
+from .exceptions import ApiError
 
 
 class SyncDriver(BaseDriver):

@@ -7,6 +7,7 @@ from pydantic import AnyHttpUrl, BaseModel
 from .exceptions import (
     ContentTooLarge,
     FeatureDisabled,
+    InternalServerError,
     InvalidOrMissingParameters,
     MethodNotAllowed,
     NoAccessTokenProvided,
@@ -60,27 +61,26 @@ class BaseClient(BaseModel):
                 log.debug("Could not convert response to json")
                 message = response.text
             log.error(message)
-            # pylint: disable=no-else-raise
             if e.response.status_code == 400:
                 raise InvalidOrMissingParameters(message) from e
-            elif e.response.status_code == 401:
+            if e.response.status_code == 401:
                 raise NoAccessTokenProvided(message) from e
-            elif e.response.status_code == 403:
+            if e.response.status_code == 403:
                 raise NotEnoughPermissions(message) from e
-            elif e.response.status_code == 404:
+            if e.response.status_code == 404:
                 raise ResourceNotFound(message) from e
-            elif e.response.status_code == 405:
+            if e.response.status_code == 405:
                 raise MethodNotAllowed(message) from e
-            elif e.response.status_code == 413:
+            if e.response.status_code == 413:
                 raise ContentTooLarge(message) from e
-            elif e.response.status_code == 429:
+            if e.response.status_code == 429:
                 raise TooManyRequests(message) from e
-            elif e.response.status_code == 500:
+            if e.response.status_code == 500:
                 raise InternalServerError(message) from e
-            elif e.response.status_code == 501:
+            if e.response.status_code == 501:
                 raise FeatureDisabled(message) from e
-            else:
-                raise
+
+            raise
 
 
 class SyncClient(BaseClient):

@@ -4,7 +4,7 @@ from ..base import ApiBaseClass
 
 
 class PermissionsApi(ApiBaseClass):
-    """None"""
+    """ """
 
     async def get_ancillary_permissions(
         self,
@@ -13,7 +13,9 @@ class PermissionsApi(ApiBaseClass):
     ) -> List[str]:
         """Return all system console subsection ancillary permissions
 
-        Returns all the ancillary permissions for the corresponding system console subsection permissions appended to the requested permission subsections.
+        Returns all the ancillary permissions for the corresponding system
+        console subsection permissions appended to the requested permission
+        subsections.
 
         Minimum Server Version:
             5.35
@@ -38,7 +40,7 @@ class PermissionsApi(ApiBaseClass):
             **request_kwargs,
         )
 
-        if self.skip_response_parsing == True:
+        if self.skip_response_parsing:
             return response
 
         if response.status_code == 200:
