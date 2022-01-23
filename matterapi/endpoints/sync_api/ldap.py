@@ -291,6 +291,7 @@ class LdapApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
+            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
@@ -368,6 +369,7 @@ class LdapApi(ApiBaseClass):
             "headers": headers,
             "cookies": cookies,
             "data": multipart_body_data.get_data(),
+            "files": multipart_body_data.get_files(),
         }
 
         response = self.client.post(
