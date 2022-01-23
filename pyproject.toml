@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "matterapi"
-version = "0.1.0"
+version = "0.1.1"
 description = "A client library for accessing Mattermost API supporting sync/async"
 license = "MIT"
 authors = [ "Georg Merzdovnik" ]
