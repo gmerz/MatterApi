@@ -5,51 +5,43 @@ These are the first steps on how to get started with this library
 
 .. seealso :: To get more information on available endpoints take a look at :doc:`/endpoints` or at the `Mattermost API Reference <https://api.mattermost.com/>`_.
 
-For additional options also take a look at :class:`matterapi.driver.base.DriverOptions`.
+For additional options also take a look at :class:`matterapi.client.base.ClientOptions`.
 
-SyncDriver
+SyncClient
 ^^^^^^^^^^
 
-First, let's look at an example on how to use the :doc:`driver/sync_driver`:
+First, let's look at an example on how to use the :doc:`client/sync_client`:
 
 .. code-block:: python
 
-    from matterapi import SyncDriver
+    from matterapi import SyncClient
     
-    # set the options for the driver
+    # set the options for the client
     options = { 'url' : 'http://localhost:8095',
         'auth' : { 
           'token' : '<yourtokenhere>' 
           }
     }
     
-    # Create a sync driver
-    sd = SyncDriver(options=options)
+    # Create a sync client
+    sd = SyncClient(options=options)
     
-    # Call login to:
-    # 1. Get a session token if you use user:password based auth
-    # 2. Populate the driver with the corresponding user object
-    sd.login()
-    
-    # The drivers `user` object will hold information on the current user/bot
-    print(sd.user.id)
-    
-    # Use the driver
+    # Use the client
     sd.users.get_user("me")
  
 
-AsyncDriver
+AsyncClient
 ^^^^^^^^^^^
 
-And this is how you can use the :doc:`driver/async_driver`:
+And this is how you can use the :doc:`client/async_client`:
 
 
 .. code-block:: python
 
     import asyncio
-    from matterapi import AsyncDriver
+    from matterapi import AsyncClient
     
-    # set the options for the driver
+    # set the options for the client
     options = { 'url' : 'https://localhost:8095',
         # User username and password authentication
         'auth' : { 
@@ -62,16 +54,12 @@ And this is how you can use the :doc:`driver/async_driver`:
         }
     }
     
-    # Create a async driver
-    ad = AsyncDriver(options=options)
+    # Create a async client
+    ad = AsyncClient(options=options)
     
     async def do_something():
-      # Call login to:
-      # 1. Get a session token if you user user:password based auth
-      # 2. Populate the driver with the corresponding user object
-      await ad.login()
-    
-      # Use the driver
+      
+      # Use the client
       users = await ad.users.get_users()
       print(users)
     

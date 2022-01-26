@@ -1,7 +1,7 @@
-Synchronous Driver
+Synchronous Client
 ------------------
 
-.. autoclass:: matterapi.driver.sync_driver.SyncDriver
+.. autoclass:: matterapi.client.sync_client.SyncClient
    :members:
    :undoc-members:
    :show-inheritance:

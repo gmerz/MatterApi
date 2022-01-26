@@ -1,7 +1,7 @@
-Driver Base Objects
+Client Base Objects
 -------------------
 
-.. automodule:: matterapi.driver.base
+.. automodule:: matterapi.client.base
    :members:
    :undoc-members:
    :show-inheritance:
