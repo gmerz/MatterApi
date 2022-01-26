@@ -1,6 +1,9 @@
+[![Readthedocs](https://readthedocs.org/projects/matterapi/badge/?version=latest)](https://matterapi.readthedocs.io/en/latest/)
+[![PyPI version](https://img.shields.io/pypi/v/matterapi)](https://pypi.org/project/matterapi/)
+
 # MatterApi
 
-A python client library for accessing the Mattermost API with sync/async support.
+A python client library for the Mattermost API with sync/async support.
 
 
 ## Features
@@ -13,37 +16,38 @@ A python client library for accessing the Mattermost API with sync/async support
 
 ## Getting Started
 
-The driver has synch and async support. Depending on your workflow you will want to choose between
-the `SyncDriver` and `AsyncDriver`.
+The client has synch and async support. Depending on your workflow you will want to choose between
+the `SyncClient` and `AsyncClient`.
 
 
-### SyncDriver
+### SyncClient
 
-First, let's look at an example on how to use the SyncDriver:
+First, let's look at an example on how to use the SyncClient:
 
 ```python
+from matterapi import SyncClient
+from matterapi.client.exceptions import ApiError, InvalidOrMissingParameters
+from matterapi.models import (
+    CreateChannelJsonBody,
+    CreatePostJsonBody,
+    CreateTeamJsonBody,
+    CreateUserJsonBody,
+)
 
-from matterapi import SyncDriver
-
-# set the options for the driver
+# set the options for the client
 options = { 'url' : 'http://localhost:8095',
     'auth' : { 
       'token' : '<yourtokenhere>' 
       }
 }
 
-# Create a sync driver
-sd = SyncDriver(options=options)
+# Create a sync client
+sd = SyncClient(options=options)
 
-# Call login to:
-# 1. Get a session token if you use user:password based auth
-# 2. Populate the driver with the corresponding user object
-sd.login()
-
-# The drivers `user` object will hold information on the current user/bot
-print(sd.user.id)
-
-# Use the driver
+# Use the client
+""" You can use the client directly. This will create a new httpx.Client for each
+request (an potentially run the login flow again, if you use username/password authentication).
+"""
 
 ## Get your own user object
 sd.users.get_user("me")
@@ -57,19 +61,79 @@ post_list = sd.posts.get_posts_for_channel("<channel_id>")
 for post in post_list.posts:
   print(post, post_list.posts[post].id)
 
+
+""" Or you can open a session, which will reuse a single httpx client instance
+for the requests, thereby reusing connections ( the login flow is then only run once).
+The returned object can be used exactly the same as the SyncClient.
+Most often you will want to use this as it requires fewer connections to the server
+"""
+
+with sd.session() as api_session:
+    # Get the current user
+    user = api_session.users.get_user("me")
+    print("User id:", user.id)
+
+    # Get a list of plugins
+    plugins_avail = api_session.plugins.get_plugins()
+    print("Number of active plugins:", len(plugins_avail.active))
+    print("Name of first active plugin:", plugins_avail.active[0].name)
+
+    # Create a new Team or get existing
+    new_team = CreateTeamJsonBody(name="rebels", display_name="Rebels", type="I")
+    try:
+        team = api_session.teams.create_team(json_body=new_team)
+        print("New Team created with id:", team.id)
+    except InvalidOrMissingParameters as e:
+        print("> Exception:", e)
+        team = api_session.teams.get_team_by_name(name=new_team.name)
+        print("Got existing Team with id:", team.id)
+
+    # Create a channel or get existing
+    new_channel = CreateChannelJsonBody(
+        team_id=team.id, name="newchannelname", display_name="New Channel", type="O"
+    )
+    try:
+        channel = api_session.channels.create_channel(json_body=new_channel)
+        print(f"New Channel with id:", channel.id)
+    except InvalidOrMissingParameters as e:
+        print("> Exception:", e)
+        channel = api_session.channels.get_channel_by_name(
+            team_id=team.id, channel_name=new_channel.name
+        )
+        print(f"Got existing Channel with id:", channel.id)
+
+    # Upload files to be used in a channel
+    file_info = api_session.files.upload_file(
+        channel_id=channel.id,
+        multipart_data={
+            "files": {
+                "upload1.png": open("testfile1.png", "rb"),
+                "upload2.png": open("testfile2.png", "rb"),
+            },
+        },
+    )
+    print("File id for second file:", file_info.file_infos[1].id)
+    
+    # Create a post including the uploaded files
+    new_post = CreatePostJsonBody(
+        channel_id=channel.id,
+        message="A wild message appears",
+        file_ids=[info.id for info in file_info.file_infos],
+    )
+    post = api_session.posts.create_post(json_body=new_post)
+    print("Creation time for new post:", post.create_at)
 ```
 
-### AsyncDriver
+### AsyncClient
 
-And this is how you can use the AsyncDriver
-
+And this is how you can use the AsyncClient
 
 ```python
 
 import asyncio
-from matterapi import AsyncDriver
+from matterapi import AsyncClient
 
-# set the options for the driver
+# set the options for the client
 options = { 'url' : 'https://localhost:8095',
     # User username and password authentication
     'auth' : { 
@@ -77,21 +141,17 @@ options = { 'url' : 'https://localhost:8095',
       'password' : 'lea1234' 
       },
     # Disable TLS verification for the client
-    'client_options' : {
+    # httpx_client_options are passed to the underlying httpx.Client
+    'httpx_client_options' : {
       'verify' : False
     }
 }
 
-# Create a async driver
-ad = AsyncDriver(options=options)
+# Create a async client
+ad = AsyncClient(options=options)
 
 async def do_something():
-  # Call login to:
-  # 1. Get a session token if you user user:password based auth
-  # 2. Populate the driver with the corresponding user object
-  await ad.login()
-
-  # Use the driver
+  # Use the client
   users = await ad.users.get_users()
   print(users)
 
@@ -111,6 +171,8 @@ async def do_something():
 
 asyncio.run(do_something())
 ```
+
+The AsyncClient supports sessions as well, same as the SyncClient.
 
 ## Websocket connection
 
@@ -160,5 +222,5 @@ Credits
 Credits where credits are due:
 
 + This library is autogenerated from the Mattermost API documentation using a fork of [openapi-python-client](https://github.com/triaxtec/openapi-python-client). 
-+ It's heavily inspired by (but not a 1:1 drop-in replacement for) [mattermostdriver](https://github.com/Vaelor/python-mattermost-driver), which I used for several years already. This is still your go-to if you look for something stable that has been in use for years by lot's of people.
++ It's heavily inspired by (but not a 1:1 drop-in replacement for) [mattermostclient](https://github.com/Vaelor/python-mattermost-driver), which I used for several years already. This is still your go-to if you look for something stable that has been in use for years by lot's of people.
 

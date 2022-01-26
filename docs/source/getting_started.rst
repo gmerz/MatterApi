@@ -49,7 +49,7 @@ And this is how you can use the :doc:`client/async_client`:
           'password' : 'lea1234' 
           },
         # Disable TLS verification for the client
-        'client_options' : {
+        'httpx_client_options' : {
           'verify' : False
         }
     }
