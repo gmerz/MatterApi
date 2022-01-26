@@ -43,19 +43,16 @@ class SystemApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/system/timezones".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/system/timezones".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -86,9 +83,7 @@ class SystemApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/system/ping".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/system/ping".format()
         params: Dict[str, Any] = {
             "get_server_status": get_server_status,
         }
@@ -96,14 +91,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -133,9 +127,9 @@ class SystemApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/system/notices/{teamId}".format(self.client.base_url, teamId=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/system/notices/{teamId}".format(
+            teamId=team_id,
+        )
         params: Dict[str, Any] = {
             "clientVersion": client_version,
             "locale": locale,
@@ -145,14 +139,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -183,21 +176,18 @@ class SystemApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/system/notices/view".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/system/notices/view".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -220,19 +210,16 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/database/recycle".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/database/recycle".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -259,9 +246,7 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/email/test".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/email/test".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -270,14 +255,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -304,9 +288,7 @@ class SystemApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/site_url/test".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/site_url/test".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -315,14 +297,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -351,9 +332,7 @@ class SystemApi(ApiBaseClass):
             4.8
         """
 
-        url = "{}/file/s3_test".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/file/s3_test".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -362,14 +341,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -391,19 +369,16 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/config".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -429,9 +404,7 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/config".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -440,14 +413,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -469,19 +441,16 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/config/reload".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config/reload".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -505,9 +474,7 @@ class SystemApi(ApiBaseClass):
             No permission required.
         """
 
-        url = "{}/config/client".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config/client".format()
         params: Dict[str, Any] = {
             "format": format,
         }
@@ -515,14 +482,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -547,19 +513,16 @@ class SystemApi(ApiBaseClass):
             4.10
         """
 
-        url = "{}/config/environment".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config/environment".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -587,9 +550,7 @@ class SystemApi(ApiBaseClass):
             5.20
         """
 
-        url = "{}/config/patch".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config/patch".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -598,14 +559,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -634,9 +594,7 @@ class SystemApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/config/migrate".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/config/migrate".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -645,14 +603,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -678,23 +635,20 @@ class SystemApi(ApiBaseClass):
             4.0
         """
 
-        url = "{}/license".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/license".format()
 
         multipart_body_data = UploadLicenseFileMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -719,19 +673,16 @@ class SystemApi(ApiBaseClass):
             4.0
         """
 
-        url = "{}/license".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/license".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -752,9 +703,7 @@ class SystemApi(ApiBaseClass):
         returns more information.
         """
 
-        url = "{}/license/client".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/license/client".format()
         params: Dict[str, Any] = {
             "format": format,
         }
@@ -762,14 +711,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -790,19 +738,16 @@ class SystemApi(ApiBaseClass):
             5.32
         """
 
-        url = "{}/license/renewal".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/license/renewal".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -828,9 +773,7 @@ class SystemApi(ApiBaseClass):
             5.25
         """
 
-        url = "{}/trial-license".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/trial-license".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -839,14 +782,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -866,19 +808,16 @@ class SystemApi(ApiBaseClass):
             5.36
         """
 
-        url = "{}/trial-license/prev".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/trial-license/prev".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -900,9 +839,7 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/audits".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/audits".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -911,14 +848,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -947,19 +883,16 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/caches/invalidate".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/caches/invalidate".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -985,9 +918,7 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/logs".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/logs".format()
         params: Dict[str, Any] = {
             "page": page,
             "logs_per_page": logs_per_page,
@@ -996,14 +927,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1033,9 +963,7 @@ class SystemApi(ApiBaseClass):
         messages.
         """
 
-        url = "{}/logs".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/logs".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1044,14 +972,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1083,9 +1010,7 @@ class SystemApi(ApiBaseClass):
             4.0
         """
 
-        url = "{}/analytics/old".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/analytics/old".format()
         params: Dict[str, Any] = {
             "name": name,
             "team_id": team_id,
@@ -1094,14 +1019,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1122,19 +1046,16 @@ class SystemApi(ApiBaseClass):
             5.20
         """
 
-        url = "{}/server_busy".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/server_busy".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1161,9 +1082,7 @@ class SystemApi(ApiBaseClass):
             5.20
         """
 
-        url = "{}/server_busy".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/server_busy".format()
         params: Dict[str, Any] = {
             "seconds": seconds,
         }
@@ -1171,14 +1090,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1203,19 +1121,16 @@ class SystemApi(ApiBaseClass):
             5.20
         """
 
-        url = "{}/server_busy".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/server_busy".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1241,9 +1156,7 @@ class SystemApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/redirect_location".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/redirect_location".format()
         params: Dict[str, Any] = {
             "url": url,
         }
@@ -1251,14 +1164,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1278,19 +1190,16 @@ class SystemApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/image".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/image".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1312,19 +1221,16 @@ class SystemApi(ApiBaseClass):
             5.27
         """
 
-        url = "{}/upgrade_to_enterprise".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/upgrade_to_enterprise".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1350,19 +1256,16 @@ class SystemApi(ApiBaseClass):
             5.27
         """
 
-        url = "{}/upgrade_to_enterprise/status".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/upgrade_to_enterprise/status".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1390,19 +1293,16 @@ class SystemApi(ApiBaseClass):
             5.27
         """
 
-        url = "{}/restart".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/restart".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1435,19 +1335,16 @@ class SystemApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/warn_metrics/status".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/warn_metrics/status".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1478,11 +1375,9 @@ class SystemApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/warn_metrics/ack/{warn_metric_id}".format(
-            self.client.base_url, warn_metric_id=warn_metric_id
+        url = "/warn_metrics/ack/{warn_metric_id}".format(
+            warn_metric_id=warn_metric_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1491,14 +1386,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1526,21 +1420,18 @@ class SystemApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/warn_metrics/trial-license-ack/{warn_metric_id}".format(
-            self.client.base_url, warn_metric_id=warn_metric_id
+        url = "/warn_metrics/trial-license-ack/{warn_metric_id}".format(
+            warn_metric_id=warn_metric_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1569,19 +1460,16 @@ class SystemApi(ApiBaseClass):
             This check may temporarily harm system performance.
         """
 
-        url = "{}/integrity".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/integrity".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1616,19 +1504,16 @@ class SystemApi(ApiBaseClass):
             5.32
         """
 
-        url = "{}/system/support_packet".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/system/support_packet".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1652,9 +1537,7 @@ class SystemApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/plugins/marketplace/first_admin_visit".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/marketplace/first_admin_visit".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1663,14 +1546,13 @@ class SystemApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

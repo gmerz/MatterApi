@@ -73,9 +73,7 @@ class UsersApi(ApiBaseClass):
             No permission required
         """
 
-        url = "{}/users/login".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/login".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -84,14 +82,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -116,9 +113,7 @@ class UsersApi(ApiBaseClass):
             A Cloud license is required
         """
 
-        url = "{}/users/login/cws".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/login/cws".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -127,14 +122,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -152,19 +146,16 @@ class UsersApi(ApiBaseClass):
             An active session is required
         """
 
-        url = "{}/users/logout".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/logout".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -209,9 +200,7 @@ class UsersApi(ApiBaseClass):
         channel or team being selected from.
         """
 
-        url = "{}/users".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -234,14 +223,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -275,9 +263,7 @@ class UsersApi(ApiBaseClass):
         configuration.
         """
 
-        url = "{}/users".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users".format()
         params: Dict[str, Any] = {
             "t": t,
             "iid": iid,
@@ -291,15 +277,14 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -326,19 +311,16 @@ class UsersApi(ApiBaseClass):
         tool.html#local-mode).
         """
 
-        url = "{}/users".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -359,9 +341,7 @@ class UsersApi(ApiBaseClass):
             Requires an active session but no other permissions.
         """
 
-        url = "{}/users/ids".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/ids".format()
         params: Dict[str, Any] = {
             "since": since,
         }
@@ -371,15 +351,14 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -415,21 +394,18 @@ class UsersApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/users/group_channels".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/group_channels".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -455,21 +431,18 @@ class UsersApi(ApiBaseClass):
             Requires an active session but no other permissions.
         """
 
-        url = "{}/users/usernames".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/usernames".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -501,9 +474,7 @@ class UsersApi(ApiBaseClass):
         permissions for any channels or teams specified in the request body.
         """
 
-        url = "{}/users/search".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/search".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -512,14 +483,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -554,9 +524,7 @@ class UsersApi(ApiBaseClass):
         teams or channels used to filter the results further.
         """
 
-        url = "{}/users/autocomplete".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/autocomplete".format()
         params: Dict[str, Any] = {
             "team_id": team_id,
             "channel_id": channel_id,
@@ -567,14 +535,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -600,19 +567,16 @@ class UsersApi(ApiBaseClass):
             5.23
         """
 
-        url = "{}/users/known".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/known".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -634,19 +598,16 @@ class UsersApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/users/stats".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/stats".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -678,9 +639,7 @@ class UsersApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/stats/filtered".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/stats/filtered".format()
         params: Dict[str, Any] = {
             "in_team": in_team,
             "in_channel": in_channel,
@@ -694,14 +653,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -724,19 +682,18 @@ class UsersApi(ApiBaseClass):
             Requires an active session but no other permissions.
         """
 
-        url = "{}/users/{user_id}".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -765,9 +722,9 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -776,14 +733,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -813,19 +769,18 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -853,9 +808,9 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/patch".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/patch".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -864,14 +819,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -898,9 +852,9 @@ class UsersApi(ApiBaseClass):
             Must have the `manage_roles` permission.
         """
 
-        url = "{}/users/{user_id}/roles".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/roles".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -909,14 +863,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -950,9 +903,9 @@ class UsersApi(ApiBaseClass):
             User can deactivate themselves.
         """
 
-        url = "{}/users/{user_id}/active".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/active".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -961,14 +914,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -991,19 +943,18 @@ class UsersApi(ApiBaseClass):
             Must be logged in.
         """
 
-        url = "{}/users/{user_id}/image".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/image".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1025,23 +976,22 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/image".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/image".format(
+            user_id=user_id,
+        )
 
         multipart_body_data = SetProfileImageMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1068,19 +1018,18 @@ class UsersApi(ApiBaseClass):
             5.5
         """
 
-        url = "{}/users/{user_id}/image".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/image".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1106,21 +1055,18 @@ class UsersApi(ApiBaseClass):
             5.5
         """
 
-        url = "{}/users/{user_id}/image/default".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/image/default".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1140,21 +1086,18 @@ class UsersApi(ApiBaseClass):
             Requires an active session but no other permissions.
         """
 
-        url = "{}/users/username/{username}".format(
-            self.client.base_url, username=username
+        url = "/users/username/{username}".format(
+            username=username,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1179,9 +1122,7 @@ class UsersApi(ApiBaseClass):
             No permissions required.
         """
 
-        url = "{}/users/password/reset".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/password/reset".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1190,14 +1131,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1225,9 +1165,9 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/mfa".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/mfa".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1236,14 +1176,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1268,21 +1207,18 @@ class UsersApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/users/{user_id}/mfa/generate".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/mfa/generate".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1310,19 +1246,18 @@ class UsersApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/users/{user_id}/demote".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/demote".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1350,19 +1285,18 @@ class UsersApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/users/{user_id}/promote".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/promote".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1387,21 +1321,18 @@ class UsersApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/convert_to_bot".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/convert_to_bot".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1427,9 +1358,7 @@ class UsersApi(ApiBaseClass):
             No permission required.
         """
 
-        url = "{}/users/mfa".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/mfa".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1438,14 +1367,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1473,11 +1401,9 @@ class UsersApi(ApiBaseClass):
         have `manage_system` permission.
         """
 
-        url = "{}/users/{user_id}/password".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/password".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1486,14 +1412,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1519,9 +1444,7 @@ class UsersApi(ApiBaseClass):
             No permissions required.
         """
 
-        url = "{}/users/password/reset/send".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/password/reset/send".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1530,14 +1453,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1562,19 +1484,18 @@ class UsersApi(ApiBaseClass):
         view another user's email based on the server's privacy settings.
         """
 
-        url = "{}/users/email/{email}".format(self.client.base_url, email=email)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/email/{email}".format(
+            email=email,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1599,21 +1520,18 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/sessions".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/sessions".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1644,11 +1562,9 @@ class UsersApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/sessions/revoke".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/sessions/revoke".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1657,14 +1573,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1691,21 +1606,18 @@ class UsersApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/users/{user_id}/sessions/revoke/all".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/sessions/revoke/all".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1730,9 +1642,7 @@ class UsersApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/users/sessions/device".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/sessions/device".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1741,14 +1651,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1772,19 +1681,18 @@ class UsersApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/users/{user_id}/audits".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/audits".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1814,21 +1722,18 @@ class UsersApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/users/{user_id}/email/verify/member".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/email/verify/member".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1852,9 +1757,7 @@ class UsersApi(ApiBaseClass):
             No permissions required.
         """
 
-        url = "{}/users/email/verify".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/email/verify".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1863,14 +1766,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1896,9 +1798,7 @@ class UsersApi(ApiBaseClass):
             No permissions required.
         """
 
-        url = "{}/users/email/verify/send".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/email/verify/send".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1907,14 +1807,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1959,9 +1858,7 @@ class UsersApi(ApiBaseClass):
         OAuth2/SAML to email.
         """
 
-        url = "{}/users/login/switch".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/login/switch".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1970,14 +1867,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2007,9 +1903,9 @@ class UsersApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/users/{user_id}/tokens".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/tokens".format(
+            user_id=user_id,
+        )
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -2018,14 +1914,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2061,9 +1956,9 @@ class UsersApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/users/{user_id}/tokens".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/tokens".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2072,14 +1967,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2108,9 +2002,7 @@ class UsersApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/users/tokens".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/tokens".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -2119,14 +2011,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2160,9 +2051,7 @@ class UsersApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/users/tokens/revoke".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/tokens/revoke".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2171,14 +2060,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2205,21 +2093,18 @@ class UsersApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/users/tokens/{token_id}".format(
-            self.client.base_url, token_id=token_id
+        url = "/users/tokens/{token_id}".format(
+            token_id=token_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2247,9 +2132,7 @@ class UsersApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/users/tokens/disable".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/tokens/disable".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2258,14 +2141,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2292,9 +2174,7 @@ class UsersApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/users/tokens/enable".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/tokens/enable".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2303,14 +2183,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2337,9 +2216,7 @@ class UsersApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/users/tokens/search".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/tokens/search".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2348,14 +2225,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2390,9 +2266,9 @@ class UsersApi(ApiBaseClass):
             4.6
         """
 
-        url = "{}/users/{user_id}/auth".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/auth".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2401,14 +2277,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2436,21 +2311,18 @@ class UsersApi(ApiBaseClass):
             5.6
         """
 
-        url = "{}/users/{user_id}/terms_of_service".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/terms_of_service".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2483,11 +2355,9 @@ class UsersApi(ApiBaseClass):
             5.4
         """
 
-        url = "{}/users/{user_id}/terms_of_service".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/terms_of_service".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2496,14 +2366,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2529,19 +2398,16 @@ class UsersApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/users/sessions/revoke/all".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/sessions/revoke/all".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2566,9 +2432,9 @@ class UsersApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/typing".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/typing".format(
+            user_id=user_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2577,14 +2443,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2605,19 +2470,18 @@ class UsersApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/users/{user_id}/uploads".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/uploads".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2650,11 +2514,9 @@ class UsersApi(ApiBaseClass):
             6.2.0
         """
 
-        url = "{}/users/{user_id}/channel_members".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/channel_members".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "pageSize": page_size,
@@ -2663,14 +2525,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2705,9 +2566,7 @@ class UsersApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/users/migrate_auth/ldap".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/migrate_auth/ldap".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2716,14 +2575,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2747,9 +2605,7 @@ class UsersApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/users/migrate_auth/saml".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/migrate_auth/saml".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2758,14 +2614,13 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2789,11 +2644,9 @@ class UsersApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/bots/{bot_user_id}/convert_to_user".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/convert_to_user".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "set_system_admin": set_system_admin,
         }
@@ -2806,15 +2659,14 @@ class UsersApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -34,9 +34,7 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/schemes".format()
         params: Dict[str, Any] = {
             "scope": scope,
             "page": page,
@@ -46,14 +44,13 @@ class SchemesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -84,9 +81,7 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/schemes".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -95,14 +90,13 @@ class SchemesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -127,19 +121,18 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes/{scheme_id}".format(self.client.base_url, scheme_id=scheme_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/schemes/{scheme_id}".format(
+            scheme_id=scheme_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -164,19 +157,18 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes/{scheme_id}".format(self.client.base_url, scheme_id=scheme_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/schemes/{scheme_id}".format(
+            scheme_id=scheme_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -206,11 +198,9 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes/{scheme_id}/patch".format(
-            self.client.base_url, scheme_id=scheme_id
+        url = "/schemes/{scheme_id}/patch".format(
+            scheme_id=scheme_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -219,14 +209,13 @@ class SchemesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -256,11 +245,9 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes/{scheme_id}/teams".format(
-            self.client.base_url, scheme_id=scheme_id
+        url = "/schemes/{scheme_id}/teams".format(
+            scheme_id=scheme_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -269,14 +256,13 @@ class SchemesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -311,11 +297,9 @@ class SchemesApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/schemes/{scheme_id}/channels".format(
-            self.client.base_url, scheme_id=scheme_id
+        url = "/schemes/{scheme_id}/channels".format(
+            scheme_id=scheme_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -324,14 +308,13 @@ class SchemesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -52,9 +52,7 @@ class TeamsApi(ApiBaseClass):
         show all teams.
         """
 
-        url = "{}/teams".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -65,14 +63,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -101,9 +98,7 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `create_team` permission.
         """
 
-        url = "{}/teams".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -112,14 +107,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -142,19 +136,18 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         """
 
-        url = "{}/teams/{team_id}".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}".format(
+            team_id=team_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -181,9 +174,9 @@ class TeamsApi(ApiBaseClass):
             Must have the `manage_team` permission.
         """
 
-        url = "{}/teams/{team_id}".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}".format(
+            team_id=team_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -192,14 +185,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -230,9 +222,9 @@ class TeamsApi(ApiBaseClass):
             Must have the `manage_team` permission.
         """
 
-        url = "{}/teams/{team_id}".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}".format(
+            team_id=team_id,
+        )
         params: Dict[str, Any] = {
             "permanent": permanent,
         }
@@ -240,14 +232,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -274,9 +265,9 @@ class TeamsApi(ApiBaseClass):
             Must have the `manage_team` permission.
         """
 
-        url = "{}/teams/{team_id}/patch".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/patch".format(
+            team_id=team_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -285,14 +276,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -320,9 +310,9 @@ class TeamsApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/teams/{team_id}/privacy".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/privacy".format(
+            team_id=team_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -331,14 +321,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -363,19 +352,18 @@ class TeamsApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/teams/{team_id}/restore".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/restore".format(
+            team_id=team_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -399,19 +387,18 @@ class TeamsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/teams/name/{name}".format(self.client.base_url, name=name)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/name/{name}".format(
+            name=name,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -438,9 +425,7 @@ class TeamsApi(ApiBaseClass):
             Logged in user only shows open teams
         """
 
-        url = "{}/teams/search".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/search".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -449,14 +434,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -479,19 +463,18 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/teams/name/{name}/exists".format(self.client.base_url, name=name)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/name/{name}/exists".format(
+            name=name,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -515,19 +498,18 @@ class TeamsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/users/{user_id}/teams".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/teams".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -559,9 +541,9 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         """
 
-        url = "{}/teams/{team_id}/members".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/members".format(
+            team_id=team_id,
+        )
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -570,14 +552,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -609,9 +590,9 @@ class TeamsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/teams/{team_id}/members".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/members".format(
+            team_id=team_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -620,14 +601,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -652,9 +632,7 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/teams/members/invite".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/members/invite".format()
         params: Dict[str, Any] = {
             "token": token,
         }
@@ -662,14 +640,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -696,11 +673,9 @@ class TeamsApi(ApiBaseClass):
         `add_user_to_team` permission.
         """
 
-        url = "{}/teams/{team_id}/members/batch".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/members/batch".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "graceful": graceful,
         }
@@ -718,15 +693,14 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -756,21 +730,18 @@ class TeamsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/users/{user_id}/teams/members".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/teams/members".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -799,21 +770,19 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         """
 
-        url = "{}/teams/{team_id}/members/{user_id}".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/teams/{team_id}/members/{user_id}".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -839,21 +808,19 @@ class TeamsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/teams/{team_id}/members/{user_id}".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/teams/{team_id}/members/{user_id}".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -878,23 +845,20 @@ class TeamsApi(ApiBaseClass):
             Must have `view_team` permission for the team.
         """
 
-        url = "{}/teams/{team_id}/members/ids".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/members/ids".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -922,19 +886,18 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         """
 
-        url = "{}/teams/{team_id}/stats".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/stats".format(
+            team_id=team_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -957,21 +920,18 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `manage_team` permission.
         """
 
-        url = "{}/teams/{team_id}/regenerate_invite_id".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/regenerate_invite_id".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -997,19 +957,18 @@ class TeamsApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/teams/{team_id}/image".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/image".format(
+            team_id=team_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1032,23 +991,22 @@ class TeamsApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/teams/{team_id}/image".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/image".format(
+            team_id=team_id,
+        )
 
         multipart_body_data = SetTeamIconMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1073,19 +1031,18 @@ class TeamsApi(ApiBaseClass):
             4.10
         """
 
-        url = "{}/teams/{team_id}/image".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/image".format(
+            team_id=team_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1113,11 +1070,10 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `manage_team_roles` permission.
         """
 
-        url = "{}/teams/{team_id}/members/{user_id}/roles".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/teams/{team_id}/members/{user_id}/roles".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1126,14 +1082,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1164,11 +1119,10 @@ class TeamsApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/teams/{team_id}/members/{user_id}/schemeRoles".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/teams/{team_id}/members/{user_id}/schemeRoles".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1177,14 +1131,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1210,11 +1163,9 @@ class TeamsApi(ApiBaseClass):
             Must be logged in.
         """
 
-        url = "{}/users/{user_id}/teams/unread".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/teams/unread".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "exclude_team": exclude_team,
         }
@@ -1222,14 +1173,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1260,21 +1210,19 @@ class TeamsApi(ApiBaseClass):
         `view_team` permission for the team.
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/unread".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/unread".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1304,23 +1252,20 @@ class TeamsApi(ApiBaseClass):
         team.
         """
 
-        url = "{}/teams/{team_id}/invite/email".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/invite/email".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1351,11 +1296,9 @@ class TeamsApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/teams/{team_id}/invite-guests/email".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/invite-guests/email".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1364,14 +1307,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1394,19 +1336,16 @@ class TeamsApi(ApiBaseClass):
             Must have `sysconsole_write_authentication` permission.
         """
 
-        url = "{}/teams/invites/email".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/invites/email".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1432,23 +1371,22 @@ class TeamsApi(ApiBaseClass):
             Must have `permission_import_team` permission.
         """
 
-        url = "{}/teams/{team_id}/import".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/import".format(
+            team_id=team_id,
+        )
 
         multipart_body_data = ImportTeamMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1474,21 +1412,18 @@ class TeamsApi(ApiBaseClass):
             4.0
         """
 
-        url = "{}/teams/invite/{invite_id}".format(
-            self.client.base_url, invite_id=invite_id
+        url = "/teams/invite/{invite_id}".format(
+            invite_id=invite_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1516,9 +1451,9 @@ class TeamsApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/teams/{team_id}/scheme".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/scheme".format(
+            team_id=team_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1527,14 +1462,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1569,11 +1503,9 @@ class TeamsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/teams/{team_id}/members_minus_group_members".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/members_minus_group_members".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "group_ids": group_ids,
             "page": page,
@@ -1583,14 +1515,13 @@ class TeamsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1615,24 +1546,21 @@ class TeamsApi(ApiBaseClass):
             5.34
         """
 
-        url = "{}/teams/{team_id}/files/search".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/files/search".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         multipart_body_data = SearchFilesMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

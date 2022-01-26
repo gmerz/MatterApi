@@ -33,19 +33,16 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -73,23 +70,20 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins".format()
 
         multipart_body_data = UploadPluginMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -117,9 +111,7 @@ class PluginsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/plugins/install_from_url".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/install_from_url".format()
         params: Dict[str, Any] = {
             "plugin_download_url": plugin_download_url,
             "force": force,
@@ -128,14 +120,13 @@ class PluginsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -161,19 +152,18 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins/{plugin_id}".format(self.client.base_url, plugin_id=plugin_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/{plugin_id}".format(
+            plugin_id=plugin_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -199,21 +189,18 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins/{plugin_id}/enable".format(
-            self.client.base_url, plugin_id=plugin_id
+        url = "/plugins/{plugin_id}/enable".format(
+            plugin_id=plugin_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -239,21 +226,18 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins/{plugin_id}/disable".format(
-            self.client.base_url, plugin_id=plugin_id
+        url = "/plugins/{plugin_id}/disable".format(
+            plugin_id=plugin_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -277,19 +261,16 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins/webapp".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/webapp".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -320,19 +301,16 @@ class PluginsApi(ApiBaseClass):
             4.4
         """
 
-        url = "{}/plugins/statuses".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/statuses".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -369,9 +347,7 @@ class PluginsApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/plugins/marketplace".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/marketplace".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -383,14 +359,13 @@ class PluginsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -421,9 +396,7 @@ class PluginsApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/plugins/marketplace".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/marketplace".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -432,14 +405,13 @@ class PluginsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -464,19 +436,16 @@ class PluginsApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/plugins/marketplace/first_admin_visit".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/plugins/marketplace/first_admin_visit".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

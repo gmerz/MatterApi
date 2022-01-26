@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import List
 
 from pydantic import BaseModel
 
@@ -22,21 +22,18 @@ class PreferencesApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/preferences".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/preferences".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -67,11 +64,9 @@ class PreferencesApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/preferences".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/preferences".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -84,14 +79,13 @@ class PreferencesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -117,11 +111,9 @@ class PreferencesApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/preferences/delete".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/preferences/delete".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -134,14 +126,13 @@ class PreferencesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -166,21 +157,19 @@ class PreferencesApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/preferences/{category}".format(
-            self.client.base_url, user_id=user_id, category=category
+        url = "/users/{user_id}/preferences/{category}".format(
+            user_id=user_id,
+            category=category,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -212,24 +201,20 @@ class PreferencesApi(ApiBaseClass):
         `edit_other_users` permission.
         """
 
-        url = "{}/users/{user_id}/preferences/{category}/name/{preference_name}".format(
-            self.client.base_url,
+        url = "/users/{user_id}/preferences/{category}/name/{preference_name}".format(
             user_id=user_id,
             category=category,
             preference_name=preference_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

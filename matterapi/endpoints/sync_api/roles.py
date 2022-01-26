@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import List
 
 from pydantic import BaseModel
 
@@ -22,19 +22,16 @@ class RolesApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/roles".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/roles".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -64,19 +61,18 @@ class RolesApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/roles/{role_id}".format(self.client.base_url, role_id=role_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/roles/{role_id}".format(
+            role_id=role_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -101,21 +97,18 @@ class RolesApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/roles/name/{role_name}".format(
-            self.client.base_url, role_name=role_name
+        url = "/roles/name/{role_name}".format(
+            role_name=role_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -144,9 +137,9 @@ class RolesApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/roles/{role_id}/patch".format(self.client.base_url, role_id=role_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/roles/{role_id}/patch".format(
+            role_id=role_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -155,14 +148,13 @@ class RolesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -188,21 +180,18 @@ class RolesApi(ApiBaseClass):
             4.9
         """
 
-        url = "{}/roles/names".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/roles/names".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

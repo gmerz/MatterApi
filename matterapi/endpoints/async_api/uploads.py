@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Union
 
 from pydantic import BaseModel
 
@@ -24,9 +24,7 @@ class UploadsApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/uploads".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/uploads".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -35,14 +33,13 @@ class UploadsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -65,19 +62,18 @@ class UploadsApi(ApiBaseClass):
             Must be logged in as the user who created the upload session.
         """
 
-        url = "{}/uploads/{upload_id}".format(self.client.base_url, upload_id=upload_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/uploads/{upload_id}".format(
+            upload_id=upload_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -104,20 +100,19 @@ class UploadsApi(ApiBaseClass):
             Must be logged in as the user who created the upload session.
         """
 
-        url = "{}/uploads/{upload_id}".format(self.client.base_url, upload_id=upload_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/uploads/{upload_id}".format(
+            upload_id=upload_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": form_data,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

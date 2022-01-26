@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import List
 
 from ...models import ClusterInfo
 from ..base import ApiBaseClass
@@ -20,19 +20,16 @@ class ClusterApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/cluster/status".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/cluster/status".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -30,21 +30,18 @@ class BotsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/convert_to_bot".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/convert_to_bot".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -74,9 +71,7 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/bots".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -87,14 +82,13 @@ class BotsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -125,9 +119,7 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/bots".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -136,14 +128,13 @@ class BotsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -171,11 +162,9 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots/{bot_user_id}".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -183,14 +172,13 @@ class BotsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -219,11 +207,9 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots/{bot_user_id}".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -232,14 +218,13 @@ class BotsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -264,21 +249,18 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots/{bot_user_id}/disable".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/disable".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -303,21 +285,18 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots/{bot_user_id}/enable".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/enable".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -343,21 +322,19 @@ class BotsApi(ApiBaseClass):
             5.10
         """
 
-        url = "{}/bots/{bot_user_id}/assign/{user_id}".format(
-            self.client.base_url, bot_user_id=bot_user_id, user_id=user_id
+        url = "/bots/{bot_user_id}/assign/{user_id}".format(
+            bot_user_id=bot_user_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -382,21 +359,18 @@ class BotsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/bots/{bot_user_id}/icon".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/icon".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -420,25 +394,22 @@ class BotsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/bots/{bot_user_id}/icon".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/icon".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         multipart_body_data = SetBotIconImageMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -463,21 +434,18 @@ class BotsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/bots/{bot_user_id}/icon".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/icon".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -505,11 +473,9 @@ class BotsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/bots/{bot_user_id}/convert_to_user".format(
-            self.client.base_url, bot_user_id=bot_user_id
+        url = "/bots/{bot_user_id}/convert_to_user".format(
+            bot_user_id=bot_user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "set_system_admin": set_system_admin,
         }
@@ -522,15 +488,14 @@ class BotsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

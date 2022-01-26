@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import List
 
 from pydantic import BaseModel
 
@@ -22,9 +22,7 @@ class ReactionsApi(ApiBaseClass):
             Must have `read_channel` permission for the channel the post is in.
         """
 
-        url = "{}/reactions".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/reactions".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -33,14 +31,13 @@ class ReactionsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -63,21 +60,18 @@ class ReactionsApi(ApiBaseClass):
             Must have `read_channel` permission for the channel the post is in.
         """
 
-        url = "{}/posts/{post_id}/reactions".format(
-            self.client.base_url, post_id=post_id
+        url = "/posts/{post_id}/reactions".format(
+            post_id=post_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -107,24 +101,20 @@ class ReactionsApi(ApiBaseClass):
             Must be user or have `manage_system` permission.
         """
 
-        url = "{}/users/{user_id}/posts/{post_id}/reactions/{emoji_name}".format(
-            self.client.base_url,
+        url = "/users/{user_id}/posts/{post_id}/reactions/{emoji_name}".format(
             user_id=user_id,
             post_id=post_id,
             emoji_name=emoji_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -150,21 +140,18 @@ class ReactionsApi(ApiBaseClass):
             5.8
         """
 
-        url = "{}/posts/ids/reactions".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/ids/reactions".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -53,9 +53,7 @@ class ChannelsApi(ApiBaseClass):
             `manage_system`
         """
 
-        url = "{}/channels".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/channels".format()
         params: Dict[str, Any] = {
             "not_associated_to_group": not_associated_to_group,
             "page": page,
@@ -67,14 +65,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -100,9 +97,7 @@ class ChannelsApi(ApiBaseClass):
         permission is required.
         """
 
-        url = "{}/channels".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/channels".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -111,14 +106,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -144,21 +138,18 @@ class ChannelsApi(ApiBaseClass):
         requirements.
         """
 
-        url = "{}/channels/direct".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/channels/direct".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -183,21 +174,18 @@ class ChannelsApi(ApiBaseClass):
             Must have `create_group_channel` permission.
         """
 
-        url = "{}/channels/group".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/channels/group".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -222,9 +210,7 @@ class ChannelsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/channels/group/search".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/channels/group/search".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -233,14 +219,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -270,23 +255,20 @@ class ChannelsApi(ApiBaseClass):
             `view_team` for the team the channels are on.
         """
 
-        url = "{}/teams/{team_id}/channels/ids".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/ids".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -316,21 +298,18 @@ class ChannelsApi(ApiBaseClass):
             5.6
         """
 
-        url = "{}/channels/{channel_id}/timezones".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/timezones".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -353,21 +332,18 @@ class ChannelsApi(ApiBaseClass):
             `read_channel` permission for the channel.
         """
 
-        url = "{}/channels/{channel_id}".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -395,11 +371,9 @@ class ChannelsApi(ApiBaseClass):
         `manage_private_channel_members` permission is required.
         """
 
-        url = "{}/channels/{channel_id}".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -408,14 +382,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -448,21 +421,18 @@ class ChannelsApi(ApiBaseClass):
             `delete_public_channel` permission if the channel is public,
         """
 
-        url = "{}/channels/{channel_id}".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -492,11 +462,9 @@ class ChannelsApi(ApiBaseClass):
         `manage_private_channel_members` permission is required.
         """
 
-        url = "{}/channels/{channel_id}/patch".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/patch".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -505,14 +473,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -544,11 +511,9 @@ class ChannelsApi(ApiBaseClass):
             5.16
         """
 
-        url = "{}/channels/{channel_id}/privacy".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/privacy".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -557,14 +522,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -589,21 +553,18 @@ class ChannelsApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/channels/{channel_id}/restore".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/restore".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -630,11 +591,9 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/channels/{channel_id}/move".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/move".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -643,14 +602,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -673,21 +631,18 @@ class ChannelsApi(ApiBaseClass):
             Must have the `read_channel` permission.
         """
 
-        url = "{}/channels/{channel_id}/stats".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/stats".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -707,21 +662,18 @@ class ChannelsApi(ApiBaseClass):
         Get a list of pinned posts for channel.
         """
 
-        url = "{}/channels/{channel_id}/pinned".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/pinned".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -748,11 +700,9 @@ class ChannelsApi(ApiBaseClass):
             Must be authenticated and have the `list_team_channels` permission.
         """
 
-        url = "{}/teams/{team_id}/channels".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -761,14 +711,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -802,11 +751,9 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/teams/{team_id}/channels/private".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/private".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -815,14 +762,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -854,11 +800,9 @@ class ChannelsApi(ApiBaseClass):
             3.10
         """
 
-        url = "{}/teams/{team_id}/channels/deleted".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/deleted".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -867,14 +811,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -907,11 +850,9 @@ class ChannelsApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/teams/{team_id}/channels/autocomplete".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/autocomplete".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -919,14 +860,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -959,11 +899,9 @@ class ChannelsApi(ApiBaseClass):
             5.4
         """
 
-        url = "{}/teams/{team_id}/channels/search_autocomplete".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/search_autocomplete".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -971,14 +909,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1013,11 +950,9 @@ class ChannelsApi(ApiBaseClass):
             Must have the `list_team_channels` permission.
         """
 
-        url = "{}/teams/{team_id}/channels/search".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/search".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1026,14 +961,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1070,11 +1004,9 @@ class ChannelsApi(ApiBaseClass):
             5.18
         """
 
-        url = "{}/teams/{team_id}/channels/search_archived".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/channels/search_archived".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1083,14 +1015,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1121,11 +1052,10 @@ class ChannelsApi(ApiBaseClass):
             `read_channel` permission for the channel.
         """
 
-        url = "{}/teams/{team_id}/channels/name/{channel_name}".format(
-            self.client.base_url, team_id=team_id, channel_name=channel_name
+        url = "/teams/{team_id}/channels/name/{channel_name}".format(
+            team_id=team_id,
+            channel_name=channel_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -1133,14 +1063,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1166,11 +1095,10 @@ class ChannelsApi(ApiBaseClass):
             `read_channel` permission for the channel.
         """
 
-        url = "{}/teams/name/{team_name}/channels/name/{channel_name}".format(
-            self.client.base_url, team_name=team_name, channel_name=channel_name
+        url = "/teams/name/{team_name}/channels/name/{channel_name}".format(
+            team_name=team_name,
+            channel_name=channel_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -1178,14 +1106,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1211,11 +1138,9 @@ class ChannelsApi(ApiBaseClass):
             `read_channel` permission for the channel.
         """
 
-        url = "{}/channels/{channel_id}/members".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/members".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -1224,14 +1149,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1258,11 +1182,9 @@ class ChannelsApi(ApiBaseClass):
         Add a user to a channel by creating a channel member object.
         """
 
-        url = "{}/channels/{channel_id}/members".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/members".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1271,14 +1193,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1303,23 +1224,20 @@ class ChannelsApi(ApiBaseClass):
             Must have the `read_channel` permission.
         """
 
-        url = "{}/channels/{channel_id}/members/ids".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/members/ids".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1348,21 +1266,19 @@ class ChannelsApi(ApiBaseClass):
             `read_channel` permission for the channel.
         """
 
-        url = "{}/channels/{channel_id}/members/{user_id}".format(
-            self.client.base_url, channel_id=channel_id, user_id=user_id
+        url = "/channels/{channel_id}/members/{user_id}".format(
+            channel_id=channel_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1390,21 +1306,19 @@ class ChannelsApi(ApiBaseClass):
             `manage_public_channel_members` permission if the channel is public.
         """
 
-        url = "{}/channels/{channel_id}/members/{user_id}".format(
-            self.client.base_url, channel_id=channel_id, user_id=user_id
+        url = "/channels/{channel_id}/members/{user_id}".format(
+            channel_id=channel_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1430,11 +1344,10 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_channel_roles` permission for the channel.
         """
 
-        url = "{}/channels/{channel_id}/members/{user_id}/roles".format(
-            self.client.base_url, channel_id=channel_id, user_id=user_id
+        url = "/channels/{channel_id}/members/{user_id}/roles".format(
+            channel_id=channel_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1443,14 +1356,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1482,11 +1394,10 @@ class ChannelsApi(ApiBaseClass):
             5.0
         """
 
-        url = "{}/channels/{channel_id}/members/{user_id}/schemeRoles".format(
-            self.client.base_url, channel_id=channel_id, user_id=user_id
+        url = "/channels/{channel_id}/members/{user_id}/schemeRoles".format(
+            channel_id=channel_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1495,14 +1406,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1529,11 +1439,10 @@ class ChannelsApi(ApiBaseClass):
             Must be logged in as the user or have `edit_other_users` permission.
         """
 
-        url = "{}/channels/{channel_id}/members/{user_id}/notify_props".format(
-            self.client.base_url, channel_id=channel_id, user_id=user_id
+        url = "/channels/{channel_id}/members/{user_id}/notify_props".format(
+            channel_id=channel_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1542,14 +1451,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1579,11 +1487,9 @@ class ChannelsApi(ApiBaseClass):
             Must be logged in as user or have `edit_other_users` permission.
         """
 
-        url = "{}/channels/members/{user_id}/view".format(
-            self.client.base_url, user_id=user_id
+        url = "/channels/members/{user_id}/view".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1592,14 +1498,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1625,21 +1530,19 @@ class ChannelsApi(ApiBaseClass):
         Having `manage_system` permission voids the previous requirements.
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/members".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/channels/members".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1672,11 +1575,10 @@ class ChannelsApi(ApiBaseClass):
         `view_team` permission for the team.
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/channels".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
             "last_delete_at": last_delete_at,
@@ -1685,14 +1587,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1725,11 +1626,9 @@ class ChannelsApi(ApiBaseClass):
             6.1
         """
 
-        url = "{}/users/{user_id}/channels".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/channels".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "last_delete_at": last_delete_at,
             "include_deleted": include_deleted,
@@ -1738,14 +1637,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1775,21 +1673,19 @@ class ChannelsApi(ApiBaseClass):
         have `edit_other_usrs` permission.
         """
 
-        url = "{}/users/{user_id}/channels/{channel_id}/unread".format(
-            self.client.base_url, user_id=user_id, channel_id=channel_id
+        url = "/users/{user_id}/channels/{channel_id}/unread".format(
+            user_id=user_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1817,11 +1713,9 @@ class ChannelsApi(ApiBaseClass):
             4.10
         """
 
-        url = "{}/channels/{channel_id}/scheme".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/scheme".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1830,14 +1724,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1872,11 +1765,9 @@ class ChannelsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/channels/{channel_id}/members_minus_group_members".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/members_minus_group_members".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "group_ids": group_ids,
             "page": page,
@@ -1886,14 +1777,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1919,11 +1809,9 @@ class ChannelsApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/channels/{channel_id}/member_counts_by_group".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/member_counts_by_group".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "include_timezones": include_timezones,
         }
@@ -1931,14 +1819,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -1959,21 +1846,18 @@ class ChannelsApi(ApiBaseClass):
             5.22
         """
 
-        url = "{}/channels/{channel_id}/moderations".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/moderations".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2005,11 +1889,9 @@ class ChannelsApi(ApiBaseClass):
             5.22
         """
 
-        url = "{}/channels/{channel_id}/moderations/patch".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/moderations/patch".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2018,14 +1900,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2057,21 +1938,19 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2107,11 +1986,10 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -2124,14 +2002,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2159,11 +2036,10 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2172,14 +2048,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2206,21 +2081,19 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories/order".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/users/{user_id}/teams/{team_id}/channels/categories/order".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2250,23 +2123,21 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories/order".format(
-            self.client.base_url, team_id=team_id, user_id=user_id
+        url = "/users/{user_id}/teams/{team_id}/channels/categories/order".format(
+            team_id=team_id,
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2293,24 +2164,22 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-            self.client.base_url,
-            team_id=team_id,
-            user_id=user_id,
-            category_id=category_id,
+        url = (
+            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
+                team_id=team_id,
+                user_id=user_id,
+                category_id=category_id,
+            )
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2339,14 +2208,13 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-            self.client.base_url,
-            team_id=team_id,
-            user_id=user_id,
-            category_id=category_id,
+        url = (
+            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
+                team_id=team_id,
+                user_id=user_id,
+                category_id=category_id,
+            )
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2355,14 +2223,13 @@ class ChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -2390,24 +2257,22 @@ class ChannelsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-            self.client.base_url,
-            team_id=team_id,
-            user_id=user_id,
-            category_id=category_id,
+        url = (
+            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
+                team_id=team_id,
+                user_id=user_id,
+                category_id=category_id,
+            )
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -1,5 +1,3 @@
-from typing import Any, Dict
-
 from ...models import StatusOK
 from ..base import ApiBaseClass
 
@@ -24,19 +22,16 @@ class ElasticsearchApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/elasticsearch/test".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/elasticsearch/test".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -63,19 +58,16 @@ class ElasticsearchApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/elasticsearch/purge_indexes".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/elasticsearch/purge_indexes".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

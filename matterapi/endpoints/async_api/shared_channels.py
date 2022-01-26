@@ -24,11 +24,9 @@ class SharedChannelsApi(ApiBaseClass):
             5.50
         """
 
-        url = "{}/sharedchannels/{team_id}".format(
-            self.client.base_url, team_id=team_id
+        url = "/sharedchannels/{team_id}".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,14 +35,13 @@ class SharedChannelsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -75,21 +72,18 @@ class SharedChannelsApi(ApiBaseClass):
             5.50
         """
 
-        url = "{}/sharedchannels/remote_info/{remote_id}".format(
-            self.client.base_url, remote_id=remote_id
+        url = "/sharedchannels/remote_info/{remote_id}".format(
+            remote_id=remote_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

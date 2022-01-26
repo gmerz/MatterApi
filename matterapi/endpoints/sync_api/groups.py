@@ -36,21 +36,18 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/ldap/groups/{remote_id}/link".format(
-            self.client.base_url, remote_id=remote_id
+        url = "/ldap/groups/{remote_id}/link".format(
+            remote_id=remote_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -89,9 +86,7 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/groups".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -105,14 +100,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -142,19 +136,18 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}".format(self.client.base_url, group_id=group_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/groups/{group_id}".format(
+            group_id=group_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -184,11 +177,9 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/patch".format(
-            self.client.base_url, group_id=group_id
+        url = "/groups/{group_id}/patch".format(
+            group_id=group_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -197,14 +188,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -230,21 +220,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/teams/{team_id}/link".format(
-            self.client.base_url, group_id=group_id, team_id=team_id
+        url = "/groups/{group_id}/teams/{team_id}/link".format(
+            group_id=group_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -270,21 +258,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/teams/{team_id}/link".format(
-            self.client.base_url, group_id=group_id, team_id=team_id
+        url = "/groups/{group_id}/teams/{team_id}/link".format(
+            group_id=group_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -312,21 +298,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/channels/{channel_id}/link".format(
-            self.client.base_url, group_id=group_id, channel_id=channel_id
+        url = "/groups/{group_id}/channels/{channel_id}/link".format(
+            group_id=group_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -354,21 +338,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/channels/{channel_id}/link".format(
-            self.client.base_url, group_id=group_id, channel_id=channel_id
+        url = "/groups/{group_id}/channels/{channel_id}/link".format(
+            group_id=group_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -394,21 +376,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/teams/{team_id}".format(
-            self.client.base_url, group_id=group_id, team_id=team_id
+        url = "/groups/{group_id}/teams/{team_id}".format(
+            group_id=group_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -434,21 +414,19 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/channels/{channel_id}".format(
-            self.client.base_url, group_id=group_id, channel_id=channel_id
+        url = "/groups/{group_id}/channels/{channel_id}".format(
+            group_id=group_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -473,21 +451,18 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/teams".format(
-            self.client.base_url, group_id=group_id
+        url = "/groups/{group_id}/teams".format(
+            group_id=group_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -517,21 +492,18 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/channels".format(
-            self.client.base_url, group_id=group_id
+        url = "/groups/{group_id}/channels".format(
+            group_id=group_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -569,11 +541,10 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/teams/{team_id}/patch".format(
-            self.client.base_url, group_id=group_id, team_id=team_id
+        url = "/groups/{group_id}/teams/{team_id}/patch".format(
+            group_id=group_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -582,14 +553,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -620,11 +590,10 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/channels/{channel_id}/patch".format(
-            self.client.base_url, group_id=group_id, channel_id=channel_id
+        url = "/groups/{group_id}/channels/{channel_id}/patch".format(
+            group_id=group_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -633,14 +602,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -668,11 +636,9 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/groups/{group_id}/members".format(
-            self.client.base_url, group_id=group_id
+        url = "/groups/{group_id}/members".format(
+            group_id=group_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -681,14 +647,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -713,21 +678,18 @@ class GroupsApi(ApiBaseClass):
             5.26
         """
 
-        url = "{}/groups/{group_id}/stats".format(
-            self.client.base_url, group_id=group_id
+        url = "/groups/{group_id}/stats".format(
+            group_id=group_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -756,11 +718,9 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/channels/{channel_id}/groups".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/groups".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -770,14 +730,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -809,9 +768,9 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/teams/{team_id}/groups".format(self.client.base_url, team_id=team_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/teams/{team_id}/groups".format(
+            team_id=team_id,
+        )
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -821,14 +780,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -864,11 +822,9 @@ class GroupsApi(ApiBaseClass):
             5.11
         """
 
-        url = "{}/teams/{team_id}/groups_by_channels".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/groups_by_channels".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -878,14 +834,13 @@ class GroupsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -910,19 +865,18 @@ class GroupsApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/users/{user_id}/groups".format(self.client.base_url, user_id=user_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/users/{user_id}/groups".format(
+            user_id=user_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

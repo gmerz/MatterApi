@@ -1,5 +1,3 @@
-from typing import Any, Dict
-
 from ..base import ApiBaseClass
 
 
@@ -19,19 +17,16 @@ class ExportsApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/exports".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/exports".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -52,21 +47,18 @@ class ExportsApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/exports/{export_name}".format(
-            self.client.base_url, export_name=export_name
+        url = "/exports/{export_name}".format(
+            export_name=export_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -87,21 +79,18 @@ class ExportsApi(ApiBaseClass):
             5.33
         """
 
-        url = "{}/exports/{export_name}".format(
-            self.client.base_url, export_name=export_name
+        url = "/exports/{export_name}".format(
+            export_name=export_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

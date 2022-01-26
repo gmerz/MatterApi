@@ -1,4 +1,4 @@
-from typing import Any, Dict, Union
+from typing import Union
 
 from pydantic import BaseModel
 
@@ -32,21 +32,18 @@ class TermsOfServiceApi(ApiBaseClass):
             5.6
         """
 
-        url = "{}/users/{user_id}/terms_of_service".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/terms_of_service".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -79,11 +76,9 @@ class TermsOfServiceApi(ApiBaseClass):
             5.4
         """
 
-        url = "{}/users/{user_id}/terms_of_service".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/terms_of_service".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -92,14 +87,13 @@ class TermsOfServiceApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -123,19 +117,16 @@ class TermsOfServiceApi(ApiBaseClass):
             5.4
         """
 
-        url = "{}/terms_of_service".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/terms_of_service".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -159,19 +150,16 @@ class TermsOfServiceApi(ApiBaseClass):
             5.4
         """
 
-        url = "{}/terms_of_service".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/terms_of_service".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

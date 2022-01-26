@@ -1,8 +1,8 @@
 """ A client library for accessing Mattermost API Reference """
 
-from .driver import exceptions
-from .driver.async_driver import AsyncDriver
-from .driver.base import DriverOptions
-from .driver.sync_driver import SyncDriver
+from .client import exceptions
+from .client.async_client import AsyncClient
+from .client.base import ApiClientOptions
+from .client.sync_client import SyncClient
 
-__all__ = ["DriverOptions", "SyncDriver", "AsyncDriver", "exceptions"]
+__all__ = ["ApiClientOptions", "SyncClient", "AsyncClient", "exceptions"]

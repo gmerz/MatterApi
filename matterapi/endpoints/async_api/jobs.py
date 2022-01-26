@@ -27,9 +27,7 @@ class JobsApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/jobs".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -38,14 +36,13 @@ class JobsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -76,9 +73,7 @@ class JobsApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/jobs".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -87,14 +82,13 @@ class JobsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -119,19 +113,18 @@ class JobsApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/jobs/{job_id}".format(self.client.base_url, job_id=job_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs/{job_id}".format(
+            job_id=job_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -156,19 +149,18 @@ class JobsApi(ApiBaseClass):
             5.28
         """
 
-        url = "{}/jobs/{job_id}/download".format(self.client.base_url, job_id=job_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs/{job_id}/download".format(
+            job_id=job_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -189,19 +181,18 @@ class JobsApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/jobs/{job_id}/cancel".format(self.client.base_url, job_id=job_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs/{job_id}/cancel".format(
+            job_id=job_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -230,9 +221,9 @@ class JobsApi(ApiBaseClass):
             4.1
         """
 
-        url = "{}/jobs/type/{type}".format(self.client.base_url, type=type)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/jobs/type/{type}".format(
+            type=type,
+        )
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -241,14 +232,13 @@ class JobsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

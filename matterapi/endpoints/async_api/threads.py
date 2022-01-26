@@ -29,11 +29,10 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/threads".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "since": since,
             "deleted": deleted,
@@ -46,14 +45,13 @@ class ThreadsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -79,21 +77,19 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/mention_counts".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/threads/mention_counts".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -115,21 +111,19 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/read".format(
-            self.client.base_url, user_id=user_id, team_id=team_id
+        url = "/users/{user_id}/teams/{team_id}/threads/read".format(
+            user_id=user_id,
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -153,25 +147,21 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/{thread_id}/read/{timestamp}".format(
-            self.client.base_url,
+        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/read/{timestamp}".format(
             user_id=user_id,
             team_id=team_id,
             thread_id=thread_id,
             timestamp=timestamp,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -194,21 +184,20 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
-            self.client.base_url, user_id=user_id, team_id=team_id, thread_id=thread_id
+        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
+            user_id=user_id,
+            team_id=team_id,
+            thread_id=thread_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.put(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -231,21 +220,20 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
-            self.client.base_url, user_id=user_id, team_id=team_id, thread_id=thread_id
+        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
+            user_id=user_id,
+            team_id=team_id,
+            thread_id=thread_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -268,21 +256,20 @@ class ThreadsApi(ApiBaseClass):
             5.29
         """
 
-        url = "{}/users/{user_id}/teams/{team_id}/threads/{thread_id}".format(
-            self.client.base_url, user_id=user_id, team_id=team_id, thread_id=thread_id
+        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}".format(
+            user_id=user_id,
+            team_id=team_id,
+            thread_id=thread_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

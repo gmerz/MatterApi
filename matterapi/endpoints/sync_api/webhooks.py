@@ -34,9 +34,7 @@ class WebhooksApi(ApiBaseClass):
         specific team.
         """
 
-        url = "{}/hooks/incoming".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/hooks/incoming".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -46,14 +44,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -85,9 +82,7 @@ class WebhooksApi(ApiBaseClass):
             `manage_webhooks` for the team the webhook is in.
         """
 
-        url = "{}/hooks/incoming".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/hooks/incoming".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -96,14 +91,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -127,21 +121,18 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/incoming/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/incoming/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -167,11 +158,9 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/incoming/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/incoming/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -180,14 +169,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -211,21 +199,18 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/incoming/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/incoming/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -254,9 +239,7 @@ class WebhooksApi(ApiBaseClass):
         specific team/channel.
         """
 
-        url = "{}/hooks/outgoing".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/hooks/outgoing".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -267,14 +250,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -306,9 +288,7 @@ class WebhooksApi(ApiBaseClass):
             `manage_webhooks` for the team the webhook is in.
         """
 
-        url = "{}/hooks/outgoing".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/hooks/outgoing".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -317,14 +297,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -348,21 +327,18 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/outgoing/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/outgoing/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -388,11 +364,9 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/outgoing/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/outgoing/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -401,14 +375,13 @@ class WebhooksApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -432,21 +405,18 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/outgoing/{hook_id}".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/outgoing/{hook_id}".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -470,21 +440,18 @@ class WebhooksApi(ApiBaseClass):
         team or `manage_webhooks` for the channel.
         """
 
-        url = "{}/hooks/outgoing/{hook_id}/regen_token".format(
-            self.client.base_url, hook_id=hook_id
+        url = "/hooks/outgoing/{hook_id}/regen_token".format(
+            hook_id=hook_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

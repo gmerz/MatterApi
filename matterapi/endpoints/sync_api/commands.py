@@ -32,9 +32,7 @@ class CommandsApi(ApiBaseClass):
             `manage_slash_commands` if need list custom commands.
         """
 
-        url = "{}/commands".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/commands".format()
         params: Dict[str, Any] = {
             "team_id": team_id,
             "custom_only": custom_only,
@@ -43,14 +41,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -79,9 +76,7 @@ class CommandsApi(ApiBaseClass):
             `manage_slash_commands` for the team the command is in.
         """
 
-        url = "{}/commands".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/commands".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -90,14 +85,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -120,21 +114,18 @@ class CommandsApi(ApiBaseClass):
             `view_team` for the team.
         """
 
-        url = "{}/teams/{team_id}/commands/autocomplete".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/commands/autocomplete".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -166,11 +157,9 @@ class CommandsApi(ApiBaseClass):
             5.24
         """
 
-        url = "{}/teams/{team_id}/commands/autocomplete_suggestions".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/commands/autocomplete_suggestions".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "user_input": user_input,
         }
@@ -178,14 +167,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -218,21 +206,18 @@ class CommandsApi(ApiBaseClass):
             5.22
         """
 
-        url = "{}/commands/{command_id}".format(
-            self.client.base_url, command_id=command_id
+        url = "/commands/{command_id}".format(
+            command_id=command_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -258,11 +243,9 @@ class CommandsApi(ApiBaseClass):
         command is in.
         """
 
-        url = "{}/commands/{command_id}".format(
-            self.client.base_url, command_id=command_id
+        url = "/commands/{command_id}".format(
+            command_id=command_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -271,14 +254,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -302,21 +284,18 @@ class CommandsApi(ApiBaseClass):
         command is in.
         """
 
-        url = "{}/commands/{command_id}".format(
-            self.client.base_url, command_id=command_id
+        url = "/commands/{command_id}".format(
+            command_id=command_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -344,11 +323,9 @@ class CommandsApi(ApiBaseClass):
             5.22
         """
 
-        url = "{}/commands/{command_id}/move".format(
-            self.client.base_url, command_id=command_id
+        url = "/commands/{command_id}/move".format(
+            command_id=command_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -357,14 +334,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -388,21 +364,18 @@ class CommandsApi(ApiBaseClass):
         command is in.
         """
 
-        url = "{}/commands/{command_id}/regen_token".format(
-            self.client.base_url, command_id=command_id
+        url = "/commands/{command_id}/regen_token".format(
+            command_id=command_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -427,9 +400,7 @@ class CommandsApi(ApiBaseClass):
         is in.
         """
 
-        url = "{}/commands/execute".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/commands/execute".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -438,14 +409,13 @@ class CommandsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -25,9 +25,7 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/emoji".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,14 +35,13 @@ class EmojiApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -68,23 +65,20 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/emoji".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji".format()
 
         multipart_body_data = CreateEmojiMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -107,19 +101,18 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/emoji/{emoji_id}".format(self.client.base_url, emoji_id=emoji_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji/{emoji_id}".format(
+            emoji_id=emoji_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -143,19 +136,18 @@ class EmojiApi(ApiBaseClass):
         user who created the emoji.
         """
 
-        url = "{}/emoji/{emoji_id}".format(self.client.base_url, emoji_id=emoji_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji/{emoji_id}".format(
+            emoji_id=emoji_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -180,21 +172,18 @@ class EmojiApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/emoji/name/{emoji_name}".format(
-            self.client.base_url, emoji_name=emoji_name
+        url = "/emoji/name/{emoji_name}".format(
+            emoji_name=emoji_name,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -217,21 +206,18 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/emoji/{emoji_id}/image".format(
-            self.client.base_url, emoji_id=emoji_id
+        url = "/emoji/{emoji_id}/image".format(
+            emoji_id=emoji_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -254,9 +240,7 @@ class EmojiApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/emoji/search".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji/search".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -265,14 +249,13 @@ class EmojiApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -304,9 +287,7 @@ class EmojiApi(ApiBaseClass):
             4.7
         """
 
-        url = "{}/emoji/autocomplete".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/emoji/autocomplete".format()
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -314,14 +295,13 @@ class EmojiApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

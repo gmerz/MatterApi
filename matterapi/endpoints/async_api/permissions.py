@@ -21,9 +21,7 @@ class PermissionsApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/permissions/ancillary".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/permissions/ancillary".format()
         params: Dict[str, Any] = {
             "subsection_permissions": subsection_permissions,
         }
@@ -31,14 +29,13 @@ class PermissionsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

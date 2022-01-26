@@ -44,11 +44,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/users/{user_id}/data_retention/team_policies".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/data_retention/team_policies".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -57,14 +55,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -97,11 +94,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/users/{user_id}/data_retention/channel_policies".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/data_retention/channel_policies".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -110,14 +105,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -146,19 +140,16 @@ class DataRetentionApi(ApiBaseClass):
             4.3
         """
 
-        url = "{}/data_retention/policy".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/data_retention/policy".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -188,19 +179,16 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies_count".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/data_retention/policies_count".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -235,9 +223,7 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/data_retention/policies".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -246,14 +232,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -293,9 +278,7 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/data_retention/policies".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -304,14 +287,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -342,21 +324,18 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -387,21 +366,18 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -433,11 +409,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -446,14 +420,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.patch(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.patch(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -487,11 +460,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/teams".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/teams".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -500,14 +471,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -545,23 +515,20 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/teams".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/teams".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -594,23 +561,20 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/teams".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/teams".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -642,11 +606,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/teams/search".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/teams/search".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -655,14 +617,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -699,11 +660,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/channels".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/channels".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -712,14 +671,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -752,23 +710,20 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/channels".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/channels".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -801,23 +756,20 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/channels".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/channels".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.delete(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -849,11 +801,9 @@ class DataRetentionApi(ApiBaseClass):
             5.35
         """
 
-        url = "{}/data_retention/policies/{policy_id}/channels/search".format(
-            self.client.base_url, policy_id=policy_id
+        url = "/data_retention/policies/{policy_id}/channels/search".format(
+            policy_id=policy_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -862,14 +812,13 @@ class DataRetentionApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

@@ -37,9 +37,7 @@ class PostsApi(ApiBaseClass):
         created in.
         """
 
-        url = "{}/posts".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts".format()
         params: Dict[str, Any] = {
             "set_online": set_online,
         }
@@ -52,15 +50,14 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
             "params": params,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -85,9 +82,7 @@ class PostsApi(ApiBaseClass):
         to system admin)
         """
 
-        url = "{}/posts/ephemeral".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/ephemeral".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -96,14 +91,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -128,19 +122,18 @@ class PostsApi(ApiBaseClass):
         for the team.
         """
 
-        url = "{}/posts/{post_id}".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}".format(
+            post_id=post_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -166,9 +159,9 @@ class PostsApi(ApiBaseClass):
             Must have `edit_post` permission for the channel the post is in.
         """
 
-        url = "{}/posts/{post_id}".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}".format(
+            post_id=post_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -177,14 +170,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -209,19 +201,18 @@ class PostsApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/posts/{post_id}".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}".format(
+            post_id=post_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -251,21 +242,19 @@ class PostsApi(ApiBaseClass):
             5.18
         """
 
-        url = "{}/users/{user_id}/posts/{post_id}/set_unread".format(
-            self.client.base_url, user_id=user_id, post_id=post_id
+        url = "/users/{user_id}/posts/{post_id}/set_unread".format(
+            user_id=user_id,
+            post_id=post_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -292,9 +281,9 @@ class PostsApi(ApiBaseClass):
             Must have the `edit_post` permission.
         """
 
-        url = "{}/posts/{post_id}/patch".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}/patch".format(
+            post_id=post_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -303,14 +292,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -335,19 +323,18 @@ class PostsApi(ApiBaseClass):
         for the team.
         """
 
-        url = "{}/posts/{post_id}/thread".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}/thread".format(
+            post_id=post_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -377,11 +364,9 @@ class PostsApi(ApiBaseClass):
             Must be user or have `manage_system` permission.
         """
 
-        url = "{}/users/{user_id}/posts/flagged".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/posts/flagged".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "team_id": team_id,
             "channel_id": channel_id,
@@ -392,14 +377,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -428,21 +412,18 @@ class PostsApi(ApiBaseClass):
             Must have `read_channel` permission for the channel the post is in.
         """
 
-        url = "{}/posts/{post_id}/files/info".format(
-            self.client.base_url, post_id=post_id
+        url = "/posts/{post_id}/files/info".format(
+            post_id=post_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -483,11 +464,9 @@ class PostsApi(ApiBaseClass):
             Must have `read_channel` permission for the channel.
         """
 
-        url = "{}/channels/{channel_id}/posts".format(
-            self.client.base_url, channel_id=channel_id
+        url = "/channels/{channel_id}/posts".format(
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -499,14 +478,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -538,11 +516,10 @@ class PostsApi(ApiBaseClass):
             5.14
         """
 
-        url = "{}/users/{user_id}/channels/{channel_id}/posts/unread".format(
-            self.client.base_url, user_id=user_id, channel_id=channel_id
+        url = "/users/{user_id}/channels/{channel_id}/posts/unread".format(
+            user_id=user_id,
+            channel_id=channel_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "limit_before": limit_before,
             "limit_after": limit_after,
@@ -551,14 +528,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -583,11 +559,9 @@ class PostsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         """
 
-        url = "{}/teams/{team_id}/posts/search".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/posts/search".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -596,14 +570,13 @@ class PostsApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -627,19 +600,18 @@ class PostsApi(ApiBaseClass):
         channel the post is in.
         """
 
-        url = "{}/posts/{post_id}/pin".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}/pin".format(
+            post_id=post_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -664,19 +636,18 @@ class PostsApi(ApiBaseClass):
         channel the post is in.
         """
 
-        url = "{}/posts/{post_id}/unpin".format(self.client.base_url, post_id=post_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/{post_id}/unpin".format(
+            post_id=post_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -702,21 +673,19 @@ class PostsApi(ApiBaseClass):
         channel the post is in.
         """
 
-        url = "{}/posts/{post_id}/actions/{action_id}".format(
-            self.client.base_url, post_id=post_id, action_id=action_id
+        url = "/posts/{post_id}/actions/{action_id}".format(
+            post_id=post_id,
+            action_id=action_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -742,21 +711,18 @@ class PostsApi(ApiBaseClass):
         for the team.
         """
 
-        url = "{}/posts/ids".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/posts/ids".format()
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

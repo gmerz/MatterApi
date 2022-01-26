@@ -26,9 +26,7 @@ class OauthApi(ApiBaseClass):
         regardless of creator are returned.
         """
 
-        url = "{}/oauth/apps".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,14 +35,13 @@ class OauthApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -74,9 +71,7 @@ class OauthApi(ApiBaseClass):
             Must have `manage_oauth` permission.
         """
 
-        url = "{}/oauth/apps".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps".format()
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -85,14 +80,13 @@ class OauthApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -116,19 +110,18 @@ class OauthApi(ApiBaseClass):
         `manage_system_wide_oauth` permission is required.
         """
 
-        url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps/{app_id}".format(
+            app_id=app_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -154,9 +147,9 @@ class OauthApi(ApiBaseClass):
         `manage_system_wide_oauth` permission is required.
         """
 
-        url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps/{app_id}".format(
+            app_id=app_id,
+        )
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -165,14 +158,13 @@ class OauthApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "json": json_json_body,
         }
 
-        response = self.client.put(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.put(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -196,19 +188,18 @@ class OauthApi(ApiBaseClass):
         `manage_system_wide_oauth` permission is required.
         """
 
-        url = "{}/oauth/apps/{app_id}".format(self.client.base_url, app_id=app_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps/{app_id}".format(
+            app_id=app_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.delete(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.delete(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -233,21 +224,18 @@ class OauthApi(ApiBaseClass):
         `manage_system_wide_oauth` permission is required.
         """
 
-        url = "{}/oauth/apps/{app_id}/regen_secret".format(
-            self.client.base_url, app_id=app_id
+        url = "/oauth/apps/{app_id}/regen_secret".format(
+            app_id=app_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.post(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -271,19 +259,18 @@ class OauthApi(ApiBaseClass):
             Must be authenticated.
         """
 
-        url = "{}/oauth/apps/{app_id}/info".format(self.client.base_url, app_id=app_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/oauth/apps/{app_id}/info".format(
+            app_id=app_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -311,11 +298,9 @@ class OauthApi(ApiBaseClass):
         permission.
         """
 
-        url = "{}/users/{user_id}/oauth/apps/authorized".format(
-            self.client.base_url, user_id=user_id
+        url = "/users/{user_id}/oauth/apps/authorized".format(
+            user_id=user_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -324,14 +309,13 @@ class OauthApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = self.client.get(
-            **request_kwargs,
-        )
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

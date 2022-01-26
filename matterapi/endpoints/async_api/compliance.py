@@ -22,9 +22,7 @@ class ComplianceApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/compliance/reports".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/compliance/reports".format()
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -33,14 +31,13 @@ class ComplianceApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -67,19 +64,16 @@ class ComplianceApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/compliance/reports".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/compliance/reports".format()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -102,21 +96,18 @@ class ComplianceApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/compliance/reports/{report_id}".format(
-            self.client.base_url, report_id=report_id
+        url = "/compliance/reports/{report_id}".format(
+            report_id=report_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -139,21 +130,18 @@ class ComplianceApi(ApiBaseClass):
             Must have `manage_system` permission.
         """
 
-        url = "{}/compliance/reports/{report_id}/download".format(
-            self.client.base_url, report_id=report_id
+        url = "/compliance/reports/{report_id}/download".format(
+            report_id=report_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response

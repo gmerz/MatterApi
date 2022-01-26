@@ -40,9 +40,7 @@ class FilesApi(ApiBaseClass):
             Must have `upload_file` permission.
         """
 
-        url = "{}/files".format(self.client.base_url)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files".format()
         params: Dict[str, Any] = {
             "channel_id": channel_id,
             "filename": filename,
@@ -53,16 +51,15 @@ class FilesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
             "params": params,
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -85,19 +82,18 @@ class FilesApi(ApiBaseClass):
             Must have `read_channel` permission or be uploader of the file.
         """
 
-        url = "{}/files/{file_id}".format(self.client.base_url, file_id=file_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files/{file_id}".format(
+            file_id=file_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -116,21 +112,18 @@ class FilesApi(ApiBaseClass):
             Must have `read_channel` permission or be uploader of the file.
         """
 
-        url = "{}/files/{file_id}/thumbnail".format(
-            self.client.base_url, file_id=file_id
+        url = "/files/{file_id}/thumbnail".format(
+            file_id=file_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -149,19 +142,18 @@ class FilesApi(ApiBaseClass):
             Must have `read_channel` permission or be uploader of the file.
         """
 
-        url = "{}/files/{file_id}/preview".format(self.client.base_url, file_id=file_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files/{file_id}/preview".format(
+            file_id=file_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -181,19 +173,18 @@ class FilesApi(ApiBaseClass):
             Must have `read_channel` permission or be uploader of the file.
         """
 
-        url = "{}/files/{file_id}/link".format(self.client.base_url, file_id=file_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files/{file_id}/link".format(
+            file_id=file_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -216,19 +207,18 @@ class FilesApi(ApiBaseClass):
             Must have `read_channel` permission or be uploader of the file.
         """
 
-        url = "{}/files/{file_id}/info".format(self.client.base_url, file_id=file_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files/{file_id}/info".format(
+            file_id=file_id,
+        )
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -253,9 +243,9 @@ class FilesApi(ApiBaseClass):
             No permissions required.
         """
 
-        url = "{}/files/{file_id}/public".format(self.client.base_url, file_id=file_id)
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
+        url = "/files/{file_id}/public".format(
+            file_id=file_id,
+        )
         params: Dict[str, Any] = {
             "h": h,
         }
@@ -263,14 +253,13 @@ class FilesApi(ApiBaseClass):
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "params": params,
         }
 
-        response = await self.client.get(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.get(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
@@ -295,24 +284,21 @@ class FilesApi(ApiBaseClass):
             5.34
         """
 
-        url = "{}/teams/{team_id}/files/search".format(
-            self.client.base_url, team_id=team_id
+        url = "/teams/{team_id}/files/search".format(
+            team_id=team_id,
         )
-        headers: Dict[str, Any] = self.client.get_headers()
-        cookies: Dict[str, Any] = self.client.get_cookies()
 
         multipart_body_data = SearchFilesMultipartData.parse_obj(multipart_data)
 
         request_kwargs = {
             "url": url,
-            "headers": headers,
-            "cookies": cookies,
             "data": multipart_body_data.get_data(),
         }
 
-        response = await self.client.post(
-            **request_kwargs,
-        )
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
 
         if self.skip_response_parsing:
             return response
