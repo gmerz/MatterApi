@@ -29,6 +29,43 @@ myst-parser = ">0.16.0"
 sphinx-rtd-theme = "^1.0.0"
 sphinxcontrib-programoutput = "^0.17"
 
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | build
+    | dist
+    | docs
+    | venv
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = "empty-docstring,C0116,duplicate-code"
+exclude-too-few-public-methods = ".*BaseConfig,.*.Config"
+
+
+[tool.pylint.'MASTER']
+extension-pkg-whitelist="pydantic"
+
+
+[tool.pylint.'FORMAT']
+# Regexp for a line that is allowed to be longer than the limit.
+ignore-long-lines='https?://'
+
 
 [build-system]
 requires = ["poetry>=1.0"]
