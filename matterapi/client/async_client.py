@@ -1,3 +1,4 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Optional
 
@@ -139,7 +140,7 @@ class AsyncClient(BaseClient):
             yield self._httpx_client
 
     @asynccontextmanager
-    async def session(self):
+    async def session(self) -> AsyncGenerator["AsyncClient", None, None]:
         """Open a Session which re-uses the underlying httpx client and it's connections"""
         api_client = self.copy()
         api_client._httpx_client = await api_client._create_httpx_client()

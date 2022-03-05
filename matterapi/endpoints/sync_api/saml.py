@@ -1,9 +1,12 @@
+""" Module to access the Saml endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from pydantic import BaseModel
 
 from ...models import (
     MigrateAuthToSamlJsonBody,
     ResetSamlAuthDataToEmailJsonBody,
-    ResetSamlAuthDataToEmailResponse_200,
+    ResetSamlAuthDataToEmailResponse200,
     SamlCertificateStatus,
     StatusOK,
     UploadSamlIdpCertificateMultipartData,
@@ -31,9 +34,12 @@ class SamlApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToSaml <https://api.mattermost.com/#operation/MigrateAuthToSaml>`_
         """
 
-        url = "/users/migrate_auth/saml".format()
+        url = "/users/migrate_auth/saml"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -44,7 +50,7 @@ class SamlApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -64,14 +70,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             No permission required.
+
+        Api Reference:
+            `GetSamlMetadata <https://api.mattermost.com/#operation/GetSamlMetadata>`_
         """
 
-        url = "/saml/metadata".format()
+        url = "/saml/metadata"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -81,8 +90,8 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = response.json()
-            return response_200
+            response200 = response.json()
+            return response200
         return response
 
     def get_saml_metadata_from_idp(
@@ -95,14 +104,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             No permission required.
+
+        Api Reference:
+            `GetSamlMetadataFromIdp <https://api.mattermost.com/#operation/GetSamlMetadataFromIdp>`_
         """
 
-        url = "/saml/metadatafromidp".format()
+        url = "/saml/metadatafromidp"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -112,8 +124,8 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = response.json()
-            return response_200
+            response200 = response.json()
+            return response200
         return response
 
     def upload_saml_idp_certificate(
@@ -129,9 +141,12 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `UploadSamlIdpCertificate <https://api.mattermost.com/#operation/UploadSamlIdpCertificate>`_
         """
 
-        url = "/saml/certificate/idp".format()
+        url = "/saml/certificate/idp"
 
         multipart_body_data = UploadSamlIdpCertificateMultipartData.parse_obj(
             multipart_data
@@ -142,7 +157,7 @@ class SamlApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -152,9 +167,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_saml_idp_certificate(
@@ -168,14 +183,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `DeleteSamlIdpCertificate <https://api.mattermost.com/#operation/DeleteSamlIdpCertificate>`_
         """
 
-        url = "/saml/certificate/idp".format()
+        url = "/saml/certificate/idp"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -185,9 +203,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def upload_saml_public_certificate(
@@ -203,9 +221,12 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `UploadSamlPublicCertificate <https://api.mattermost.com/#operation/UploadSamlPublicCertificate>`_
         """
 
-        url = "/saml/certificate/public".format()
+        url = "/saml/certificate/public"
 
         multipart_body_data = UploadSamlPublicCertificateMultipartData.parse_obj(
             multipart_data
@@ -216,7 +237,7 @@ class SamlApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -226,9 +247,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_saml_public_certificate(
@@ -242,14 +263,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `DeleteSamlPublicCertificate <https://api.mattermost.com/#operation/DeleteSamlPublicCertificate>`_
         """
 
-        url = "/saml/certificate/public".format()
+        url = "/saml/certificate/public"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -259,9 +283,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def upload_saml_private_certificate(
@@ -277,9 +301,12 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `UploadSamlPrivateCertificate <https://api.mattermost.com/#operation/UploadSamlPrivateCertificate>`_
         """
 
-        url = "/saml/certificate/private".format()
+        url = "/saml/certificate/private"
 
         multipart_body_data = UploadSamlPrivateCertificateMultipartData.parse_obj(
             multipart_data
@@ -290,7 +317,7 @@ class SamlApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -300,9 +327,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_saml_private_certificate(
@@ -316,14 +343,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `DeleteSamlPrivateCertificate <https://api.mattermost.com/#operation/DeleteSamlPrivateCertificate>`_
         """
 
-        url = "/saml/certificate/private".format()
+        url = "/saml/certificate/private"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -333,9 +363,9 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_saml_certificate_status(
@@ -348,14 +378,17 @@ class SamlApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `GetSamlCertificateStatus <https://api.mattermost.com/#operation/GetSamlCertificateStatus>`_
         """
 
-        url = "/saml/certificate/status".format()
+        url = "/saml/certificate/status"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -365,16 +398,16 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SamlCertificateStatus.parse_obj(response.json())
+            response200 = SamlCertificateStatus.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def reset_saml_auth_data_to_email(
         self,
         *,
         json_body: ResetSamlAuthDataToEmailJsonBody,
-    ) -> ResetSamlAuthDataToEmailResponse_200:
+    ) -> ResetSamlAuthDataToEmailResponse200:
         """Reset AuthData to Email
 
         Reset the AuthData field of SAML users to their email. This is meant to
@@ -385,9 +418,12 @@ class SamlApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.35
+
+        Api Reference:
+            `ResetSamlAuthDataToEmail <https://api.mattermost.com/#operation/ResetSamlAuthDataToEmail>`_
         """
 
-        url = "/saml/reset_auth_data".format()
+        url = "/saml/reset_auth_data"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -398,7 +434,7 @@ class SamlApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -408,9 +444,7 @@ class SamlApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ResetSamlAuthDataToEmailResponse_200.parse_obj(
-                response.json()
-            )
+            response200 = ResetSamlAuthDataToEmailResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

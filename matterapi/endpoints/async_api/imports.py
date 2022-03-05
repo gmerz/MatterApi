@@ -1,3 +1,6 @@
+""" Module to access the Imports endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from ..base import ApiBaseClass
 
 
@@ -15,14 +18,17 @@ class ImportsApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.31
+
+        Api Reference:
+            `ListImports <https://api.mattermost.com/#operation/ListImports>`_
         """
 
-        url = "/imports".format()
+        url = "/imports"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,

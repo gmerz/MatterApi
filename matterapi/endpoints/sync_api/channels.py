@@ -1,3 +1,6 @@
+""" Module to access the Channels endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional, cast
 
 from pydantic import BaseModel
@@ -17,6 +20,8 @@ from ...models import (
     OrderedSidebarCategories,
     PatchChannelJsonBody,
     PostList,
+    SearchAllChannelsJsonBody,
+    SearchAllChannelsResponse200,
     SearchArchivedChannelsJsonBody,
     SearchChannelsJsonBody,
     SearchGroupChannelsJsonBody,
@@ -28,7 +33,7 @@ from ...models import (
     UpdateChannelRolesJsonBody,
     UpdateChannelSchemeJsonBody,
     ViewChannelJsonBody,
-    ViewChannelResponse_200,
+    ViewChannelResponse200,
 )
 from ..base import ApiBaseClass
 
@@ -43,6 +48,8 @@ class ChannelsApi(ApiBaseClass):
         page: Optional[int] = 0,
         per_page: Optional[int] = 0,
         exclude_default_channels: Optional[bool] = False,
+        include_deleted: Optional[bool] = False,
+        include_total_count: Optional[bool] = False,
         exclude_policy_constrained: Optional[bool] = False,
     ) -> ChannelListWithTeamData:
         """Get a list of all channels
@@ -51,14 +58,19 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `manage_system`
+
+        Api Reference:
+            `GetAllChannels <https://api.mattermost.com/#operation/GetAllChannels>`_
         """
 
-        url = "/channels".format()
+        url = "/channels"
         params: Dict[str, Any] = {
             "not_associated_to_group": not_associated_to_group,
             "page": page,
             "per_page": per_page,
             "exclude_default_channels": exclude_default_channels,
+            "include_deleted": include_deleted,
+            "include_total_count": include_total_count,
             "exclude_policy_constrained": exclude_policy_constrained,
         }
         params = {k: v for k, v in params.items() if v is not None}
@@ -67,7 +79,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -77,9 +89,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ChannelListWithTeamData.parse_obj(response.json())
+            response200 = ChannelListWithTeamData.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def create_channel(
@@ -92,12 +104,15 @@ class ChannelsApi(ApiBaseClass):
         Create a new channel.
 
         Permissions:
-            If creating a public channel, `create_public_channel` permission is
-        required. If creating a private channel, `create_private_channel`
-        permission is required.
+            If creating a public channel, `create_public_channel`
+            permission is required. If creating a private channel,
+            `create_private_channel` permission is required.
+
+        Api Reference:
+            `CreateChannel <https://api.mattermost.com/#operation/CreateChannel>`_
         """
 
-        url = "/channels".format()
+        url = "/channels"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -108,7 +123,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -118,9 +133,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Channel.parse_obj(response.json())
+            response201 = Channel.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def create_direct_channel(
@@ -133,19 +148,22 @@ class ChannelsApi(ApiBaseClass):
         Create a new direct message channel between two users.
 
         Permissions:
-            Must be one of the two users and have `create_direct_channel`
-        permission. Having the `manage_system` permission voids the previous
-        requirements.
+            Must be one of the two users and have
+            `create_direct_channel` permission. Having the
+            `manage_system` permission voids the previous requirements.
+
+        Api Reference:
+            `CreateDirectChannel <https://api.mattermost.com/#operation/CreateDirectChannel>`_
         """
 
-        url = "/channels/direct".format()
+        url = "/channels/direct"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -155,9 +173,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Channel.parse_obj(response.json())
+            response201 = Channel.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def create_group_channel(
@@ -172,16 +190,19 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must have `create_group_channel` permission.
+
+        Api Reference:
+            `CreateGroupChannel <https://api.mattermost.com/#operation/CreateGroupChannel>`_
         """
 
-        url = "/channels/group".format()
+        url = "/channels/group"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -191,9 +212,64 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Channel.parse_obj(response.json())
+            response201 = Channel.parse_obj(response.json())
 
-            return response_201
+            return response201
+        return response
+
+    def search_all_channels(
+        self,
+        *,
+        json_body: SearchAllChannelsJsonBody,
+        system_console: Optional[bool] = True,
+    ) -> SearchAllChannelsResponse200:
+        """Search all private and open type channels across all teams
+
+        Returns all private and open type channels where 'term' matches on the
+        name, display name, or purpose of
+        the channel.
+
+        Configured 'default' channels (ex Town Square and Off-Topic) can be
+        excluded from the results
+        with the `exclude_default_channels` boolean parameter.
+
+        Channels that are associated (via GroupChannel records) to a given group
+        can be excluded from the results
+        with the `not_associated_to_group` parameter and a group id string.
+
+        Api Reference:
+            `SearchAllChannels <https://api.mattermost.com/#operation/SearchAllChannels>`_
+        """
+
+        url = "/channels/search"
+        params: Dict[str, Any] = {
+            "system_console": system_console,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
+
+        if isinstance(json_body, BaseModel):
+            json_json_body = json_body.dict(exclude_unset=True)
+        else:
+            json_json_body = json_body
+
+        request_kwargs = {
+            "url": url,
+            "json": json_json_body,
+            "params": params,
+        }
+        # pylint: disable-next=protected-access
+        with self.client._get_httpx_client() as httpx_client:
+            response = httpx_client.post(
+                **request_kwargs,
+            )
+
+        if self.skip_response_parsing:
+            return response
+
+        if response.status_code == 200:
+            response200 = SearchAllChannelsResponse200.parse_obj(response.json())
+
+            return response200
         return response
 
     def search_group_channels(
@@ -208,9 +284,12 @@ class ChannelsApi(ApiBaseClass):
 
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `SearchGroupChannels <https://api.mattermost.com/#operation/SearchGroupChannels>`_
         """
 
-        url = "/channels/group/search".format()
+        url = "/channels/group/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -221,7 +300,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -231,14 +310,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_public_channels_by_ids_for_team(
@@ -253,18 +332,19 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `view_team` for the team the channels are on.
+
+        Api Reference:
+            `GetPublicChannelsByIdsForTeam <https://api.mattermost.com/#operation/GetPublicChannelsByIdsForTeam>`_
         """
 
-        url = "/teams/{team_id}/channels/ids".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/ids"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -274,14 +354,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channel_members_timezones(
@@ -296,16 +376,17 @@ class ChannelsApi(ApiBaseClass):
             Must have the `read_channel` permission.
         Minimum Server Version:
             5.6
+
+        Api Reference:
+            `GetChannelMembersTimezones <https://api.mattermost.com/#operation/GetChannelMembersTimezones>`_
         """
 
-        url = "/channels/{channel_id}/timezones".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/timezones"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -315,9 +396,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_channel(
@@ -330,16 +411,17 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetChannel <https://api.mattermost.com/#operation/GetChannel>`_
         """
 
-        url = "/channels/{channel_id}".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -349,9 +431,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel(
@@ -366,14 +448,16 @@ class ChannelsApi(ApiBaseClass):
         parameters. Omitted fields will be treated as blanks.
 
         Permissions:
-            If updating a public channel, `manage_public_channel_members`
-        permission is required. If updating a private channel,
-        `manage_private_channel_members` permission is required.
+            If updating a public channel,
+            `manage_public_channel_members` permission is required. If
+            updating a private channel, `manage_private_channel_members`
+            permission is required.
+
+        Api Reference:
+            `UpdateChannel <https://api.mattermost.com/#operation/UpdateChannel>`_
         """
 
-        url = "/channels/{channel_id}".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -384,7 +468,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -394,9 +478,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_channel(
@@ -405,30 +489,34 @@ class ChannelsApi(ApiBaseClass):
     ) -> StatusOK:
         """Delete a channel
 
-        Soft deletes a channel, by marking the channel as deleted in the
-        database. Soft deleted channels will not be accessible in the user
-        interface. Direct and group message channels cannot be deleted.
+        Archives a channel. This will set the `deleteAt` to the current
+        timestamp in the database. Soft deleted channels may not be accessible
+        in the user interface. They can be viewed and unarchived in the **System
+        Console > User Management > Channels** based on your license. Direct and
+        group message channels cannot be deleted.
 
         As of server version 5.28, optionally use the `permanent=true` query
         parameter to permanently delete the channel for compliance reasons. To
         use this feature `ServiceSettings.EnableAPIChannelDeletion` must be set
-        to `true` in the server's configuration.
+        to `true` in the server's configuration.  If you permanently delete a
+        channel this action is not recoverable outside of a database backup.
 
         `delete_private_channel` permission if the channel is private,
         or have `manage_system` permission.
 
         Permissions:
             `delete_public_channel` permission if the channel is public,
+
+        Api Reference:
+            `DeleteChannel <https://api.mattermost.com/#operation/DeleteChannel>`_
         """
 
-        url = "/channels/{channel_id}".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -438,9 +526,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def patch_channel(
@@ -457,14 +545,16 @@ class ChannelsApi(ApiBaseClass):
         be ignored.
 
         Permissions:
-            If updating a public channel, `manage_public_channel_members`
-        permission is required. If updating a private channel,
-        `manage_private_channel_members` permission is required.
+            If updating a public channel,
+            `manage_public_channel_members` permission is required. If
+            updating a private channel, `manage_private_channel_members`
+            permission is required.
+
+        Api Reference:
+            `PatchChannel <https://api.mattermost.com/#operation/PatchChannel>`_
         """
 
-        url = "/channels/{channel_id}/patch".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -475,7 +565,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -485,9 +575,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel_privacy(
@@ -502,18 +592,19 @@ class ChannelsApi(ApiBaseClass):
         Private and back.
 
         Permissions:
-            `manage_team` permission for the channels team on version < 5.28.
-        `convert_public_channel_to_private` permission for the channel if
-        updating privacy to 'P' on version >= 5.28.
-        `convert_private_channel_to_public` permission for the channel if
-        updating privacy to 'O' on version >= 5.28.
+            `manage_team` permission for the channels team on version <
+            5.28. `convert_public_channel_to_private` permission for the
+            channel if updating privacy to 'P' on version >= 5.28.
+            `convert_private_channel_to_public` permission for the
+            channel if updating privacy to 'O' on version >= 5.28.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `UpdateChannelPrivacy <https://api.mattermost.com/#operation/UpdateChannelPrivacy>`_
         """
 
-        url = "/channels/{channel_id}/privacy".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/privacy"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -524,7 +615,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -534,9 +625,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def restore_channel(
@@ -551,16 +642,17 @@ class ChannelsApi(ApiBaseClass):
             `manage_team` permission for the team of the channel.
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `RestoreChannel <https://api.mattermost.com/#operation/RestoreChannel>`_
         """
 
-        url = "/channels/{channel_id}/restore".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/restore"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -570,9 +662,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def move_channel(
@@ -589,11 +681,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `MoveChannel <https://api.mattermost.com/#operation/MoveChannel>`_
         """
 
-        url = "/channels/{channel_id}/move".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/move"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -604,7 +697,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -614,9 +707,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_channel_stats(
@@ -629,16 +722,17 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must have the `read_channel` permission.
+
+        Api Reference:
+            `GetChannelStats <https://api.mattermost.com/#operation/GetChannelStats>`_
         """
 
-        url = "/channels/{channel_id}/stats".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/stats"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -648,9 +742,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ChannelStats.parse_obj(response.json())
+            response200 = ChannelStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_pinned_posts(
@@ -660,16 +754,17 @@ class ChannelsApi(ApiBaseClass):
         """Get a channel's pinned posts
 
         Get a list of pinned posts for channel.
+
+        Api Reference:
+            `GetPinnedPosts <https://api.mattermost.com/#operation/GetPinnedPosts>`_
         """
 
-        url = "/channels/{channel_id}/pinned".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/pinned"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -679,9 +774,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostList.parse_obj(response.json())
+            response200 = PostList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_public_channels_for_team(
@@ -697,12 +792,14 @@ class ChannelsApi(ApiBaseClass):
         - page and per_page.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
+
+        Api Reference:
+            `GetPublicChannelsForTeam <https://api.mattermost.com/#operation/GetPublicChannelsForTeam>`_
         """
 
-        url = "/teams/{team_id}/channels".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -713,7 +810,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -723,14 +820,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_private_channels_for_team(
@@ -749,11 +846,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetPrivateChannelsForTeam <https://api.mattermost.com/#operation/GetPrivateChannelsForTeam>`_
         """
 
-        url = "/teams/{team_id}/channels/private".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/private"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -764,7 +862,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -774,14 +872,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_deleted_channels_for_team(
@@ -798,11 +896,12 @@ class ChannelsApi(ApiBaseClass):
 
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `GetDeletedChannelsForTeam <https://api.mattermost.com/#operation/GetDeletedChannelsForTeam>`_
         """
 
-        url = "/teams/{team_id}/channels/deleted".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/deleted"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -813,7 +912,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -823,14 +922,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def autocomplete_channels_for_team(
@@ -848,11 +947,12 @@ class ChannelsApi(ApiBaseClass):
             Must have the `list_team_channels` permission.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `AutocompleteChannelsForTeam <https://api.mattermost.com/#operation/AutocompleteChannelsForTeam>`_
         """
 
-        url = "/teams/{team_id}/channels/autocomplete".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/autocomplete"
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -862,7 +962,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -872,14 +972,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def autocomplete_channels_for_team_for_search(
@@ -897,11 +997,12 @@ class ChannelsApi(ApiBaseClass):
             Must have the `list_team_channels` permission.
         Minimum Server Version:
             5.4
+
+        Api Reference:
+            `AutocompleteChannelsForTeamForSearch <https://api.mattermost.com/#operation/AutocompleteChannelsForTeamForSearch>`_
         """
 
-        url = "/teams/{team_id}/channels/search_autocomplete".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/search_autocomplete"
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -911,7 +1012,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -921,14 +1022,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def search_channels(
@@ -948,11 +1049,12 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must have the `list_team_channels` permission.
+
+        Api Reference:
+            `SearchChannels <https://api.mattermost.com/#operation/SearchChannels>`_
         """
 
-        url = "/teams/{team_id}/channels/search".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -963,7 +1065,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -973,14 +1075,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = []
-            _response_201 = response.json()
-            for response_201_item_data in _response_201:
-                response_201_item = Channel.parse_obj(response_201_item_data)
+            response201 = []
+            _response201 = response.json()
+            for response201_item_data in _response201:
+                response201_item = Channel.parse_obj(response201_item_data)
 
-                response_201.append(response_201_item)
+                response201.append(response201_item)
 
-            return response_201
+            return response201
         return response
 
     def search_archived_channels(
@@ -1002,11 +1104,12 @@ class ChannelsApi(ApiBaseClass):
             Must have the `list_team_channels` permission.
         Minimum Server Version:
             5.18
+
+        Api Reference:
+            `SearchArchivedChannels <https://api.mattermost.com/#operation/SearchArchivedChannels>`_
         """
 
-        url = "/teams/{team_id}/channels/search_archived".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/channels/search_archived"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1017,7 +1120,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1027,14 +1130,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = []
-            _response_201 = response.json()
-            for response_201_item_data in _response_201:
-                response_201_item = Channel.parse_obj(response_201_item_data)
+            response201 = []
+            _response201 = response.json()
+            for response201_item_data in _response201:
+                response201_item = Channel.parse_obj(response201_item_data)
 
-                response_201.append(response_201_item)
+                response201.append(response201_item)
 
-            return response_201
+            return response201
         return response
 
     def get_channel_by_name(
@@ -1050,12 +1153,12 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetChannelByName <https://api.mattermost.com/#operation/GetChannelByName>`_
         """
 
-        url = "/teams/{team_id}/channels/name/{channel_name}".format(
-            team_id=team_id,
-            channel_name=channel_name,
-        )
+        url = f"/teams/{team_id}/channels/name/{channel_name}"
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -1065,7 +1168,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1075,9 +1178,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_channel_by_name_for_team_name(
@@ -1093,12 +1196,12 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetChannelByNameForTeamName <https://api.mattermost.com/#operation/GetChannelByNameForTeamName>`_
         """
 
-        url = "/teams/name/{team_name}/channels/name/{channel_name}".format(
-            team_name=team_name,
-            channel_name=channel_name,
-        )
+        url = f"/teams/name/{team_name}/channels/name/{channel_name}"
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -1108,7 +1211,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1118,9 +1221,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Channel.parse_obj(response.json())
+            response200 = Channel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_channel_members(
@@ -1136,11 +1239,12 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetChannelMembers <https://api.mattermost.com/#operation/GetChannelMembers>`_
         """
 
-        url = "/channels/{channel_id}/members".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/members"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -1151,7 +1255,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1161,14 +1265,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def add_channel_member(
@@ -1180,11 +1284,12 @@ class ChannelsApi(ApiBaseClass):
         """Add user to channel
 
         Add a user to a channel by creating a channel member object.
+
+        Api Reference:
+            `AddChannelMember <https://api.mattermost.com/#operation/AddChannelMember>`_
         """
 
-        url = "/channels/{channel_id}/members".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/members"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1195,7 +1300,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1205,9 +1310,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = ChannelMember.parse_obj(response.json())
+            response201 = ChannelMember.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_channel_members_by_ids(
@@ -1222,18 +1327,19 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must have the `read_channel` permission.
+
+        Api Reference:
+            `GetChannelMembersByIds <https://api.mattermost.com/#operation/GetChannelMembersByIds>`_
         """
 
-        url = "/channels/{channel_id}/members/ids".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/members/ids"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1243,14 +1349,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channel_member(
@@ -1264,17 +1370,17 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetChannelMember <https://api.mattermost.com/#operation/GetChannelMember>`_
         """
 
-        url = "/channels/{channel_id}/members/{user_id}".format(
-            channel_id=channel_id,
-            user_id=user_id,
-        )
+        url = f"/channels/{channel_id}/members/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1284,9 +1390,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ChannelMember.parse_obj(response.json())
+            response200 = ChannelMember.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def remove_user_from_channel(
@@ -1303,18 +1409,19 @@ class ChannelsApi(ApiBaseClass):
         `manage_private_channel_members` permission if the channel is private.
 
         Permissions:
-            `manage_public_channel_members` permission if the channel is public.
+            `manage_public_channel_members` permission if the channel is
+            public.
+
+        Api Reference:
+            `RemoveUserFromChannel <https://api.mattermost.com/#operation/RemoveUserFromChannel>`_
         """
 
-        url = "/channels/{channel_id}/members/{user_id}".format(
-            channel_id=channel_id,
-            user_id=user_id,
-        )
+        url = f"/channels/{channel_id}/members/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -1324,9 +1431,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel_roles(
@@ -1342,12 +1449,12 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_channel_roles` permission for the channel.
+
+        Api Reference:
+            `UpdateChannelRoles <https://api.mattermost.com/#operation/UpdateChannelRoles>`_
         """
 
-        url = "/channels/{channel_id}/members/{user_id}/roles".format(
-            channel_id=channel_id,
-            user_id=user_id,
-        )
+        url = f"/channels/{channel_id}/members/{user_id}/roles"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1358,7 +1465,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1368,9 +1475,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel_member_scheme_roles(
@@ -1389,15 +1496,15 @@ class ChannelsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `manage_channel_roles`
-        permission.
+            permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `UpdateChannelMemberSchemeRoles <https://api.mattermost.com/#operation/UpdateChannelMemberSchemeRoles>`_
         """
 
-        url = "/channels/{channel_id}/members/{user_id}/schemeRoles".format(
-            channel_id=channel_id,
-            user_id=user_id,
-        )
+        url = f"/channels/{channel_id}/members/{user_id}/schemeRoles"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1408,7 +1515,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1418,9 +1525,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel_notify_props(
@@ -1436,13 +1543,14 @@ class ChannelsApi(ApiBaseClass):
         fields are updated.
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
+
+        Api Reference:
+            `UpdateChannelNotifyProps <https://api.mattermost.com/#operation/UpdateChannelNotifyProps>`_
         """
 
-        url = "/channels/{channel_id}/members/{user_id}/notify_props".format(
-            channel_id=channel_id,
-            user_id=user_id,
-        )
+        url = f"/channels/{channel_id}/members/{user_id}/notify_props"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1453,7 +1561,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1463,9 +1571,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def view_channel(
@@ -1473,7 +1581,7 @@ class ChannelsApi(ApiBaseClass):
         user_id: str,
         *,
         json_body: ViewChannelJsonBody,
-    ) -> ViewChannelResponse_200:
+    ) -> ViewChannelResponse200:
         """View channel
 
         Perform all the actions involved in viewing a channel. This includes
@@ -1484,12 +1592,14 @@ class ChannelsApi(ApiBaseClass):
         and newer.__
 
         Permissions:
-            Must be logged in as user or have `edit_other_users` permission.
+            Must be logged in as user or have `edit_other_users`
+            permission.
+
+        Api Reference:
+            `ViewChannel <https://api.mattermost.com/#operation/ViewChannel>`_
         """
 
-        url = "/channels/members/{user_id}/view".format(
-            user_id=user_id,
-        )
+        url = f"/channels/members/{user_id}/view"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1500,7 +1610,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1510,9 +1620,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ViewChannelResponse_200.parse_obj(response.json())
+            response200 = ViewChannelResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_channel_members_for_user(
@@ -1526,19 +1636,20 @@ class ChannelsApi(ApiBaseClass):
         `channel_user`, `channel_admin`) for a user on a specific team.
 
         Permissions:
-            Logged in as the user and `view_team` permission for the team.
-        Having `manage_system` permission voids the previous requirements.
+            Logged in as the user and `view_team` permission for the
+            team. Having `manage_system` permission voids the previous
+            requirements.
+
+        Api Reference:
+            `GetChannelMembersForUser <https://api.mattermost.com/#operation/GetChannelMembersForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/members".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/members"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1548,14 +1659,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channels_for_team_for_user(
@@ -1571,14 +1682,14 @@ class ChannelsApi(ApiBaseClass):
         Get all the channels on a team for a user.
 
         Permissions:
-            Logged in as the user, or have `edit_other_users` permission, and
-        `view_team` permission for the team.
+            Logged in as the user, or have `edit_other_users`
+            permission, and `view_team` permission for the team.
+
+        Api Reference:
+            `GetChannelsForTeamForUser <https://api.mattermost.com/#operation/GetChannelsForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels"
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
             "last_delete_at": last_delete_at,
@@ -1589,7 +1700,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1599,14 +1710,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channels_for_user(
@@ -1621,14 +1732,16 @@ class ChannelsApi(ApiBaseClass):
         Get all channels from all teams that a user is a member of.
 
         Permissions:
-            Logged in as the user, or have `edit_other_users` permission.
+            Logged in as the user, or have `edit_other_users`
+            permission.
         Minimum Server Version:
             6.1
+
+        Api Reference:
+            `GetChannelsForUser <https://api.mattermost.com/#operation/GetChannelsForUser>`_
         """
 
-        url = "/users/{user_id}/channels".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/channels"
         params: Dict[str, Any] = {
             "last_delete_at": last_delete_at,
             "include_deleted": include_deleted,
@@ -1639,7 +1752,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1649,14 +1762,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channel_unread(
@@ -1669,19 +1782,19 @@ class ChannelsApi(ApiBaseClass):
         Get the total unread messages and mentions for a channel for a user.
 
         Permissions:
-            Must be logged in as user and have the `read_channel` permission, or
-        have `edit_other_usrs` permission.
+            Must be logged in as user and have the `read_channel`
+            permission, or have `edit_other_usrs` permission.
+
+        Api Reference:
+            `GetChannelUnread <https://api.mattermost.com/#operation/GetChannelUnread>`_
         """
 
-        url = "/users/{user_id}/channels/{channel_id}/unread".format(
-            user_id=user_id,
-            channel_id=channel_id,
-        )
+        url = f"/users/{user_id}/channels/{channel_id}/unread"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1691,9 +1804,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ChannelUnread.parse_obj(response.json())
+            response200 = ChannelUnread.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_channel_scheme(
@@ -1711,11 +1824,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.10
+
+        Api Reference:
+            `UpdateChannelScheme <https://api.mattermost.com/#operation/UpdateChannelScheme>`_
         """
 
-        url = "/channels/{channel_id}/scheme".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/scheme"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1726,7 +1840,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1736,9 +1850,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def channel_members_minus_group_members(
@@ -1763,11 +1877,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `ChannelMembersMinusGroupMembers <https://api.mattermost.com/#operation/ChannelMembersMinusGroupMembers>`_
         """
 
-        url = "/channels/{channel_id}/members_minus_group_members".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/members_minus_group_members"
         params: Dict[str, Any] = {
             "group_ids": group_ids,
             "page": page,
@@ -1779,7 +1894,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1807,11 +1922,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `read_channel` permission for the given channel.
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `GetChannelMemberCountsByGroup <https://api.mattermost.com/#operation/GetChannelMemberCountsByGroup>`_
         """
 
-        url = "/channels/{channel_id}/member_counts_by_group".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/member_counts_by_group"
         params: Dict[str, Any] = {
             "include_timezones": include_timezones,
         }
@@ -1821,7 +1937,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1844,16 +1960,17 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.22
+
+        Api Reference:
+            `GetChannelModerations <https://api.mattermost.com/#operation/GetChannelModerations>`_
         """
 
-        url = "/channels/{channel_id}/moderations".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/moderations"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1863,14 +1980,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelModeration.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelModeration.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def patch_channel_moderations(
@@ -1887,11 +2004,12 @@ class ChannelsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.22
+
+        Api Reference:
+            `PatchChannelModerations <https://api.mattermost.com/#operation/PatchChannelModerations>`_
         """
 
-        url = "/channels/{channel_id}/moderations/patch".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/moderations/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1902,7 +2020,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1912,14 +2030,14 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelModeration.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelModeration.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_sidebar_categories_for_team_for_user(
@@ -1933,20 +2051,21 @@ class ChannelsApi(ApiBaseClass):
         on the given team, including a list of channel IDs in each category.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetSidebarCategoriesForTeamForUser <https://api.mattermost.com/#operation/GetSidebarCategoriesForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1956,16 +2075,16 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = OrderedSidebarCategories.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = OrderedSidebarCategories.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def update_sidebar_categories_for_team_for_user(
@@ -1981,15 +2100,16 @@ class ChannelsApi(ApiBaseClass):
         This can be used to reorder the channels in these categories.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `UpdateSidebarCategoriesForTeamForUser <https://api.mattermost.com/#operation/UpdateSidebarCategoriesForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories"
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -2004,7 +2124,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -2014,9 +2134,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SidebarCategory.parse_obj(response.json())
+            response200 = SidebarCategory.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def create_sidebar_category_for_team_for_user(
@@ -2031,15 +2151,16 @@ class ChannelsApi(ApiBaseClass):
         Create a custom sidebar category for the user on the given team.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `CreateSidebarCategoryForTeamForUser <https://api.mattermost.com/#operation/CreateSidebarCategoryForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/categories".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2050,7 +2171,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -2060,9 +2181,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SidebarCategory.parse_obj(response.json())
+            response200 = SidebarCategory.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_sidebar_category_order_for_team_for_user(
@@ -2076,20 +2197,21 @@ class ChannelsApi(ApiBaseClass):
         as an array of IDs.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetSidebarCategoryOrderForTeamForUser <https://api.mattermost.com/#operation/GetSidebarCategoryOrderForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/categories/order".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories/order"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -2099,9 +2221,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_sidebar_category_order_for_team_for_user(
@@ -2118,22 +2240,23 @@ class ChannelsApi(ApiBaseClass):
         team.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `UpdateSidebarCategoryOrderForTeamForUser <https://api.mattermost.com/#operation/UpdateSidebarCategoryOrderForTeamForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/channels/categories/order".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories/order"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -2143,9 +2266,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_sidebar_category_for_team_for_user(
@@ -2159,23 +2282,21 @@ class ChannelsApi(ApiBaseClass):
         Returns a single sidebar category for the user on the given team.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetSidebarCategoryForTeamForUser <https://api.mattermost.com/#operation/GetSidebarCategoryForTeamForUser>`_
         """
 
-        url = (
-            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-                team_id=team_id,
-                user_id=user_id,
-                category_id=category_id,
-            )
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories/{category_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -2185,9 +2306,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SidebarCategory.parse_obj(response.json())
+            response200 = SidebarCategory.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_sidebar_category_for_team_for_user(
@@ -2203,18 +2324,16 @@ class ChannelsApi(ApiBaseClass):
         Updates a single sidebar category for the user on the given team.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `UpdateSidebarCategoryForTeamForUser <https://api.mattermost.com/#operation/UpdateSidebarCategoryForTeamForUser>`_
         """
 
-        url = (
-            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-                team_id=team_id,
-                user_id=user_id,
-                category_id=category_id,
-            )
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories/{category_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2225,7 +2344,7 @@ class ChannelsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -2235,9 +2354,9 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SidebarCategory.parse_obj(response.json())
+            response200 = SidebarCategory.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def remove_sidebar_category_for_team_for_user(
@@ -2252,23 +2371,21 @@ class ChannelsApi(ApiBaseClass):
         custom categories can be deleted.
 
         Permissions:
-            Must be authenticated and have the `list_team_channels` permission.
+            Must be authenticated and have the `list_team_channels`
+            permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `RemoveSidebarCategoryForTeamForUser <https://api.mattermost.com/#operation/RemoveSidebarCategoryForTeamForUser>`_
         """
 
-        url = (
-            "/users/{user_id}/teams/{team_id}/channels/categories/{category_id}".format(
-                team_id=team_id,
-                user_id=user_id,
-                category_id=category_id,
-            )
-        )
+        url = f"/users/{user_id}/teams/{team_id}/channels/categories/{category_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -2278,7 +2395,7 @@ class ChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SidebarCategory.parse_obj(response.json())
+            response200 = SidebarCategory.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

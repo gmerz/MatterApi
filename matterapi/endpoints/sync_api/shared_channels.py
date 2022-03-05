@@ -1,3 +1,6 @@
+""" Module to access the SharedChannels endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from ...models import RemoteClusterInfo, SharedChannel
@@ -22,11 +25,12 @@ class SharedChannelsApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             5.50
+
+        Api Reference:
+            `GetAllSharedChannels <https://api.mattermost.com/#operation/GetAllSharedChannels>`_
         """
 
-        url = "/sharedchannels/{team_id}".format(
-            team_id=team_id,
-        )
+        url = f"/sharedchannels/{team_id}"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,7 +41,7 @@ class SharedChannelsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -47,14 +51,14 @@ class SharedChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = SharedChannel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = SharedChannel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_remote_cluster_info(
@@ -66,20 +70,21 @@ class SharedChannelsApi(ApiBaseClass):
         Get remote cluster info based on remoteId.
 
         Permissions:
-            Must be authenticated and user must belong to at least one channel
-        shared with the remote cluster.
+            Must be authenticated and user must belong to at least one
+            channel shared with the remote cluster.
         Minimum Server Version:
             5.50
+
+        Api Reference:
+            `GetRemoteClusterInfo <https://api.mattermost.com/#operation/GetRemoteClusterInfo>`_
         """
 
-        url = "/sharedchannels/remote_info/{remote_id}".format(
-            remote_id=remote_id,
-        )
+        url = f"/sharedchannels/remote_info/{remote_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -89,7 +94,7 @@ class SharedChannelsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = RemoteClusterInfo.parse_obj(response.json())
+            response200 = RemoteClusterInfo.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

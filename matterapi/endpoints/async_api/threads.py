@@ -1,3 +1,6 @@
+""" Module to access the Threads endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, Optional
 
 from ...models import UserThreads
@@ -24,15 +27,16 @@ class ThreadsApi(ApiBaseClass):
         Get all threads that user is following
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `GetUserThreads <https://api.mattermost.com/#operation/GetUserThreads>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads"
         params: Dict[str, Any] = {
             "since": since,
             "deleted": deleted,
@@ -47,7 +51,7 @@ class ThreadsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -57,9 +61,9 @@ class ThreadsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserThreads.parse_obj(response.json())
+            response200 = UserThreads.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_thread_mention_counts_by_channel(
@@ -72,20 +76,21 @@ class ThreadsApi(ApiBaseClass):
         Get all unread mention counts from followed threads
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `GetThreadMentionCountsByChannel <https://api.mattermost.com/#operation/GetThreadMentionCountsByChannel>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/mention_counts".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/mention_counts"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -106,20 +111,21 @@ class ThreadsApi(ApiBaseClass):
         Mark all threads that user is following as read
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `UpdateThreadsReadForUser <https://api.mattermost.com/#operation/UpdateThreadsReadForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/read".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/read"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -142,22 +148,21 @@ class ThreadsApi(ApiBaseClass):
         Mark a thread that user is following as read
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `UpdateThreadReadForUser <https://api.mattermost.com/#operation/UpdateThreadReadForUser>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/read/{timestamp}".format(
-            user_id=user_id,
-            team_id=team_id,
-            thread_id=thread_id,
-            timestamp=timestamp,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/{thread_id}/read/{timestamp}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -179,21 +184,21 @@ class ThreadsApi(ApiBaseClass):
         Start following a thread
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `StartFollowingThread <https://api.mattermost.com/#operation/StartFollowingThread>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
-            user_id=user_id,
-            team_id=team_id,
-            thread_id=thread_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/{thread_id}/following"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -215,21 +220,21 @@ class ThreadsApi(ApiBaseClass):
         Stop following a thread
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `StopFollowingThread <https://api.mattermost.com/#operation/StopFollowingThread>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}/following".format(
-            user_id=user_id,
-            team_id=team_id,
-            thread_id=thread_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/{thread_id}/following"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -251,21 +256,21 @@ class ThreadsApi(ApiBaseClass):
         Get a thread
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission.
+            Must be logged in as the user or have `edit_other_users`
+            permission.
         Minimum Server Version:
             5.29
+
+        Api Reference:
+            `GetUserThread <https://api.mattermost.com/#operation/GetUserThread>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/threads/{thread_id}".format(
-            user_id=user_id,
-            team_id=team_id,
-            thread_id=thread_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/threads/{thread_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,

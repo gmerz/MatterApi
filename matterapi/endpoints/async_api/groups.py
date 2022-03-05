@@ -1,11 +1,17 @@
+""" Module to access the Groups endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
 from ...models import (
-    GetGroupsAssociatedToChannelsByTeamResponse_200,
-    GetGroupStatsResponse_200,
-    GetGroupUsersResponse_200,
+    AddGroupMembersJsonBody,
+    CreateGroupJsonBody,
+    DeleteGroupMembersJsonBody,
+    GetGroupsAssociatedToChannelsByTeamResponse200,
+    GetGroupStatsResponse200,
+    GetGroupUsersResponse200,
     Group,
     GroupSyncableChannel,
     GroupSyncableChannels,
@@ -34,16 +40,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `UnlinkLdapGroup <https://api.mattermost.com/#operation/UnlinkLdapGroup>`_
         """
 
-        url = "/ldap/groups/{remote_id}/link".format(
-            remote_id=remote_id,
-        )
+        url = f"/ldap/groups/{remote_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -53,9 +60,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_groups(
@@ -68,6 +75,7 @@ class GroupsApi(ApiBaseClass):
         not_associated_to_team: str,
         not_associated_to_channel: str,
         since: Optional[int] = None,
+        filter_allow_reference: Optional[bool] = False,
     ) -> List[Group]:
         """Get groups
 
@@ -84,9 +92,12 @@ class GroupsApi(ApiBaseClass):
 
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroups <https://api.mattermost.com/#operation/GetGroups>`_
         """
 
-        url = "/groups".format()
+        url = "/groups"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -95,6 +106,7 @@ class GroupsApi(ApiBaseClass):
             "not_associated_to_team": not_associated_to_team,
             "not_associated_to_channel": not_associated_to_channel,
             "since": since,
+            "filter_allow_reference": filter_allow_reference,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -102,7 +114,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -112,14 +124,55 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Group.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Group.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
+        return response
+
+    async def create_group(
+        self,
+        *,
+        json_body: CreateGroupJsonBody,
+    ) -> None:
+        """Create a custom group
+
+        Create a `custom` type group.
+
+        #### Permission
+        Must have `create_custom_group` permission.
+
+        Minimum Server Version:
+            6.3
+
+        Api Reference:
+            `CreateGroup <https://api.mattermost.com/#operation/CreateGroup>`_
+        """
+
+        url = "/groups"
+
+        if isinstance(json_body, BaseModel):
+            json_json_body = json_body.dict(exclude_unset=True)
+        else:
+            json_json_body = json_body
+
+        request_kwargs = {
+            "url": url,
+            "json": json_json_body,
+        }
+        # pylint: disable-next=protected-access
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
+
+        if self.skip_response_parsing:
+            return response
+
         return response
 
     async def get_group(
@@ -134,16 +187,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroup <https://api.mattermost.com/#operation/GetGroup>`_
         """
 
-        url = "/groups/{group_id}".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -153,9 +207,47 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Group.parse_obj(response.json())
+            response200 = Group.parse_obj(response.json())
 
-            return response_200
+            return response200
+        return response
+
+    async def delete_group(
+        self,
+        group_id: str,
+    ) -> StatusOK:
+        """Deletes a custom group
+
+        Soft deletes a custom group.
+
+        Permissions:
+            Must have `custom_group_delete` permission for the given
+            group.
+        Minimum Server Version:
+            6.3
+
+        Api Reference:
+            `DeleteGroup <https://api.mattermost.com/#operation/DeleteGroup>`_
+        """
+
+        url = f"/groups/{group_id}"
+
+        request_kwargs = {
+            "url": url,
+        }
+        # pylint: disable-next=protected-access
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
+
+        if self.skip_response_parsing:
+            return response
+
+        if response.status_code == 200:
+            response200 = StatusOK.parse_obj(response.json())
+
+            return response200
         return response
 
     async def patch_group(
@@ -175,11 +267,12 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `PatchGroup <https://api.mattermost.com/#operation/PatchGroup>`_
         """
 
-        url = "/groups/{group_id}/patch".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -190,7 +283,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -200,9 +293,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Group.parse_obj(response.json())
+            response200 = Group.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def link_group_syncable_for_team(
@@ -218,17 +311,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_team` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `LinkGroupSyncableForTeam <https://api.mattermost.com/#operation/LinkGroupSyncableForTeam>`_
         """
 
-        url = "/groups/{group_id}/teams/{team_id}/link".format(
-            group_id=group_id,
-            team_id=team_id,
-        )
+        url = f"/groups/{group_id}/teams/{team_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -238,9 +331,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = GroupSyncableTeam.parse_obj(response.json())
+            response201 = GroupSyncableTeam.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def unlink_group_syncable_for_team(
@@ -256,17 +349,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_team` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `UnlinkGroupSyncableForTeam <https://api.mattermost.com/#operation/UnlinkGroupSyncableForTeam>`_
         """
 
-        url = "/groups/{group_id}/teams/{team_id}/link".format(
-            group_id=group_id,
-            team_id=team_id,
-        )
+        url = f"/groups/{group_id}/teams/{team_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -276,9 +369,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def link_group_syncable_for_channel(
@@ -293,20 +386,20 @@ class GroupsApi(ApiBaseClass):
 
         Permissions:
             If the channel is private, you must have
-        `manage_private_channel_members` permission.
+            `manage_private_channel_members` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `LinkGroupSyncableForChannel <https://api.mattermost.com/#operation/LinkGroupSyncableForChannel>`_
         """
 
-        url = "/groups/{group_id}/channels/{channel_id}/link".format(
-            group_id=group_id,
-            channel_id=channel_id,
-        )
+        url = f"/groups/{group_id}/channels/{channel_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -316,9 +409,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = GroupSyncableChannel.parse_obj(response.json())
+            response201 = GroupSyncableChannel.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def unlink_group_syncable_for_channel(
@@ -333,20 +426,20 @@ class GroupsApi(ApiBaseClass):
 
         Permissions:
             If the channel is private, you must have
-        `manage_private_channel_members` permission.
+            `manage_private_channel_members` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `UnlinkGroupSyncableForChannel <https://api.mattermost.com/#operation/UnlinkGroupSyncableForChannel>`_
         """
 
-        url = "/groups/{group_id}/channels/{channel_id}/link".format(
-            group_id=group_id,
-            channel_id=channel_id,
-        )
+        url = f"/groups/{group_id}/channels/{channel_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -356,9 +449,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_group_syncable_for_team_id(
@@ -374,17 +467,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupSyncableForTeamId <https://api.mattermost.com/#operation/GetGroupSyncableForTeamId>`_
         """
 
-        url = "/groups/{group_id}/teams/{team_id}".format(
-            group_id=group_id,
-            team_id=team_id,
-        )
+        url = f"/groups/{group_id}/teams/{team_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -394,9 +487,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GroupSyncableTeam.parse_obj(response.json())
+            response200 = GroupSyncableTeam.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_group_syncable_for_channel_id(
@@ -412,17 +505,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupSyncableForChannelId <https://api.mattermost.com/#operation/GetGroupSyncableForChannelId>`_
         """
 
-        url = "/groups/{group_id}/channels/{channel_id}".format(
-            group_id=group_id,
-            channel_id=channel_id,
-        )
+        url = f"/groups/{group_id}/channels/{channel_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -432,9 +525,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GroupSyncableChannel.parse_obj(response.json())
+            response200 = GroupSyncableChannel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_group_syncables_teams(
@@ -449,16 +542,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupSyncablesTeams <https://api.mattermost.com/#operation/GetGroupSyncablesTeams>`_
         """
 
-        url = "/groups/{group_id}/teams".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}/teams"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -468,14 +562,14 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = GroupSyncableTeams.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = GroupSyncableTeams.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_group_syncables_channels(
@@ -490,16 +584,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupSyncablesChannels <https://api.mattermost.com/#operation/GetGroupSyncablesChannels>`_
         """
 
-        url = "/groups/{group_id}/channels".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}/channels"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -509,16 +604,16 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = GroupSyncableChannels.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = GroupSyncableChannels.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def patch_group_syncable_for_team(
@@ -539,12 +634,12 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `PatchGroupSyncableForTeam <https://api.mattermost.com/#operation/PatchGroupSyncableForTeam>`_
         """
 
-        url = "/groups/{group_id}/teams/{team_id}/patch".format(
-            group_id=group_id,
-            team_id=team_id,
-        )
+        url = f"/groups/{group_id}/teams/{team_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -555,7 +650,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -565,9 +660,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GroupSyncableTeam.parse_obj(response.json())
+            response200 = GroupSyncableTeam.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def patch_group_syncable_for_channel(
@@ -588,12 +683,12 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `PatchGroupSyncableForChannel <https://api.mattermost.com/#operation/PatchGroupSyncableForChannel>`_
         """
 
-        url = "/groups/{group_id}/channels/{channel_id}/patch".format(
-            group_id=group_id,
-            channel_id=channel_id,
-        )
+        url = f"/groups/{group_id}/channels/{channel_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -604,7 +699,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -614,9 +709,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GroupSyncableChannel.parse_obj(response.json())
+            response200 = GroupSyncableChannel.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_group_users(
@@ -625,7 +720,7 @@ class GroupsApi(ApiBaseClass):
         *,
         page: Optional[int] = 0,
         per_page: Optional[int] = 60,
-    ) -> GetGroupUsersResponse_200:
+    ) -> GetGroupUsersResponse200:
         """Get group users
 
         Retrieve the list of users associated with a given group.
@@ -634,11 +729,12 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupUsers <https://api.mattermost.com/#operation/GetGroupUsers>`_
         """
 
-        url = "/groups/{group_id}/members".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}/members"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -649,7 +745,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -659,15 +755,107 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetGroupUsersResponse_200.parse_obj(response.json())
+            response200 = GetGroupUsersResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
+        return response
+
+    async def add_group_members(
+        self,
+        group_id: str,
+        *,
+        json_body: AddGroupMembersJsonBody,
+    ) -> StatusOK:
+        """Adds members to a custom group
+
+        Adds members to a custom group.
+
+        Permissions:
+            Must have `custom_group_manage_members` permission for the
+            given group.
+        Minimum Server Version:
+            6.3
+
+        Api Reference:
+            `AddGroupMembers <https://api.mattermost.com/#operation/AddGroupMembers>`_
+        """
+
+        url = f"/groups/{group_id}/members"
+
+        if isinstance(json_body, BaseModel):
+            json_json_body = json_body.dict(exclude_unset=True)
+        else:
+            json_json_body = json_body
+
+        request_kwargs = {
+            "url": url,
+            "json": json_json_body,
+        }
+        # pylint: disable-next=protected-access
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.post(
+                **request_kwargs,
+            )
+
+        if self.skip_response_parsing:
+            return response
+
+        if response.status_code == 200:
+            response200 = StatusOK.parse_obj(response.json())
+
+            return response200
+        return response
+
+    async def delete_group_members(
+        self,
+        group_id: str,
+        *,
+        json_body: DeleteGroupMembersJsonBody,
+    ) -> StatusOK:
+        """Removes members from a custom group
+
+        Soft deletes a custom group members.
+
+        Permissions:
+            Must have `custom_group_manage_members` permission for the
+            given group.
+        Minimum Server Version:
+            6.3
+
+        Api Reference:
+            `DeleteGroupMembers <https://api.mattermost.com/#operation/DeleteGroupMembers>`_
+        """
+
+        url = f"/groups/{group_id}/members"
+
+        if isinstance(json_body, BaseModel):
+            json_json_body = json_body.dict(exclude_unset=True)
+        else:
+            json_json_body = json_body
+
+        request_kwargs = {
+            "url": url,
+            "json": json_json_body,
+        }
+        # pylint: disable-next=protected-access
+        async with self.client._get_httpx_client() as httpx_client:
+            response = await httpx_client.delete(
+                **request_kwargs,
+            )
+
+        if self.skip_response_parsing:
+            return response
+
+        if response.status_code == 200:
+            response200 = StatusOK.parse_obj(response.json())
+
+            return response200
         return response
 
     async def get_group_stats(
         self,
         group_id: str,
-    ) -> GetGroupStatsResponse_200:
+    ) -> GetGroupStatsResponse200:
         """Get group stats
 
         Retrieve the stats of a given group.
@@ -676,16 +864,17 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetGroupStats <https://api.mattermost.com/#operation/GetGroupStats>`_
         """
 
-        url = "/groups/{group_id}/stats".format(
-            group_id=group_id,
-        )
+        url = f"/groups/{group_id}/stats"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -695,9 +884,9 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetGroupStatsResponse_200.parse_obj(response.json())
+            response200 = GetGroupStatsResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_groups_by_channel(
@@ -716,11 +905,12 @@ class GroupsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupsByChannel <https://api.mattermost.com/#operation/GetGroupsByChannel>`_
         """
 
-        url = "/channels/{channel_id}/groups".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/groups"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -732,7 +922,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -742,14 +932,14 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Group.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Group.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_groups_by_team(
@@ -766,11 +956,12 @@ class GroupsApi(ApiBaseClass):
 
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupsByTeam <https://api.mattermost.com/#operation/GetGroupsByTeam>`_
         """
 
-        url = "/teams/{team_id}/groups".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/groups"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -782,7 +973,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -792,14 +983,14 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Group.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Group.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_groups_associated_to_channels_by_team(
@@ -809,26 +1000,29 @@ class GroupsApi(ApiBaseClass):
         page: Optional[int] = 0,
         per_page: Optional[int] = 60,
         filter_allow_reference: Optional[bool] = False,
-    ) -> GetGroupsAssociatedToChannelsByTeamResponse_200:
+        paginate: Optional[bool] = False,
+    ) -> GetGroupsAssociatedToChannelsByTeamResponse200:
         """Get team groups by channels
 
         Retrieve the set of groups associated with the channels in the given
         team grouped by channel.
 
         Permissions:
-            Must have `manage_system` permission or can access only for current
-        user
+            Must have `manage_system` permission or can access only for
+            current user
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetGroupsAssociatedToChannelsByTeam <https://api.mattermost.com/#operation/GetGroupsAssociatedToChannelsByTeam>`_
         """
 
-        url = "/teams/{team_id}/groups_by_channels".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/groups_by_channels"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
             "filter_allow_reference": filter_allow_reference,
+            "paginate": paginate,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -836,7 +1030,7 @@ class GroupsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -846,11 +1040,11 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetGroupsAssociatedToChannelsByTeamResponse_200.parse_obj(
+            response200 = GetGroupsAssociatedToChannelsByTeamResponse200.parse_obj(
                 response.json()
             )
 
-            return response_200
+            return response200
         return response
 
     async def get_groups_by_user_id(
@@ -863,16 +1057,17 @@ class GroupsApi(ApiBaseClass):
 
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `GetGroupsByUserId <https://api.mattermost.com/#operation/GetGroupsByUserId>`_
         """
 
-        url = "/users/{user_id}/groups".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/groups"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -882,12 +1077,12 @@ class GroupsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Group.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Group.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

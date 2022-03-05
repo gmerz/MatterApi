@@ -1,3 +1,6 @@
+""" Module to access the Cluster endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import List
 
 from ...models import ClusterInfo
@@ -18,14 +21,17 @@ class ClusterApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetClusterStatus <https://api.mattermost.com/#operation/GetClusterStatus>`_
         """
 
-        url = "/cluster/status".format()
+        url = "/cluster/status"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -35,12 +41,12 @@ class ClusterApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ClusterInfo.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ClusterInfo.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

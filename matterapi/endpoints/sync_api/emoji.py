@@ -1,3 +1,6 @@
+""" Module to access the Emoji endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -23,9 +26,12 @@ class EmojiApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetEmojiList <https://api.mattermost.com/#operation/GetEmojiList>`_
         """
 
-        url = "/emoji".format()
+        url = "/emoji"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,7 +43,7 @@ class EmojiApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -47,9 +53,9 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Emoji.parse_obj(response.json())
+            response200 = Emoji.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def create_emoji(
@@ -63,9 +69,12 @@ class EmojiApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `CreateEmoji <https://api.mattermost.com/#operation/CreateEmoji>`_
         """
 
-        url = "/emoji".format()
+        url = "/emoji"
 
         multipart_body_data = CreateEmojiMultipartData.parse_obj(multipart_data)
 
@@ -74,7 +83,7 @@ class EmojiApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -84,9 +93,9 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Emoji.parse_obj(response.json())
+            response201 = Emoji.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_emoji(
@@ -99,16 +108,17 @@ class EmojiApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetEmoji <https://api.mattermost.com/#operation/GetEmoji>`_
         """
 
-        url = "/emoji/{emoji_id}".format(
-            emoji_id=emoji_id,
-        )
+        url = f"/emoji/{emoji_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -118,9 +128,9 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Emoji.parse_obj(response.json())
+            response200 = Emoji.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_emoji(
@@ -132,18 +142,19 @@ class EmojiApi(ApiBaseClass):
         Delete a custom emoji.
 
         Permissions:
-            Must have the `manage_team` or `manage_system` permissions or be the
-        user who created the emoji.
+            Must have the `manage_team` or `manage_system` permissions
+            or be the user who created the emoji.
+
+        Api Reference:
+            `DeleteEmoji <https://api.mattermost.com/#operation/DeleteEmoji>`_
         """
 
-        url = "/emoji/{emoji_id}".format(
-            emoji_id=emoji_id,
-        )
+        url = f"/emoji/{emoji_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -153,9 +164,9 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Emoji.parse_obj(response.json())
+            response200 = Emoji.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_emoji_by_name(
@@ -170,16 +181,17 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `GetEmojiByName <https://api.mattermost.com/#operation/GetEmojiByName>`_
         """
 
-        url = "/emoji/name/{emoji_name}".format(
-            emoji_name=emoji_name,
-        )
+        url = f"/emoji/name/{emoji_name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -189,9 +201,9 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Emoji.parse_obj(response.json())
+            response200 = Emoji.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_emoji_image(
@@ -204,16 +216,17 @@ class EmojiApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetEmojiImage <https://api.mattermost.com/#operation/GetEmojiImage>`_
         """
 
-        url = "/emoji/{emoji_id}/image".format(
-            emoji_id=emoji_id,
-        )
+        url = f"/emoji/{emoji_id}/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -238,9 +251,12 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `SearchEmoji <https://api.mattermost.com/#operation/SearchEmoji>`_
         """
 
-        url = "/emoji/search".format()
+        url = "/emoji/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -251,7 +267,7 @@ class EmojiApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -261,14 +277,14 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Emoji.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Emoji.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def autocomplete_emoji(
@@ -285,9 +301,12 @@ class EmojiApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `AutocompleteEmoji <https://api.mattermost.com/#operation/AutocompleteEmoji>`_
         """
 
-        url = "/emoji/autocomplete".format()
+        url = "/emoji/autocomplete"
         params: Dict[str, Any] = {
             "name": name,
         }
@@ -297,7 +316,7 @@ class EmojiApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -307,7 +326,7 @@ class EmojiApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Emoji.parse_obj(response.json())
+            response200 = Emoji.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

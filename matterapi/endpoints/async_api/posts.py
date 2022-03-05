@@ -1,3 +1,6 @@
+""" Module to access the Posts endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -33,11 +36,14 @@ class PostsApi(ApiBaseClass):
         another post, provide `root_id`.
 
         Permissions:
-            Must have `create_post` permission for the channel the post is being
-        created in.
+            Must have `create_post` permission for the channel the post
+            is being created in.
+
+        Api Reference:
+            `CreatePost <https://api.mattermost.com/#operation/CreatePost>`_
         """
 
-        url = "/posts".format()
+        url = "/posts"
         params: Dict[str, Any] = {
             "set_online": set_online,
         }
@@ -53,7 +59,7 @@ class PostsApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -63,9 +69,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Post.parse_obj(response.json())
+            response201 = Post.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def create_post_ephemeral(
@@ -78,11 +84,14 @@ class PostsApi(ApiBaseClass):
         Create a new ephemeral post in a channel.
 
         Permissions:
-            Must have `create_post_ephemeral` permission (currently only given
-        to system admin)
+            Must have `create_post_ephemeral` permission (currently only
+            given to system admin)
+
+        Api Reference:
+            `CreatePostEphemeral <https://api.mattermost.com/#operation/CreatePostEphemeral>`_
         """
 
-        url = "/posts/ephemeral".format()
+        url = "/posts/ephemeral"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -93,7 +102,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -103,9 +112,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Post.parse_obj(response.json())
+            response201 = Post.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_post(
@@ -117,19 +126,20 @@ class PostsApi(ApiBaseClass):
         Get a single post.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in
-        or if the channel is public, have the `read_public_channels` permission
-        for the team.
+            Must have `read_channel` permission for the channel the post
+            is in or if the channel is public, have the
+            `read_public_channels` permission for the team.
+
+        Api Reference:
+            `GetPost <https://api.mattermost.com/#operation/GetPost>`_
         """
 
-        url = "/posts/{post_id}".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -139,9 +149,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Post.parse_obj(response.json())
+            response200 = Post.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_post(
@@ -156,12 +166,14 @@ class PostsApi(ApiBaseClass):
         fields will be treated as blank.
 
         Permissions:
-            Must have `edit_post` permission for the channel the post is in.
+            Must have `edit_post` permission for the channel the post is
+            in.
+
+        Api Reference:
+            `UpdatePost <https://api.mattermost.com/#operation/UpdatePost>`_
         """
 
-        url = "/posts/{post_id}".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -172,7 +184,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -182,9 +194,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Post.parse_obj(response.json())
+            response200 = Post.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def delete_post(
@@ -198,17 +210,18 @@ class PostsApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have `delete_others_posts`
-        permission.
+            permission.
+
+        Api Reference:
+            `DeletePost <https://api.mattermost.com/#operation/DeletePost>`_
         """
 
-        url = "/posts/{post_id}".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -218,9 +231,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def set_post_unread(
@@ -235,22 +248,22 @@ class PostsApi(ApiBaseClass):
         marking the post for himself.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in
-        or if the channel is public, have the `read_public_channels` permission
-        for the team.
+            Must have `read_channel` permission for the channel the post
+            is in or if the channel is public, have the
+            `read_public_channels` permission for the team.
         Minimum Server Version:
             5.18
+
+        Api Reference:
+            `SetPostUnread <https://api.mattermost.com/#operation/SetPostUnread>`_
         """
 
-        url = "/users/{user_id}/posts/{post_id}/set_unread".format(
-            user_id=user_id,
-            post_id=post_id,
-        )
+        url = f"/users/{user_id}/posts/{post_id}/set_unread"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -260,9 +273,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ChannelUnreadAt.parse_obj(response.json())
+            response200 = ChannelUnreadAt.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def patch_post(
@@ -279,11 +292,12 @@ class PostsApi(ApiBaseClass):
 
         Permissions:
             Must have the `edit_post` permission.
+
+        Api Reference:
+            `PatchPost <https://api.mattermost.com/#operation/PatchPost>`_
         """
 
-        url = "/posts/{post_id}/patch".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -294,7 +308,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -304,9 +318,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Post.parse_obj(response.json())
+            response200 = Post.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_post_thread(
@@ -318,19 +332,20 @@ class PostsApi(ApiBaseClass):
         Get a post and the rest of the posts in the same thread.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in
-        or if the channel is public, have the `read_public_channels` permission
-        for the team.
+            Must have `read_channel` permission for the channel the post
+            is in or if the channel is public, have the
+            `read_public_channels` permission for the team.
+
+        Api Reference:
+            `GetPostThread <https://api.mattermost.com/#operation/GetPostThread>`_
         """
 
-        url = "/posts/{post_id}/thread".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/thread"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -340,9 +355,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostList.parse_obj(response.json())
+            response200 = PostList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_flagged_posts_for_user(
@@ -362,11 +377,12 @@ class PostsApi(ApiBaseClass):
 
         Permissions:
             Must be user or have `manage_system` permission.
+
+        Api Reference:
+            `GetFlaggedPostsForUser <https://api.mattermost.com/#operation/GetFlaggedPostsForUser>`_
         """
 
-        url = "/users/{user_id}/posts/flagged".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/posts/flagged"
         params: Dict[str, Any] = {
             "team_id": team_id,
             "channel_id": channel_id,
@@ -379,7 +395,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -389,14 +405,14 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = PostList.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = PostList.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_file_infos_for_post(
@@ -409,17 +425,19 @@ class PostsApi(ApiBaseClass):
         post.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in.
+            Must have `read_channel` permission for the channel the post
+            is in.
+
+        Api Reference:
+            `GetFileInfosForPost <https://api.mattermost.com/#operation/GetFileInfosForPost>`_
         """
 
-        url = "/posts/{post_id}/files/info".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/files/info"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -429,14 +447,14 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = FileInfo.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = FileInfo.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_posts_for_channel(
@@ -462,11 +480,12 @@ class PostsApi(ApiBaseClass):
 
         Permissions:
             Must have `read_channel` permission for the channel.
+
+        Api Reference:
+            `GetPostsForChannel <https://api.mattermost.com/#operation/GetPostsForChannel>`_
         """
 
-        url = "/channels/{channel_id}/posts".format(
-            channel_id=channel_id,
-        )
+        url = f"/channels/{channel_id}/posts"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -480,7 +499,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -490,9 +509,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostList.parse_obj(response.json())
+            response200 = PostList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_posts_around_last_unread(
@@ -502,6 +521,9 @@ class PostsApi(ApiBaseClass):
         *,
         limit_before: Optional[int] = 60,
         limit_after: Optional[int] = 60,
+        skip_fetch_threads: Optional[bool] = False,
+        collapsed_threads: Optional[bool] = False,
+        collapsed_threads_extended: Optional[bool] = False,
     ) -> PostList:
         """Get posts around oldest unread
 
@@ -510,19 +532,23 @@ class PostsApi(ApiBaseClass):
         (most recent post first).
 
         Permissions:
-            Must be logged in as the user or have `edit_other_users` permission,
-        and must have `read_channel` permission for the channel.
+            Must be logged in as the user or have `edit_other_users`
+            permission, and must have `read_channel` permission for the
+            channel.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `GetPostsAroundLastUnread <https://api.mattermost.com/#operation/GetPostsAroundLastUnread>`_
         """
 
-        url = "/users/{user_id}/channels/{channel_id}/posts/unread".format(
-            user_id=user_id,
-            channel_id=channel_id,
-        )
+        url = f"/users/{user_id}/channels/{channel_id}/posts/unread"
         params: Dict[str, Any] = {
             "limit_before": limit_before,
             "limit_after": limit_after,
+            "skipFetchThreads": skip_fetch_threads,
+            "collapsedThreads": collapsed_threads,
+            "collapsedThreadsExtended": collapsed_threads_extended,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -530,7 +556,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -540,9 +566,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostList.parse_obj(response.json())
+            response200 = PostList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def search_posts(
@@ -557,11 +583,12 @@ class PostsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
+
+        Api Reference:
+            `SearchPosts <https://api.mattermost.com/#operation/SearchPosts>`_
         """
 
-        url = "/teams/{team_id}/posts/search".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/posts/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -572,7 +599,7 @@ class PostsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -582,9 +609,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostListWithSearchMatches.parse_obj(response.json())
+            response200 = PostListWithSearchMatches.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def pin_post(
@@ -596,18 +623,19 @@ class PostsApi(ApiBaseClass):
         Pin a post to a channel it is in based from the provided post id string.
 
         Permissions:
-            Must be authenticated and have the `read_channel` permission to the
-        channel the post is in.
+            Must be authenticated and have the `read_channel` permission
+            to the channel the post is in.
+
+        Api Reference:
+            `PinPost <https://api.mattermost.com/#operation/PinPost>`_
         """
 
-        url = "/posts/{post_id}/pin".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/pin"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -617,9 +645,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def unpin_post(
@@ -632,18 +660,19 @@ class PostsApi(ApiBaseClass):
         string.
 
         Permissions:
-            Must be authenticated and have the `read_channel` permission to the
-        channel the post is in.
+            Must be authenticated and have the `read_channel` permission
+            to the channel the post is in.
+
+        Api Reference:
+            `UnpinPost <https://api.mattermost.com/#operation/UnpinPost>`_
         """
 
-        url = "/posts/{post_id}/unpin".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/unpin"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -653,9 +682,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def do_post_action(
@@ -669,19 +698,19 @@ class PostsApi(ApiBaseClass):
         through posts.
 
         Permissions:
-            Must be authenticated and have the `read_channel` permission to the
-        channel the post is in.
+            Must be authenticated and have the `read_channel` permission
+            to the channel the post is in.
+
+        Api Reference:
+            `DoPostAction <https://api.mattermost.com/#operation/DoPostAction>`_
         """
 
-        url = "/posts/{post_id}/actions/{action_id}".format(
-            post_id=post_id,
-            action_id=action_id,
-        )
+        url = f"/posts/{post_id}/actions/{action_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -691,9 +720,9 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_posts_by_ids(
@@ -706,19 +735,22 @@ class PostsApi(ApiBaseClass):
         Fetch a list of posts based on the provided postIDs
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in
-        or if the channel is public, have the `read_public_channels` permission
-        for the team.
+            Must have `read_channel` permission for the channel the post
+            is in or if the channel is public, have the
+            `read_public_channels` permission for the team.
+
+        Api Reference:
+            `GetPostsByIds <https://api.mattermost.com/#operation/GetPostsByIds>`_
         """
 
-        url = "/posts/ids".format()
+        url = "/posts/ids"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -728,12 +760,12 @@ class PostsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Post.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Post.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

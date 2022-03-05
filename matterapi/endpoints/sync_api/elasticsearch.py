@@ -1,3 +1,6 @@
+""" Module to access the Elasticsearch endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from ...models import StatusOK
 from ..base import ApiBaseClass
 
@@ -20,14 +23,17 @@ class ElasticsearchApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `TestElasticsearch <https://api.mattermost.com/#operation/TestElasticsearch>`_
         """
 
-        url = "/elasticsearch/test".format()
+        url = "/elasticsearch/test"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -37,9 +43,9 @@ class ElasticsearchApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def purge_elasticsearch_indexes(
@@ -56,14 +62,17 @@ class ElasticsearchApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `PurgeElasticsearchIndexes <https://api.mattermost.com/#operation/PurgeElasticsearchIndexes>`_
         """
 
-        url = "/elasticsearch/purge_indexes".format()
+        url = "/elasticsearch/purge_indexes"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -73,7 +82,7 @@ class ElasticsearchApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

@@ -1,7 +1,10 @@
+""" Enums used in different API endpoints """
 from enum import Enum
 
 
 class PluginStatusState(str, Enum):
+    """State of the plugin"""
+
     NOTRUNNING = "NotRunning"
     STARTING = "Starting"
     RUNNING = "Running"
@@ -14,6 +17,8 @@ class PluginStatusState(str, Enum):
 
 
 class SidebarCategoryType(str, Enum):
+    """None"""
+
     CHANNELS = "channels"
     CUSTOM = "custom"
     DIRECT_MESSAGES = "direct_messages"
@@ -24,6 +29,8 @@ class SidebarCategoryType(str, Enum):
 
 
 class SidebarCategoryWithChannelsType(str, Enum):
+    """None"""
+
     CHANNELS = "channels"
     CUSTOM = "custom"
     DIRECT_MESSAGES = "direct_messages"
@@ -34,6 +41,8 @@ class SidebarCategoryWithChannelsType(str, Enum):
 
 
 class UploadSessionType(str, Enum):
+    """The type of the upload."""
+
     ATTACHMENT = "attachment"
     IMPORT_ = "import"
 
@@ -42,6 +51,8 @@ class UploadSessionType(str, Enum):
 
 
 class PostMetadataEmbedsItemType(str, Enum):
+    """The type of content that is embedded in this point."""
+
     IMAGE = "image"
     MESSAGE_ATTACHMENT = "message_attachment"
     OPENGRAPH = "opengraph"

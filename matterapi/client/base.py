@@ -91,16 +91,16 @@ class ApiClientOptions(BaseModel):
         will be returned as raw httpx response """
 
     @validator("ws_url", pre=True, always=True)
-    def _ws_url_setter(cls, v, values):
+    def _ws_url_setter(cls, value, values):
         """Set the websocket url from the url if not set explicitly"""
-        if v is None:
+        if value is None:
             if "url" in values:
                 url = urlparse(values["url"])
                 scheme_map = {"https": "wss", "http": "ws"}
                 url = url._replace(scheme=scheme_map[url.scheme])
                 return url.geturl()
         else:
-            return v
+            return value
 
         raise ValueError(
             "Url is not present in values and ws_url was not set explicitly"
@@ -112,9 +112,9 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
     Contains shared business logic of Sync and Async client for interacting with the mattermost api
     """
 
-    options: ApiClientOptions
+    options: Union[ApiClientOptions, Dict]
     """ Options to be passed to the client """
-    active_token: Optional[str]
+    active_token: Optional[str] = None
     """ The currently active authentication token.
 
     This will either be the token passed as :class:~AuthToken or the session token acquired
@@ -123,10 +123,10 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
     """
 
     @validator("options")
-    def set_logging_mode(cls, v):
-        if v.debug:
+    def set_logging_mode(cls, value):
+        if value.debug:
             logger.setLevel(logging.DEBUG)
-        return v
+        return value
 
     @abc.abstractmethod
     async def _login(self):

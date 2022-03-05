@@ -1,3 +1,6 @@
+""" Module to access the Jobs endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -25,9 +28,12 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `GetJobs <https://api.mattermost.com/#operation/GetJobs>`_
         """
 
-        url = "/jobs".format()
+        url = "/jobs"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -38,7 +44,7 @@ class JobsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -48,14 +54,14 @@ class JobsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Job.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Job.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_job(
@@ -71,9 +77,12 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `CreateJob <https://api.mattermost.com/#operation/CreateJob>`_
         """
 
-        url = "/jobs".format()
+        url = "/jobs"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -84,7 +93,7 @@ class JobsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -94,9 +103,9 @@ class JobsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Job.parse_obj(response.json())
+            response201 = Job.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_job(
@@ -111,16 +120,17 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `GetJob <https://api.mattermost.com/#operation/GetJob>`_
         """
 
-        url = "/jobs/{job_id}".format(
-            job_id=job_id,
-        )
+        url = f"/jobs/{job_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -130,9 +140,9 @@ class JobsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Job.parse_obj(response.json())
+            response200 = Job.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def download_job(
@@ -147,16 +157,17 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `DownloadJob <https://api.mattermost.com/#operation/DownloadJob>`_
         """
 
-        url = "/jobs/{job_id}/download".format(
-            job_id=job_id,
-        )
+        url = f"/jobs/{job_id}/download"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -179,16 +190,17 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `CancelJob <https://api.mattermost.com/#operation/CancelJob>`_
         """
 
-        url = "/jobs/{job_id}/cancel".format(
-            job_id=job_id,
-        )
+        url = f"/jobs/{job_id}/cancel"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -198,9 +210,9 @@ class JobsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_jobs_by_type(
@@ -219,11 +231,12 @@ class JobsApi(ApiBaseClass):
             Must have `manage_jobs` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `GetJobsByType <https://api.mattermost.com/#operation/GetJobsByType>`_
         """
 
-        url = "/jobs/type/{type}".format(
-            type=type,
-        )
+        url = f"/jobs/type/{type}"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -234,7 +247,7 @@ class JobsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -244,12 +257,12 @@ class JobsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Job.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Job.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

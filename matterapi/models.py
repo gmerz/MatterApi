@@ -1,3 +1,4 @@
+# pylint: disable=empty-docstring,too-few-public-methods
 from typing import ClassVar, Dict, List, Optional, Set
 
 from .enums import (
@@ -182,7 +183,7 @@ class ChannelWithTeamData(BaseConfig):
 
 
 class ChannelListWithTeamData(BaseArray):
-    """"""
+    """ """
 
     __root__: List[ChannelWithTeamData]
 
@@ -294,7 +295,7 @@ class Session(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     create_at: Optional[int] = None
     device_id: Optional[str] = None
@@ -2306,7 +2307,7 @@ class Timezone(BaseConfig):
 class ChannelNotifyProps(BaseConfig):
     """
     Attributes:
-        email (Optional[bool]): Set to "true" to enable email notifications,
+        email (Optional[str]): Set to "true" to enable email notifications,
             "false" to disable, or "default" to use the global user notification
             setting.
         push (Optional[str]): Set to "all" to receive push notifications for all
@@ -2321,7 +2322,7 @@ class ChannelNotifyProps(BaseConfig):
             Defaults to "all".
     """
 
-    email: Optional[bool] = None
+    email: Optional[str] = None
     push: Optional[str] = None
     desktop: Optional[str] = None
     mark_unread: Optional[str] = None
@@ -2615,7 +2616,7 @@ class UserTermsOfService(BaseConfig):
 
 
 class PostIdToReactionsMap(BaseMapping):
-    """"""
+    """ """
 
     __root__: Dict[str, List[Reaction]]
 
@@ -3228,6 +3229,9 @@ class SystemStatusResponse(BaseConfig):
             "UNHEALTHY"). Included when get_server_status parameter set.
         status (Optional[str]): Status of server ("OK" or "UNHEALTHY"). Included
             when get_server_status parameter set.
+        can_receive_notifications (Optional[str]): Whether the device id
+            provided can receive notifications ("true", "false" or "unknown").
+            Included when device_id parameter set.
     """
 
     android_latest_version: Optional[str] = None
@@ -3239,6 +3243,7 @@ class SystemStatusResponse(BaseConfig):
     database_status: Optional[str] = None
     filestore_status: Optional[str] = None
     status: Optional[str] = None
+    can_receive_notifications: Optional[str] = None
 
 
 class LicenseRenewalLink(BaseConfig):
@@ -3292,7 +3297,7 @@ class User(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     id: Optional[str] = None
     create_at: Optional[int] = None
@@ -3401,7 +3406,7 @@ class FileInfoList(BaseConfig):
     """
 
     class FileInfos(BaseMapping):
-        """"""
+        """ """
 
         __root__: Dict[str, FileInfo]
 
@@ -3636,7 +3641,7 @@ class Post(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     id: Optional[str] = None
     create_at: Optional[int] = None
@@ -3668,7 +3673,7 @@ class PostList(BaseConfig):
     """
 
     class Posts(BaseMapping):
-        """"""
+        """ """
 
         __root__: Dict[str, Post]
 
@@ -3690,7 +3695,7 @@ class PostListWithSearchMatches(BaseConfig):
     """
 
     class Posts(BaseMapping):
-        """"""
+        """ """
 
         __root__: Dict[str, Post]
 
@@ -3824,7 +3829,7 @@ class CreateUserJsonBody(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     email: str
     username: str
@@ -3839,7 +3844,7 @@ class CreateUserJsonBody(BaseConfig):
     notify_props: Optional[UserNotifyProps] = None
 
 
-class GetUsersByGroupChannelIdsResponse_200(BaseConfig):
+class GetUsersByGroupChannelIdsResponse200(BaseConfig):
     """
     Attributes:
         channel_id (Optional[List[User]]):
@@ -3906,7 +3911,7 @@ class UpdateUserJsonBody(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     id: str
     email: Optional[str] = None
@@ -3935,7 +3940,7 @@ class PatchUserJsonBody(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     email: Optional[str] = None
     username: Optional[str] = None
@@ -4030,7 +4035,7 @@ class UpdateUserMfaJsonBody(BaseConfig):
     code: Optional[str] = None
 
 
-class GenerateMfaSecretResponse_200(BaseConfig):
+class GenerateMfaSecretResponse200(BaseConfig):
     """
     Attributes:
         secret (Optional[str]): The MFA secret as a string
@@ -4041,7 +4046,7 @@ class GenerateMfaSecretResponse_200(BaseConfig):
     qr_code: Optional[str] = None
 
 
-class CheckUserMfaResponse_200(BaseConfig):
+class CheckUserMfaResponse200(BaseConfig):
     """
     Attributes:
         mfa_required (Optional[bool]): Value will `true` if MFA is active,
@@ -4117,7 +4122,7 @@ class SendVerificationEmailJsonBody(BaseConfig):
     email: str
 
 
-class SwitchAccountTypeResponse_200(BaseConfig):
+class SwitchAccountTypeResponse200(BaseConfig):
     """
     Attributes:
         follow_link (Optional[str]): The link for the user to follow to login or
@@ -4376,7 +4381,7 @@ class UpdateTeamPrivacyJsonBody(BaseConfig):
     privacy: str
 
 
-class SearchTeamsResponse_200(BaseConfig):
+class SearchTeamsResponse200(BaseConfig):
     """
     Attributes:
         teams (Optional[List[Team]]): The teams that matched the query.
@@ -4516,7 +4521,7 @@ class InviteGuestsToTeamJsonBody(BaseConfig):
     message: Optional[str] = None
 
 
-class ImportTeamResponse_200(BaseConfig):
+class ImportTeamResponse200(BaseConfig):
     """
     Attributes:
         results (Optional[str]):
@@ -4571,7 +4576,7 @@ class ImportTeamMultipartData(BaseConfig):
         return self.dict(exclude=self._file_properties, exclude_none=True)
 
 
-class GetTeamInviteInfoResponse_200(BaseConfig):
+class GetTeamInviteInfoResponse200(BaseConfig):
     """
     Attributes:
         id (Optional[str]):
@@ -4617,7 +4622,7 @@ class CreateChannelJsonBody(BaseConfig):
     header: Optional[str] = None
 
 
-class SearchAllChannelsResponse_200(BaseConfig):
+class SearchAllChannelsResponse200(BaseConfig):
     """
     Attributes:
         channels (Optional[List[Channel]]): The channels that matched the query.
@@ -4627,6 +4632,76 @@ class SearchAllChannelsResponse_200(BaseConfig):
 
     channels: Optional[List[Channel]] = None
     total_count: Optional[float] = None
+
+
+class SearchAllChannelsJsonBody(BaseConfig):
+    """
+    Attributes:
+        term (str): The string to search in the channel name, display name, and
+            purpose.
+        not_associated_to_group (Optional[str]): A group id to exclude channels
+            that are associated to that group via GroupChannel records.
+        exclude_default_channels (Optional[bool]): Exclude default channels from
+            the results by setting this parameter to true.
+        team_ids (Optional[List[str]]): Filters results to channels belonging to
+            the given team ids
+
+            Minimum Server Version:
+                5.26
+        group_constrained (Optional[bool]): Filters results to only return
+            channels constrained to a group
+
+            Minimum Server Version:
+                5.26
+        exclude_group_constrained (Optional[bool]): Filters results to exclude
+            channels constrained to a group
+
+            Minimum Server Version:
+                5.26
+        public (Optional[bool]): Filters results to only return Public / Open
+            channels, can be used in conjunction with `private` to return both
+            `public` and `private` channels
+
+            Minimum Server Version:
+                5.26
+        private (Optional[bool]): Filters results to only return Private
+            channels, can be used in conjunction with `public` to return both
+            `private` and `public` channels
+
+            Minimum Server Version:
+                5.26
+        deleted (Optional[bool]): Filters results to only return deleted /
+            archived channels
+
+            Minimum Server Version:
+                5.26
+        page (Optional[str]): The page number to return, if paginated. If this
+            parameter is not present with the `per_page` parameter then the results
+            will be returned un-paged.
+        per_page (Optional[str]): The number of entries to return per page, if
+            paginated. If this parameter is not present with the `page` parameter
+            then the results will be returned un-paged.
+        exclude_policy_constrained (Optional[bool]): If set to true, only
+            channels which do not have a granular retention policy assigned to them
+            will be returned. The `sysconsole_read_compliance_data_retention`
+            permission is required to use this parameter.
+
+            Minimum Server Version:
+                5.35
+    """
+
+    term: str
+    not_associated_to_group: Optional[str] = None
+    exclude_default_channels: Optional[bool] = None
+    team_ids: Optional[List[str]] = None
+    group_constrained: Optional[bool] = None
+    exclude_group_constrained: Optional[bool] = None
+    public: Optional[bool] = None
+    private: Optional[bool] = None
+    deleted: Optional[bool] = None
+    page: Optional[str] = None
+    per_page: Optional[str] = None
+    exclude_policy_constrained: Optional[bool] = False
 
 
 class SearchGroupChannelsJsonBody(BaseConfig):
@@ -4751,7 +4826,7 @@ class UpdateChannelMemberSchemeRolesJsonBody(BaseConfig):
     scheme_user: bool
 
 
-class ViewChannelResponse_200(BaseConfig):
+class ViewChannelResponse200(BaseConfig):
     """
     Attributes:
         status (Optional[str]): Value should be "OK" if successful
@@ -4900,7 +4975,7 @@ class SearchPostsJsonBody(BaseConfig):
     per_page: Optional[int] = 60
 
 
-class UploadFileResponse_201(BaseConfig):
+class UploadFileResponse201(BaseConfig):
     """
     Attributes:
         file_infos (Optional[List[FileInfo]]): A list of file metadata that has
@@ -4960,7 +5035,7 @@ class UploadFileMultipartData(BaseConfig):
         return self.dict(exclude=self._file_properties, exclude_none=True)
 
 
-class GetFileLinkResponse_200(BaseConfig):
+class GetFileLinkResponse200(BaseConfig):
     """
     Attributes:
         link (Optional[str]):
@@ -5019,7 +5094,7 @@ class CreateUploadJsonBody(BaseConfig):
 
 
 class UploadDataFormData(BaseConfig):
-    """"""
+    """ """
 
 
 class CreateJobJsonBody(BaseConfig):
@@ -5044,17 +5119,6 @@ class TestSiteURLJsonBody(BaseConfig):
     """
 
     site_url: str
-
-
-class MigrateConfigJsonBody(BaseConfig):
-    """
-    Attributes:
-        from_ (Optional[str]):
-        to (Optional[str]):
-    """
-
-    from_: Optional[str] = None
-    to: Optional[str] = None
 
 
 class UploadLicenseFileMultipartData(BaseConfig):
@@ -5107,8 +5171,8 @@ class RequestTrialLicenseJsonBody(BaseConfig):
     users: int
 
 
-class PostLogResponse_200(BaseConfig):
-    """"""
+class PostLogResponse200(BaseConfig):
+    """ """
 
 
 class PostLogJsonBody(BaseConfig):
@@ -5122,7 +5186,7 @@ class PostLogJsonBody(BaseConfig):
     message: str
 
 
-class UpgradeToEnterpriseStatusResponse_200(BaseConfig):
+class UpgradeToEnterpriseStatusResponse200(BaseConfig):
     """
     Attributes:
         percentage (Optional[int]): Current percentage of the upgrade
@@ -5229,21 +5293,21 @@ class CreateIncomingWebhookJsonBody(BaseConfig):
 class UpdateIncomingWebhookJsonBody(BaseConfig):
     """
     Attributes:
+        hook_id (str): Incoming webhook GUID
         channel_id (str): The ID of a public channel or private group that
             receives the webhook payloads.
         display_name (str): The display name for this incoming webhook
         description (str): The description for this incoming webhook
-        hook_id (Optional[str]): Incoming webhook GUID
         username (Optional[str]): The username this incoming webhook will post
             as.
         icon_url (Optional[str]): The profile picture this incoming webhook will
             use when posting.
     """
 
+    hook_id: str
     channel_id: str
     display_name: str
     description: str
-    hook_id: Optional[str] = None
     username: Optional[str] = None
     icon_url: Optional[str] = None
 
@@ -5285,17 +5349,17 @@ class CreateOutgoingWebhookJsonBody(BaseConfig):
 class UpdateOutgoingWebhookJsonBody(BaseConfig):
     """
     Attributes:
+        hook_id (str): Outgoing webhook GUID
         channel_id (str): The ID of a public channel or private group that
             receives the webhook payloads.
         display_name (str): The display name for this incoming webhook
         description (str): The description for this incoming webhook
-        hook_id (Optional[str]): Outgoing webhook GUID
     """
 
+    hook_id: str
     channel_id: str
     display_name: str
     description: str
-    hook_id: Optional[str] = None
 
 
 class UploadSamlIdpCertificateMultipartData(BaseConfig):
@@ -5421,7 +5485,7 @@ class UploadSamlPrivateCertificateMultipartData(BaseConfig):
         return self.dict(exclude=self._file_properties, exclude_none=True)
 
 
-class ResetSamlAuthDataToEmailResponse_200(BaseConfig):
+class ResetSamlAuthDataToEmailResponse200(BaseConfig):
     """
     Attributes:
         num_affected (Optional[int]): The number of users whose AuthData field
@@ -5537,6 +5601,33 @@ class UploadLdapPrivateCertificateMultipartData(BaseConfig):
         return self.dict(exclude=self._file_properties, exclude_none=True)
 
 
+class CreateGroupJsonBody(BaseConfig):
+    """
+    Attributes:
+        group (Group): Group object to create.
+        user_ids (List[str]): The user ids of the group members to add.
+    """
+
+    class Group(BaseConfig):
+        """Group object to create.
+
+        Attributes:
+            name (str): The unique group name used for at-mentioning.
+            display_name (str): The display name of the group which can include
+                spaces.
+            source (str): Must be `custom`
+            allow_reference (bool): Must be true
+        """
+
+        name: str
+        display_name: str
+        source: str
+        allow_reference: bool
+
+    group: Group
+    user_ids: List[str]
+
+
 class PatchGroupJsonBody(BaseConfig):
     """
     Attributes:
@@ -5568,7 +5659,7 @@ class PatchGroupSyncableForChannelJsonBody(BaseConfig):
     auto_add: Optional[bool] = None
 
 
-class GetGroupUsersResponse_200(BaseConfig):
+class GetGroupUsersResponse200(BaseConfig):
     """
     Attributes:
         members (Optional[List[User]]):
@@ -5579,7 +5670,27 @@ class GetGroupUsersResponse_200(BaseConfig):
     total_member_count: Optional[int] = None
 
 
-class GetGroupStatsResponse_200(BaseConfig):
+class AddGroupMembersJsonBody(BaseConfig):
+    """An object containing the user ids of the members to add.
+
+    Attributes:
+        user_ids (Optional[List[str]]):
+    """
+
+    user_ids: Optional[List[str]] = None
+
+
+class DeleteGroupMembersJsonBody(BaseConfig):
+    """An object containing the user ids of the members to remove.
+
+    Attributes:
+        user_ids (Optional[List[str]]):
+    """
+
+    user_ids: Optional[List[str]] = None
+
+
+class GetGroupStatsResponse200(BaseConfig):
     """
     Attributes:
         group_id (Optional[str]):
@@ -5590,8 +5701,8 @@ class GetGroupStatsResponse_200(BaseConfig):
     total_member_count: Optional[int] = None
 
 
-class GetGroupsAssociatedToChannelsByTeamResponse_200(BaseConfig):
-    """"""
+class GetGroupsAssociatedToChannelsByTeamResponse200(BaseConfig):
+    """ """
 
 
 class UploadBrandImageMultipartData(BaseConfig):
@@ -5659,7 +5770,7 @@ class MoveCommandJsonBody(BaseConfig):
     team_id: Optional[str] = None
 
 
-class RegenCommandTokenResponse_200(BaseConfig):
+class RegenCommandTokenResponse200(BaseConfig):
     """
     Attributes:
         token (Optional[str]): The new token
@@ -5723,7 +5834,7 @@ class UpdateOAuthAppJsonBody(BaseConfig):
     is_trusted: Optional[bool] = None
 
 
-class GetDataRetentionPoliciesCountResponse_200(BaseConfig):
+class GetDataRetentionPoliciesCountResponse200(BaseConfig):
     """
     Attributes:
         total_count (Optional[int]): The number of granular retention policies.
@@ -5766,7 +5877,7 @@ class SearchChannelsForRetentionPolicyJsonBody(BaseConfig):
     deleted: Optional[bool] = None
 
 
-class GetPluginsResponse_200(BaseConfig):
+class GetPluginsResponse200(BaseConfig):
     """
     Attributes:
         active (Optional[List[PluginManifest]]):
@@ -5825,11 +5936,11 @@ class InstallMarketplacePluginJsonBody(BaseConfig):
     """
     Attributes:
         id (str): The ID of the plugin to install.
-        version (str): The version of the plugin to install.
+        version (Optional[str]): The version of the plugin to install.
     """
 
     id: str
-    version: str
+    version: Optional[str] = None
 
 
 class PatchRoleJsonBody(BaseConfig):
@@ -5876,7 +5987,7 @@ class OpenGraphJsonBody(BaseConfig):
 
 
 class DialogElementsItem(BaseConfig):
-    """"""
+    """ """
 
 
 class OpenInteractiveDialogJsonBody(BaseConfig):
@@ -6029,7 +6140,7 @@ class ConvertBotToUserJsonBody(BaseConfig):
     """
 
     class Props(BaseConfig):
-        """"""
+        """ """
 
     email: Optional[str] = None
     username: Optional[str] = None

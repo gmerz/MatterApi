@@ -1,3 +1,6 @@
+""" Module to access the Commands endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -9,7 +12,7 @@ from ...models import (
     CreateCommandJsonBody,
     ExecuteCommandJsonBody,
     MoveCommandJsonBody,
-    RegenCommandTokenResponse_200,
+    RegenCommandTokenResponse200,
     StatusOK,
 )
 from ..base import ApiBaseClass
@@ -30,9 +33,12 @@ class CommandsApi(ApiBaseClass):
 
         Permissions:
             `manage_slash_commands` if need list custom commands.
+
+        Api Reference:
+            `ListCommands <https://api.mattermost.com/#operation/ListCommands>`_
         """
 
-        url = "/commands".format()
+        url = "/commands"
         params: Dict[str, Any] = {
             "team_id": team_id,
             "custom_only": custom_only,
@@ -43,7 +49,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -53,14 +59,14 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Command.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Command.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_command(
@@ -74,9 +80,12 @@ class CommandsApi(ApiBaseClass):
 
         Permissions:
             `manage_slash_commands` for the team the command is in.
+
+        Api Reference:
+            `CreateCommand <https://api.mattermost.com/#operation/CreateCommand>`_
         """
 
-        url = "/commands".format()
+        url = "/commands"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -87,7 +96,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -97,9 +106,9 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Command.parse_obj(response.json())
+            response201 = Command.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def list_autocomplete_commands(
@@ -112,16 +121,17 @@ class CommandsApi(ApiBaseClass):
 
         Permissions:
             `view_team` for the team.
+
+        Api Reference:
+            `ListAutocompleteCommands <https://api.mattermost.com/#operation/ListAutocompleteCommands>`_
         """
 
-        url = "/teams/{team_id}/commands/autocomplete".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/commands/autocomplete"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -131,14 +141,14 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Command.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Command.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def list_command_autocomplete_suggestions(
@@ -155,11 +165,12 @@ class CommandsApi(ApiBaseClass):
             `view_team` for the team.
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `ListCommandAutocompleteSuggestions <https://api.mattermost.com/#operation/ListCommandAutocompleteSuggestions>`_
         """
 
-        url = "/teams/{team_id}/commands/autocomplete_suggestions".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/commands/autocomplete_suggestions"
         params: Dict[str, Any] = {
             "user_input": user_input,
         }
@@ -169,7 +180,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -179,16 +190,16 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = AutocompleteSuggestion.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = AutocompleteSuggestion.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_command_by_id(
@@ -200,20 +211,21 @@ class CommandsApi(ApiBaseClass):
         Get a command definition based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the
-        command is in.
+            Must have `manage_slash_commands` permission for the team
+            the command is in.
         Minimum Server Version:
             5.22
+
+        Api Reference:
+            `GetCommandById <https://api.mattermost.com/#operation/GetCommandById>`_
         """
 
-        url = "/commands/{command_id}".format(
-            command_id=command_id,
-        )
+        url = f"/commands/{command_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -223,9 +235,9 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Command.parse_obj(response.json())
+            response200 = Command.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_command(
@@ -239,13 +251,14 @@ class CommandsApi(ApiBaseClass):
         Update a single command based on command id string and Command struct.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the
-        command is in.
+            Must have `manage_slash_commands` permission for the team
+            the command is in.
+
+        Api Reference:
+            `UpdateCommand <https://api.mattermost.com/#operation/UpdateCommand>`_
         """
 
-        url = "/commands/{command_id}".format(
-            command_id=command_id,
-        )
+        url = f"/commands/{command_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -256,7 +269,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -266,9 +279,9 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Command.parse_obj(response.json())
+            response200 = Command.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def delete_command(
@@ -280,18 +293,19 @@ class CommandsApi(ApiBaseClass):
         Delete a command based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the
-        command is in.
+            Must have `manage_slash_commands` permission for the team
+            the command is in.
+
+        Api Reference:
+            `DeleteCommand <https://api.mattermost.com/#operation/DeleteCommand>`_
         """
 
-        url = "/commands/{command_id}".format(
-            command_id=command_id,
-        )
+        url = f"/commands/{command_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -301,9 +315,9 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def move_command(
@@ -317,15 +331,16 @@ class CommandsApi(ApiBaseClass):
         Move a command to a different team based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the
-        command is currently in and the destination team.
+            Must have `manage_slash_commands` permission for the team
+            the command is currently in and the destination team.
         Minimum Server Version:
             5.22
+
+        Api Reference:
+            `MoveCommand <https://api.mattermost.com/#operation/MoveCommand>`_
         """
 
-        url = "/commands/{command_id}/move".format(
-            command_id=command_id,
-        )
+        url = f"/commands/{command_id}/move"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -336,7 +351,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -346,32 +361,33 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def regen_command_token(
         self,
         command_id: str,
-    ) -> RegenCommandTokenResponse_200:
+    ) -> RegenCommandTokenResponse200:
         """Generate a new token
 
         Generate a new token for the command based on command id string.
 
         Permissions:
-            Must have `manage_slash_commands` permission for the team the
-        command is in.
+            Must have `manage_slash_commands` permission for the team
+            the command is in.
+
+        Api Reference:
+            `RegenCommandToken <https://api.mattermost.com/#operation/RegenCommandToken>`_
         """
 
-        url = "/commands/{command_id}/regen_token".format(
-            command_id=command_id,
-        )
+        url = f"/commands/{command_id}/regen_token"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -381,9 +397,9 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = RegenCommandTokenResponse_200.parse_obj(response.json())
+            response200 = RegenCommandTokenResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def execute_command(
@@ -396,11 +412,14 @@ class CommandsApi(ApiBaseClass):
         Execute a command on a team.
 
         Permissions:
-            Must have `use_slash_commands` permission for the team the command
-        is in.
+            Must have `use_slash_commands` permission for the team the
+            command is in.
+
+        Api Reference:
+            `ExecuteCommand <https://api.mattermost.com/#operation/ExecuteCommand>`_
         """
 
-        url = "/commands/execute".format()
+        url = "/commands/execute"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -411,7 +430,7 @@ class CommandsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -421,7 +440,7 @@ class CommandsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = CommandResponse.parse_obj(response.json())
+            response200 = CommandResponse.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

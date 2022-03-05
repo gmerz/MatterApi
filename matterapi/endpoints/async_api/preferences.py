@@ -1,3 +1,6 @@
+""" Module to access the Preferences endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import List
 
 from pydantic import BaseModel
@@ -19,17 +22,18 @@ class PreferencesApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `GetPreferences <https://api.mattermost.com/#operation/GetPreferences>`_
         """
 
-        url = "/users/{user_id}/preferences".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/preferences"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -39,14 +43,14 @@ class PreferencesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Preference.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Preference.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def update_preferences(
@@ -61,12 +65,13 @@ class PreferencesApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `UpdatePreferences <https://api.mattermost.com/#operation/UpdatePreferences>`_
         """
 
-        url = "/users/{user_id}/preferences".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/preferences"
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -81,7 +86,7 @@ class PreferencesApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -91,9 +96,9 @@ class PreferencesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def delete_preferences(
@@ -108,12 +113,13 @@ class PreferencesApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `DeletePreferences <https://api.mattermost.com/#operation/DeletePreferences>`_
         """
 
-        url = "/users/{user_id}/preferences/delete".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/preferences/delete"
         json_json_body = []
         for json_body_item_data in json_body:
 
@@ -128,7 +134,7 @@ class PreferencesApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -138,9 +144,9 @@ class PreferencesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_preferences_by_category(
@@ -154,18 +160,18 @@ class PreferencesApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `GetPreferencesByCategory <https://api.mattermost.com/#operation/GetPreferencesByCategory>`_
         """
 
-        url = "/users/{user_id}/preferences/{category}".format(
-            user_id=user_id,
-            category=category,
-        )
+        url = f"/users/{user_id}/preferences/{category}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -175,14 +181,14 @@ class PreferencesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Preference.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Preference.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_preferences_by_category_by_name(
@@ -198,19 +204,18 @@ class PreferencesApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `GetPreferencesByCategoryByName <https://api.mattermost.com/#operation/GetPreferencesByCategoryByName>`_
         """
 
-        url = "/users/{user_id}/preferences/{category}/name/{preference_name}".format(
-            user_id=user_id,
-            category=category,
-            preference_name=preference_name,
-        )
+        url = f"/users/{user_id}/preferences/{category}/name/{preference_name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -220,7 +225,7 @@ class PreferencesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Preference.parse_obj(response.json())
+            response200 = Preference.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

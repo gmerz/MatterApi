@@ -1,3 +1,6 @@
+""" Module to access the Oauth endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -21,12 +24,15 @@ class OauthApi(ApiBaseClass):
         Get a page of OAuth 2.0 client applications registered with Mattermost.
 
         Permissions:
-            With `manage_oauth` permission, the apps registered by the logged in
-        user are returned. With `manage_system_wide_oauth` permission, all apps
-        regardless of creator are returned.
+            With `manage_oauth` permission, the apps registered by the
+            logged in user are returned. With `manage_system_wide_oauth`
+            permission, all apps regardless of creator are returned.
+
+        Api Reference:
+            `GetOAuthApps <https://api.mattermost.com/#operation/GetOAuthApps>`_
         """
 
-        url = "/oauth/apps".format()
+        url = "/oauth/apps"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -37,7 +43,7 @@ class OauthApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -47,14 +53,14 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = OAuthApp.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = OAuthApp.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_oauth_app(
@@ -69,9 +75,12 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_oauth` permission.
+
+        Api Reference:
+            `CreateOAuthApp <https://api.mattermost.com/#operation/CreateOAuthApp>`_
         """
 
-        url = "/oauth/apps".format()
+        url = "/oauth/apps"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -82,7 +91,7 @@ class OauthApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -92,9 +101,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = OAuthApp.parse_obj(response.json())
+            response201 = OAuthApp.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_oauth_app(
@@ -107,17 +116,18 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             If app creator, must have `mange_oauth` permission otherwise
-        `manage_system_wide_oauth` permission is required.
+            `manage_system_wide_oauth` permission is required.
+
+        Api Reference:
+            `GetOAuthApp <https://api.mattermost.com/#operation/GetOAuthApp>`_
         """
 
-        url = "/oauth/apps/{app_id}".format(
-            app_id=app_id,
-        )
+        url = f"/oauth/apps/{app_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -127,9 +137,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OAuthApp.parse_obj(response.json())
+            response200 = OAuthApp.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_oauth_app(
@@ -144,12 +154,13 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             If app creator, must have `mange_oauth` permission otherwise
-        `manage_system_wide_oauth` permission is required.
+            `manage_system_wide_oauth` permission is required.
+
+        Api Reference:
+            `UpdateOAuthApp <https://api.mattermost.com/#operation/UpdateOAuthApp>`_
         """
 
-        url = "/oauth/apps/{app_id}".format(
-            app_id=app_id,
-        )
+        url = f"/oauth/apps/{app_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -160,7 +171,7 @@ class OauthApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -170,9 +181,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OAuthApp.parse_obj(response.json())
+            response200 = OAuthApp.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_oauth_app(
@@ -185,17 +196,18 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             If app creator, must have `mange_oauth` permission otherwise
-        `manage_system_wide_oauth` permission is required.
+            `manage_system_wide_oauth` permission is required.
+
+        Api Reference:
+            `DeleteOAuthApp <https://api.mattermost.com/#operation/DeleteOAuthApp>`_
         """
 
-        url = "/oauth/apps/{app_id}".format(
-            app_id=app_id,
-        )
+        url = f"/oauth/apps/{app_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -205,9 +217,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def regenerate_oauth_app_secret(
@@ -221,17 +233,18 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             If app creator, must have `mange_oauth` permission otherwise
-        `manage_system_wide_oauth` permission is required.
+            `manage_system_wide_oauth` permission is required.
+
+        Api Reference:
+            `RegenerateOAuthAppSecret <https://api.mattermost.com/#operation/RegenerateOAuthAppSecret>`_
         """
 
-        url = "/oauth/apps/{app_id}/regen_secret".format(
-            app_id=app_id,
-        )
+        url = f"/oauth/apps/{app_id}/regen_secret"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -241,9 +254,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OAuthApp.parse_obj(response.json())
+            response200 = OAuthApp.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_oauth_app_info(
@@ -257,16 +270,17 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetOAuthAppInfo <https://api.mattermost.com/#operation/GetOAuthAppInfo>`_
         """
 
-        url = "/oauth/apps/{app_id}/info".format(
-            app_id=app_id,
-        )
+        url = f"/oauth/apps/{app_id}/info"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -276,9 +290,9 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OAuthApp.parse_obj(response.json())
+            response200 = OAuthApp.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_authorized_oauth_apps_for_user(
@@ -295,12 +309,13 @@ class OauthApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated as the user or have `edit_other_users`
-        permission.
+            permission.
+
+        Api Reference:
+            `GetAuthorizedOAuthAppsForUser <https://api.mattermost.com/#operation/GetAuthorizedOAuthAppsForUser>`_
         """
 
-        url = "/users/{user_id}/oauth/apps/authorized".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/oauth/apps/authorized"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -311,7 +326,7 @@ class OauthApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -321,12 +336,12 @@ class OauthApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = OAuthApp.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = OAuthApp.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

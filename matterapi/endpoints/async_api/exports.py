@@ -1,3 +1,6 @@
+""" Module to access the Exports endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from ..base import ApiBaseClass
 
 
@@ -15,14 +18,17 @@ class ExportsApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.33
+
+        Api Reference:
+            `ListExports <https://api.mattermost.com/#operation/ListExports>`_
         """
 
-        url = "/exports".format()
+        url = "/exports"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -45,16 +51,17 @@ class ExportsApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.33
+
+        Api Reference:
+            `DownloadExport <https://api.mattermost.com/#operation/DownloadExport>`_
         """
 
-        url = "/exports/{export_name}".format(
-            export_name=export_name,
-        )
+        url = f"/exports/{export_name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -77,16 +84,17 @@ class ExportsApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.33
+
+        Api Reference:
+            `DeleteExport <https://api.mattermost.com/#operation/DeleteExport>`_
         """
 
-        url = "/exports/{export_name}".format(
-            export_name=export_name,
-        )
+        url = f"/exports/{export_name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,

@@ -1,3 +1,6 @@
+""" Module to access the Teams endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -6,14 +9,14 @@ from ...models import (
     AddTeamMemberJsonBody,
     CreateTeamJsonBody,
     FileInfoList,
-    GetTeamInviteInfoResponse_200,
+    GetTeamInviteInfoResponse200,
     ImportTeamMultipartData,
-    ImportTeamResponse_200,
+    ImportTeamResponse200,
     InviteGuestsToTeamJsonBody,
     PatchTeamJsonBody,
     SearchFilesMultipartData,
     SearchTeamsJsonBody,
-    SearchTeamsResponse_200,
+    SearchTeamsResponse200,
     SetTeamIconMultipartData,
     StatusOK,
     Team,
@@ -48,11 +51,14 @@ class TeamsApi(ApiBaseClass):
         result is based on query string parameters - page and per_page.
 
         Permissions:
-            Must be authenticated. \"manage_system\" permission is required to
-        show all teams.
+            Must be authenticated. \"manage_system\" permission is
+            required to show all teams.
+
+        Api Reference:
+            `GetAllTeams <https://api.mattermost.com/#operation/GetAllTeams>`_
         """
 
-        url = "/teams".format()
+        url = "/teams"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -65,7 +71,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -75,14 +81,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Team.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Team.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_team(
@@ -96,9 +102,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `create_team` permission.
+
+        Api Reference:
+            `CreateTeam <https://api.mattermost.com/#operation/CreateTeam>`_
         """
 
-        url = "/teams".format()
+        url = "/teams"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -109,7 +118,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -119,9 +128,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Team.parse_obj(response.json())
+            response201 = Team.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_team(
@@ -134,16 +143,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
+
+        Api Reference:
+            `GetTeam <https://api.mattermost.com/#operation/GetTeam>`_
         """
 
-        url = "/teams/{team_id}".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -153,9 +163,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_team(
@@ -172,11 +182,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have the `manage_team` permission.
+
+        Api Reference:
+            `UpdateTeam <https://api.mattermost.com/#operation/UpdateTeam>`_
         """
 
-        url = "/teams/{team_id}".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -187,7 +198,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -197,9 +208,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def soft_delete_team(
@@ -220,11 +231,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have the `manage_team` permission.
+
+        Api Reference:
+            `SoftDeleteTeam <https://api.mattermost.com/#operation/SoftDeleteTeam>`_
         """
 
-        url = "/teams/{team_id}".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}"
         params: Dict[str, Any] = {
             "permanent": permanent,
         }
@@ -234,7 +246,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -244,9 +256,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def patch_team(
@@ -263,11 +275,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have the `manage_team` permission.
+
+        Api Reference:
+            `PatchTeam <https://api.mattermost.com/#operation/PatchTeam>`_
         """
 
-        url = "/teams/{team_id}/patch".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -278,7 +291,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -288,9 +301,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_team_privacy(
@@ -308,11 +321,12 @@ class TeamsApi(ApiBaseClass):
             `manage_team` permission for the team of the team.
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `UpdateTeamPrivacy <https://api.mattermost.com/#operation/UpdateTeamPrivacy>`_
         """
 
-        url = "/teams/{team_id}/privacy".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/privacy"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -323,7 +337,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -333,9 +347,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def restore_team(
@@ -350,16 +364,17 @@ class TeamsApi(ApiBaseClass):
             Must have the `manage_team` permission.
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `RestoreTeam <https://api.mattermost.com/#operation/RestoreTeam>`_
         """
 
-        url = "/teams/{team_id}/restore".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/restore"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -369,9 +384,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_team_by_name(
@@ -383,18 +398,19 @@ class TeamsApi(ApiBaseClass):
         Get a team based on provided name string
 
         Permissions:
-            Must be authenticated, team type is open and have the `view_team`
-        permission.
+            Must be authenticated, team type is open and have the
+            `view_team` permission.
+
+        Api Reference:
+            `GetTeamByName <https://api.mattermost.com/#operation/GetTeamByName>`_
         """
 
-        url = "/teams/name/{name}".format(
-            name=name,
-        )
+        url = f"/teams/name/{name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -404,16 +420,16 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def search_teams(
         self,
         *,
         json_body: SearchTeamsJsonBody,
-    ) -> SearchTeamsResponse_200:
+    ) -> SearchTeamsResponse200:
         """Search teams
 
         Search teams based on search term and options provided in the request
@@ -423,9 +439,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Logged in user only shows open teams
+
+        Api Reference:
+            `SearchTeams <https://api.mattermost.com/#operation/SearchTeams>`_
         """
 
-        url = "/teams/search".format()
+        url = "/teams/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -436,7 +455,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -446,9 +465,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SearchTeamsResponse_200.parse_obj(response.json())
+            response200 = SearchTeamsResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def team_exists(
@@ -461,16 +480,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `TeamExists <https://api.mattermost.com/#operation/TeamExists>`_
         """
 
-        url = "/teams/name/{name}/exists".format(
-            name=name,
-        )
+        url = f"/teams/name/{name}/exists"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -480,9 +500,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TeamExists.parse_obj(response.json())
+            response200 = TeamExists.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_teams_for_user(
@@ -494,18 +514,19 @@ class TeamsApi(ApiBaseClass):
         Get a list of teams that a user is on.
 
         Permissions:
-            Must be authenticated as the user or have the `manage_system`
-        permission.
+            Must be authenticated as the user or have the
+            `manage_system` permission.
+
+        Api Reference:
+            `GetTeamsForUser <https://api.mattermost.com/#operation/GetTeamsForUser>`_
         """
 
-        url = "/users/{user_id}/teams".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -515,14 +536,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Team.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Team.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_team_members(
@@ -539,11 +560,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
+
+        Api Reference:
+            `GetTeamMembers <https://api.mattermost.com/#operation/GetTeamMembers>`_
         """
 
-        url = "/teams/{team_id}/members".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/members"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -554,7 +576,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -564,14 +586,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = TeamMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = TeamMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def add_team_member(
@@ -585,14 +607,15 @@ class TeamsApi(ApiBaseClass):
         Add user to the team by user_id.
 
         Permissions:
-            Must be authenticated and team be open to add self. For adding
-        another user, authenticated user must have the `add_user_to_team`
-        permission.
+            Must be authenticated and team be open to add self. For
+            adding another user, authenticated user must have the
+            `add_user_to_team` permission.
+
+        Api Reference:
+            `AddTeamMember <https://api.mattermost.com/#operation/AddTeamMember>`_
         """
 
-        url = "/teams/{team_id}/members".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/members"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -603,7 +626,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -613,9 +636,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = TeamMember.parse_obj(response.json())
+            response201 = TeamMember.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def add_team_member_from_invite(
@@ -630,9 +653,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `AddTeamMemberFromInvite <https://api.mattermost.com/#operation/AddTeamMemberFromInvite>`_
         """
 
-        url = "/teams/members/invite".format()
+        url = "/teams/members/invite"
         params: Dict[str, Any] = {
             "token": token,
         }
@@ -642,7 +668,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -652,9 +678,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = TeamMember.parse_obj(response.json())
+            response201 = TeamMember.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def add_team_members(
@@ -670,12 +696,13 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated. Authenticated user must have the
-        `add_user_to_team` permission.
+            `add_user_to_team` permission.
+
+        Api Reference:
+            `AddTeamMembers <https://api.mattermost.com/#operation/AddTeamMembers>`_
         """
 
-        url = "/teams/{team_id}/members/batch".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/members/batch"
         params: Dict[str, Any] = {
             "graceful": graceful,
         }
@@ -696,7 +723,7 @@ class TeamsApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -706,14 +733,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = []
-            _response_201 = response.json()
-            for response_201_item_data in _response_201:
-                response_201_item = TeamMember.parse_obj(response_201_item_data)
+            response201 = []
+            _response201 = response.json()
+            for response201_item_data in _response201:
+                response201_item = TeamMember.parse_obj(response201_item_data)
 
-                response_201.append(response_201_item)
+                response201.append(response201_item)
 
-            return response_201
+            return response201
         return response
 
     def get_team_members_for_user(
@@ -727,17 +754,18 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have the `edit_other_users`
-        permission.
+            permission.
+
+        Api Reference:
+            `GetTeamMembersForUser <https://api.mattermost.com/#operation/GetTeamMembersForUser>`_
         """
 
-        url = "/users/{user_id}/teams/members".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/members"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -747,14 +775,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = TeamMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = TeamMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_team_member(
@@ -768,17 +796,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
+
+        Api Reference:
+            `GetTeamMember <https://api.mattermost.com/#operation/GetTeamMember>`_
         """
 
-        url = "/teams/{team_id}/members/{user_id}".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/teams/{team_id}/members/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -788,9 +816,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TeamMember.parse_obj(response.json())
+            response200 = TeamMember.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def remove_team_member(
@@ -804,19 +832,19 @@ class TeamsApi(ApiBaseClass):
         a team.
 
         Permissions:
-            Must be logged in as the user or have the `remove_user_from_team`
-        permission.
+            Must be logged in as the user or have the
+            `remove_user_from_team` permission.
+
+        Api Reference:
+            `RemoveTeamMember <https://api.mattermost.com/#operation/RemoveTeamMember>`_
         """
 
-        url = "/teams/{team_id}/members/{user_id}".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/teams/{team_id}/members/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -826,9 +854,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_team_members_by_ids(
@@ -843,18 +871,19 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have `view_team` permission for the team.
+
+        Api Reference:
+            `GetTeamMembersByIds <https://api.mattermost.com/#operation/GetTeamMembersByIds>`_
         """
 
-        url = "/teams/{team_id}/members/ids".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/members/ids"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -864,14 +893,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = TeamMember.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = TeamMember.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_team_stats(
@@ -884,16 +913,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `view_team` permission.
+
+        Api Reference:
+            `GetTeamStats <https://api.mattermost.com/#operation/GetTeamStats>`_
         """
 
-        url = "/teams/{team_id}/stats".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/stats"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -903,9 +933,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TeamStats.parse_obj(response.json())
+            response200 = TeamStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def regenerate_team_invite_id(
@@ -918,16 +948,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated and have the `manage_team` permission.
+
+        Api Reference:
+            `RegenerateTeamInviteId <https://api.mattermost.com/#operation/RegenerateTeamInviteId>`_
         """
 
-        url = "/teams/{team_id}/regenerate_invite_id".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/regenerate_invite_id"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -937,9 +968,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Team.parse_obj(response.json())
+            response200 = Team.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_team_icon(
@@ -951,20 +982,21 @@ class TeamsApi(ApiBaseClass):
         Get the team icon of the team.
 
         Permissions:
-            User must be authenticated. In addition, team must be open or the
-        user must have the `view_team` permission.
+            User must be authenticated. In addition, team must be open
+            or the user must have the `view_team` permission.
         Minimum Server Version:
             4.9
+
+        Api Reference:
+            `GetTeamIcon <https://api.mattermost.com/#operation/GetTeamIcon>`_
         """
 
-        url = "/teams/{team_id}/image".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -989,11 +1021,12 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `manage_team` permission.
         Minimum Server Version:
             4.9
+
+        Api Reference:
+            `SetTeamIcon <https://api.mattermost.com/#operation/SetTeamIcon>`_
         """
 
-        url = "/teams/{team_id}/image".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/image"
 
         multipart_body_data = SetTeamIconMultipartData.parse_obj(multipart_data)
 
@@ -1002,7 +1035,7 @@ class TeamsApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1012,9 +1045,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def remove_team_icon(
@@ -1029,16 +1062,17 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `manage_team` permission.
         Minimum Server Version:
             4.10
+
+        Api Reference:
+            `RemoveTeamIcon <https://api.mattermost.com/#operation/RemoveTeamIcon>`_
         """
 
-        url = "/teams/{team_id}/image".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -1048,9 +1082,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_team_member_roles(
@@ -1067,13 +1101,14 @@ class TeamsApi(ApiBaseClass):
         roles.
 
         Permissions:
-            Must be authenticated and have the `manage_team_roles` permission.
+            Must be authenticated and have the `manage_team_roles`
+            permission.
+
+        Api Reference:
+            `UpdateTeamMemberRoles <https://api.mattermost.com/#operation/UpdateTeamMemberRoles>`_
         """
 
-        url = "/teams/{team_id}/members/{user_id}/roles".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/teams/{team_id}/members/{user_id}/roles"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1084,7 +1119,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1094,9 +1129,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_team_member_scheme_roles(
@@ -1114,15 +1149,16 @@ class TeamsApi(ApiBaseClass):
         team admin.
 
         Permissions:
-            Must be authenticated and have the `manage_team_roles` permission.
+            Must be authenticated and have the `manage_team_roles`
+            permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `UpdateTeamMemberSchemeRoles <https://api.mattermost.com/#operation/UpdateTeamMemberSchemeRoles>`_
         """
 
-        url = "/teams/{team_id}/members/{user_id}/schemeRoles".format(
-            team_id=team_id,
-            user_id=user_id,
-        )
+        url = f"/teams/{team_id}/members/{user_id}/schemeRoles"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1133,7 +1169,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1143,9 +1179,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_teams_unread_for_user(
@@ -1153,6 +1189,7 @@ class TeamsApi(ApiBaseClass):
         user_id: str,
         *,
         exclude_team: str,
+        include_collapsed_threads: Optional[bool] = False,
     ) -> List[TeamUnread]:
         """Get team unreads for a user
 
@@ -1161,13 +1198,15 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must be logged in.
+
+        Api Reference:
+            `GetTeamsUnreadForUser <https://api.mattermost.com/#operation/GetTeamsUnreadForUser>`_
         """
 
-        url = "/users/{user_id}/teams/unread".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/teams/unread"
         params: Dict[str, Any] = {
             "exclude_team": exclude_team,
+            "include_collapsed_threads": include_collapsed_threads,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -1175,7 +1214,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1185,14 +1224,14 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = TeamUnread.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = TeamUnread.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_team_unread(
@@ -1206,19 +1245,19 @@ class TeamsApi(ApiBaseClass):
         user.
 
         Permissions:
-            Must be the user or have `edit_other_users` permission and have
-        `view_team` permission for the team.
+            Must be the user or have `edit_other_users` permission and
+            have `view_team` permission for the team.
+
+        Api Reference:
+            `GetTeamUnread <https://api.mattermost.com/#operation/GetTeamUnread>`_
         """
 
-        url = "/users/{user_id}/teams/{team_id}/unread".format(
-            user_id=user_id,
-            team_id=team_id,
-        )
+        url = f"/users/{user_id}/teams/{team_id}/unread"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1228,9 +1267,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TeamUnread.parse_obj(response.json())
+            response200 = TeamUnread.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def invite_users_to_team(
@@ -1248,20 +1287,21 @@ class TeamsApi(ApiBaseClass):
         contains details on when to retry and when the timer will be reset.
 
         Permissions:
-            Must have `invite_user` and `add_user_to_team` permissions for the
-        team.
+            Must have `invite_user` and `add_user_to_team` permissions
+            for the team.
+
+        Api Reference:
+            `InviteUsersToTeam <https://api.mattermost.com/#operation/InviteUsersToTeam>`_
         """
 
-        url = "/teams/{team_id}/invite/email".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/invite/email"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1271,9 +1311,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def invite_guests_to_team(
@@ -1294,11 +1334,12 @@ class TeamsApi(ApiBaseClass):
             Must have `invite_guest` permission for the team.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `InviteGuestsToTeam <https://api.mattermost.com/#operation/InviteGuestsToTeam>`_
         """
 
-        url = "/teams/{team_id}/invite-guests/email".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/invite-guests/email"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1309,7 +1350,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1319,9 +1360,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def invalidate_email_invites(
@@ -1334,14 +1375,17 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have `sysconsole_write_authentication` permission.
+
+        Api Reference:
+            `InvalidateEmailInvites <https://api.mattermost.com/#operation/InvalidateEmailInvites>`_
         """
 
-        url = "/teams/invites/email".format()
+        url = "/teams/invites/email"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -1351,9 +1395,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def import_team(
@@ -1361,7 +1405,7 @@ class TeamsApi(ApiBaseClass):
         team_id: str,
         *,
         multipart_data: ImportTeamMultipartData,
-    ) -> ImportTeamResponse_200:
+    ) -> ImportTeamResponse200:
         """Import a Team from other application
 
         Import a team into a existing team. Import users, channels, posts,
@@ -1369,11 +1413,12 @@ class TeamsApi(ApiBaseClass):
 
         Permissions:
             Must have `permission_import_team` permission.
+
+        Api Reference:
+            `ImportTeam <https://api.mattermost.com/#operation/ImportTeam>`_
         """
 
-        url = "/teams/{team_id}/import".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/import"
 
         multipart_body_data = ImportTeamMultipartData.parse_obj(multipart_data)
 
@@ -1382,7 +1427,7 @@ class TeamsApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1392,15 +1437,15 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = ImportTeamResponse_200.parse_obj(response.json())
+            response200 = ImportTeamResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_team_invite_info(
         self,
         invite_id: str,
-    ) -> GetTeamInviteInfoResponse_200:
+    ) -> GetTeamInviteInfoResponse200:
         """Get invite info for a team
 
         Get the `name`, `display_name`, `description` and `id` for a team from
@@ -1410,16 +1455,17 @@ class TeamsApi(ApiBaseClass):
             No authentication required.
         Minimum Server Version:
             4.0
+
+        Api Reference:
+            `GetTeamInviteInfo <https://api.mattermost.com/#operation/GetTeamInviteInfo>`_
         """
 
-        url = "/teams/invite/{invite_id}".format(
-            invite_id=invite_id,
-        )
+        url = f"/teams/invite/{invite_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1429,9 +1475,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetTeamInviteInfoResponse_200.parse_obj(response.json())
+            response200 = GetTeamInviteInfoResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_team_scheme(
@@ -1449,11 +1495,12 @@ class TeamsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `UpdateTeamScheme <https://api.mattermost.com/#operation/UpdateTeamScheme>`_
         """
 
-        url = "/teams/{team_id}/scheme".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/scheme"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1464,7 +1511,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -1474,9 +1521,9 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def team_members_minus_group_members(
@@ -1501,11 +1548,12 @@ class TeamsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `TeamMembersMinusGroupMembers <https://api.mattermost.com/#operation/TeamMembersMinusGroupMembers>`_
         """
 
-        url = "/teams/{team_id}/members_minus_group_members".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/members_minus_group_members"
         params: Dict[str, Any] = {
             "group_ids": group_ids,
             "page": page,
@@ -1517,7 +1565,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1544,11 +1592,12 @@ class TeamsApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         Minimum Server Version:
             5.34
+
+        Api Reference:
+            `SearchFiles <https://api.mattermost.com/#operation/SearchFiles>`_
         """
 
-        url = "/teams/{team_id}/files/search".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/files/search"
 
         multipart_body_data = SearchFilesMultipartData.parse_obj(multipart_data)
 
@@ -1556,7 +1605,7 @@ class TeamsApi(ApiBaseClass):
             "url": url,
             "data": multipart_body_data.get_data(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1566,7 +1615,7 @@ class TeamsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = FileInfoList.parse_obj(response.json())
+            response200 = FileInfoList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

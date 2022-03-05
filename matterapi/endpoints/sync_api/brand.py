@@ -1,3 +1,6 @@
+""" Module to access the Brand endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from ...models import StatusOK, UploadBrandImageMultipartData
 from ..base import ApiBaseClass
 
@@ -18,14 +21,17 @@ class BrandApi(ApiBaseClass):
 
         Permissions:
             No permission required.
+
+        Api Reference:
+            `GetBrandImage <https://api.mattermost.com/#operation/GetBrandImage>`_
         """
 
-        url = "/brand/image".format()
+        url = "/brand/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -35,8 +41,8 @@ class BrandApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = response.json()
-            return response_200
+            response200 = response.json()
+            return response200
         return response
 
     def upload_brand_image(
@@ -50,9 +56,12 @@ class BrandApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `UploadBrandImage <https://api.mattermost.com/#operation/UploadBrandImage>`_
         """
 
-        url = "/brand/image".format()
+        url = "/brand/image"
 
         multipart_body_data = UploadBrandImageMultipartData.parse_obj(multipart_data)
 
@@ -61,7 +70,7 @@ class BrandApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -71,9 +80,9 @@ class BrandApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def delete_brand_image(
@@ -88,14 +97,17 @@ class BrandApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.6
+
+        Api Reference:
+            `DeleteBrandImage <https://api.mattermost.com/#operation/DeleteBrandImage>`_
         """
 
-        url = "/brand/image".format()
+        url = "/brand/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -105,7 +117,7 @@ class BrandApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

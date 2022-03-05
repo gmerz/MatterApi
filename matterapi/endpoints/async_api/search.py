@@ -1,3 +1,6 @@
+""" Module to access the Search endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from ...models import FileInfoList, SearchFilesMultipartData
 from ..base import ApiBaseClass
 
@@ -21,11 +24,12 @@ class SearchApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         Minimum Server Version:
             5.34
+
+        Api Reference:
+            `SearchFiles <https://api.mattermost.com/#operation/SearchFiles>`_
         """
 
-        url = "/teams/{team_id}/files/search".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/files/search"
 
         multipart_body_data = SearchFilesMultipartData.parse_obj(multipart_data)
 
@@ -33,7 +37,7 @@ class SearchApi(ApiBaseClass):
             "url": url,
             "data": multipart_body_data.get_data(),
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -43,7 +47,7 @@ class SearchApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = FileInfoList.parse_obj(response.json())
+            response200 = FileInfoList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

@@ -1,3 +1,6 @@
+""" Module to access the Migrate endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from pydantic import BaseModel
 
 from ...models import MigrateAuthToLdapJsonBody, MigrateAuthToSamlJsonBody
@@ -22,9 +25,12 @@ class MigrateApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToLdap <https://api.mattermost.com/#operation/MigrateAuthToLdap>`_
         """
 
-        url = "/users/migrate_auth/ldap".format()
+        url = "/users/migrate_auth/ldap"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -35,7 +41,7 @@ class MigrateApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -61,9 +67,12 @@ class MigrateApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToSaml <https://api.mattermost.com/#operation/MigrateAuthToSaml>`_
         """
 
-        url = "/users/migrate_auth/saml".format()
+        url = "/users/migrate_auth/saml"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -74,7 +83,7 @@ class MigrateApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,

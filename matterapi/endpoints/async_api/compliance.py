@@ -1,3 +1,6 @@
+""" Module to access the Compliance endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from ...models import Compliance
@@ -20,9 +23,12 @@ class ComplianceApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetComplianceReports <https://api.mattermost.com/#operation/GetComplianceReports>`_
         """
 
-        url = "/compliance/reports".format()
+        url = "/compliance/reports"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -33,7 +39,7 @@ class ComplianceApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -43,14 +49,14 @@ class ComplianceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Compliance.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Compliance.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_compliance_report(
@@ -62,14 +68,17 @@ class ComplianceApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `CreateComplianceReport <https://api.mattermost.com/#operation/CreateComplianceReport>`_
         """
 
-        url = "/compliance/reports".format()
+        url = "/compliance/reports"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -79,9 +88,9 @@ class ComplianceApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Compliance.parse_obj(response.json())
+            response201 = Compliance.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_compliance_report(
@@ -94,16 +103,17 @@ class ComplianceApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetComplianceReport <https://api.mattermost.com/#operation/GetComplianceReport>`_
         """
 
-        url = "/compliance/reports/{report_id}".format(
-            report_id=report_id,
-        )
+        url = f"/compliance/reports/{report_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -113,9 +123,9 @@ class ComplianceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Compliance.parse_obj(response.json())
+            response200 = Compliance.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def download_compliance_report(
@@ -128,16 +138,17 @@ class ComplianceApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `DownloadComplianceReport <https://api.mattermost.com/#operation/DownloadComplianceReport>`_
         """
 
-        url = "/compliance/reports/{report_id}/download".format(
-            report_id=report_id,
-        )
+        url = f"/compliance/reports/{report_id}/download"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,

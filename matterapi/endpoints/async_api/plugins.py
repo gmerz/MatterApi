@@ -1,9 +1,12 @@
+""" Module to access the Plugins endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 
 from ...models import (
-    GetPluginsResponse_200,
+    GetPluginsResponse200,
     InstallMarketplacePluginJsonBody,
     MarketplacePlugin,
     PluginManifest,
@@ -21,7 +24,7 @@ class PluginsApi(ApiBaseClass):
 
     async def get_plugins(
         self,
-    ) -> GetPluginsResponse_200:
+    ) -> GetPluginsResponse200:
         """Get plugins
 
         Get a list of inactive and a list of active plugin manifests. Plugins
@@ -31,14 +34,17 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `GetPlugins <https://api.mattermost.com/#operation/GetPlugins>`_
         """
 
-        url = "/plugins".format()
+        url = "/plugins"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -48,9 +54,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetPluginsResponse_200.parse_obj(response.json())
+            response200 = GetPluginsResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def upload_plugin(
@@ -68,9 +74,12 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `UploadPlugin <https://api.mattermost.com/#operation/UploadPlugin>`_
         """
 
-        url = "/plugins".format()
+        url = "/plugins"
 
         multipart_body_data = UploadPluginMultipartData.parse_obj(multipart_data)
 
@@ -79,7 +88,7 @@ class PluginsApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -89,9 +98,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def install_plugin_from_url(
@@ -109,9 +118,12 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `InstallPluginFromUrl <https://api.mattermost.com/#operation/InstallPluginFromUrl>`_
         """
 
-        url = "/plugins/install_from_url".format()
+        url = "/plugins/install_from_url"
         params: Dict[str, Any] = {
             "plugin_download_url": plugin_download_url,
             "force": force,
@@ -122,7 +134,7 @@ class PluginsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -132,9 +144,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def remove_plugin(
@@ -150,16 +162,17 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `RemovePlugin <https://api.mattermost.com/#operation/RemovePlugin>`_
         """
 
-        url = "/plugins/{plugin_id}".format(
-            plugin_id=plugin_id,
-        )
+        url = f"/plugins/{plugin_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -169,9 +182,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def enable_plugin(
@@ -187,16 +200,17 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `EnablePlugin <https://api.mattermost.com/#operation/EnablePlugin>`_
         """
 
-        url = "/plugins/{plugin_id}/enable".format(
-            plugin_id=plugin_id,
-        )
+        url = f"/plugins/{plugin_id}/enable"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -206,9 +220,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def disable_plugin(
@@ -224,16 +238,17 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `DisablePlugin <https://api.mattermost.com/#operation/DisablePlugin>`_
         """
 
-        url = "/plugins/{plugin_id}/disable".format(
-            plugin_id=plugin_id,
-        )
+        url = f"/plugins/{plugin_id}/disable"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -243,9 +258,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_webapp_plugins(
@@ -259,14 +274,17 @@ class PluginsApi(ApiBaseClass):
             No permissions required.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `GetWebappPlugins <https://api.mattermost.com/#operation/GetWebappPlugins>`_
         """
 
-        url = "/plugins/webapp".format()
+        url = "/plugins/webapp"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -276,16 +294,14 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = PluginManifestWebapp.parse_obj(
-                    response_200_item_data
-                )
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = PluginManifestWebapp.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_plugin_statuses(
@@ -299,14 +315,17 @@ class PluginsApi(ApiBaseClass):
             No permissions required.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `GetPluginStatuses <https://api.mattermost.com/#operation/GetPluginStatuses>`_
         """
 
-        url = "/plugins/statuses".format()
+        url = "/plugins/statuses"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -316,14 +335,14 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = PluginStatus.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = PluginStatus.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_marketplace_plugins(
@@ -345,9 +364,12 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `GetMarketplacePlugins <https://api.mattermost.com/#operation/GetMarketplacePlugins>`_
         """
 
-        url = "/plugins/marketplace".format()
+        url = "/plugins/marketplace"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -361,7 +383,7 @@ class PluginsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -371,14 +393,14 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = MarketplacePlugin.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = MarketplacePlugin.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def install_marketplace_plugin(
@@ -394,9 +416,12 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `InstallMarketplacePlugin <https://api.mattermost.com/#operation/InstallMarketplacePlugin>`_
         """
 
-        url = "/plugins/marketplace".format()
+        url = "/plugins/marketplace"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -407,7 +432,7 @@ class PluginsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -417,9 +442,9 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PluginManifest.parse_obj(response.json())
+            response200 = PluginManifest.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_marketplace_visited_by_admin(
@@ -434,14 +459,17 @@ class PluginsApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.33
+
+        Api Reference:
+            `GetMarketplaceVisitedByAdmin <https://api.mattermost.com/#operation/GetMarketplaceVisitedByAdmin>`_
         """
 
-        url = "/plugins/marketplace/first_admin_visit".format()
+        url = "/plugins/marketplace/first_admin_visit"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -451,7 +479,7 @@ class PluginsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = System.parse_obj(response.json())
+            response200 = System.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

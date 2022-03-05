@@ -1,3 +1,6 @@
+""" Module to access the Schemes endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -32,9 +35,12 @@ class SchemesApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `GetSchemes <https://api.mattermost.com/#operation/GetSchemes>`_
         """
 
-        url = "/schemes".format()
+        url = "/schemes"
         params: Dict[str, Any] = {
             "scope": scope,
             "page": page,
@@ -46,7 +52,7 @@ class SchemesApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -56,14 +62,14 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Scheme.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Scheme.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_scheme(
@@ -79,9 +85,12 @@ class SchemesApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `CreateScheme <https://api.mattermost.com/#operation/CreateScheme>`_
         """
 
-        url = "/schemes".format()
+        url = "/schemes"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -92,7 +101,7 @@ class SchemesApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -102,9 +111,9 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Scheme.parse_obj(response.json())
+            response201 = Scheme.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_scheme(
@@ -119,16 +128,17 @@ class SchemesApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `GetScheme <https://api.mattermost.com/#operation/GetScheme>`_
         """
 
-        url = "/schemes/{scheme_id}".format(
-            scheme_id=scheme_id,
-        )
+        url = f"/schemes/{scheme_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -138,9 +148,9 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Scheme.parse_obj(response.json())
+            response200 = Scheme.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_scheme(
@@ -155,16 +165,17 @@ class SchemesApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `DeleteScheme <https://api.mattermost.com/#operation/DeleteScheme>`_
         """
 
-        url = "/schemes/{scheme_id}".format(
-            scheme_id=scheme_id,
-        )
+        url = f"/schemes/{scheme_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -174,9 +185,9 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def patch_scheme(
@@ -196,11 +207,12 @@ class SchemesApi(ApiBaseClass):
             `manage_system` permission is required.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `PatchScheme <https://api.mattermost.com/#operation/PatchScheme>`_
         """
 
-        url = "/schemes/{scheme_id}/patch".format(
-            scheme_id=scheme_id,
-        )
+        url = f"/schemes/{scheme_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -211,7 +223,7 @@ class SchemesApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -221,9 +233,9 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Scheme.parse_obj(response.json())
+            response200 = Scheme.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_teams_for_scheme(
@@ -243,11 +255,12 @@ class SchemesApi(ApiBaseClass):
             `manage_system` permission is required.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `GetTeamsForScheme <https://api.mattermost.com/#operation/GetTeamsForScheme>`_
         """
 
-        url = "/schemes/{scheme_id}/teams".format(
-            scheme_id=scheme_id,
-        )
+        url = f"/schemes/{scheme_id}/teams"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -258,7 +271,7 @@ class SchemesApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -268,14 +281,14 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Team.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Team.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def get_channels_for_scheme(
@@ -295,11 +308,12 @@ class SchemesApi(ApiBaseClass):
             `manage_system` permission is required.
         Minimum Server Version:
             5.0
+
+        Api Reference:
+            `GetChannelsForScheme <https://api.mattermost.com/#operation/GetChannelsForScheme>`_
         """
 
-        url = "/schemes/{scheme_id}/channels".format(
-            scheme_id=scheme_id,
-        )
+        url = f"/schemes/{scheme_id}/channels"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -310,7 +324,7 @@ class SchemesApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -320,12 +334,12 @@ class SchemesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Channel.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Channel.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response

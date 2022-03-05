@@ -1,3 +1,6 @@
+""" Module to access the TermsOfService endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Union
 
 from pydantic import BaseModel
@@ -30,16 +33,17 @@ class TermsOfServiceApi(ApiBaseClass):
             Must be logged in as the user being acted on.
         Minimum Server Version:
             5.6
+
+        Api Reference:
+            `GetUserTermsOfService <https://api.mattermost.com/#operation/GetUserTermsOfService>`_
         """
 
-        url = "/users/{user_id}/terms_of_service".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/terms_of_service"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -49,13 +53,13 @@ class TermsOfServiceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserTermsOfService.parse_obj(response.json())
+            response200 = UserTermsOfService.parse_obj(response.json())
 
-            return response_200
+            return response200
         if response.status_code == 404:
-            response_404 = AppError.parse_obj(response.json())
+            response404 = AppError.parse_obj(response.json())
 
-            return response_404
+            return response404
         return response
 
     async def register_terms_of_service_action(
@@ -74,11 +78,12 @@ class TermsOfServiceApi(ApiBaseClass):
             Must be logged in as the user being acted on.
         Minimum Server Version:
             5.4
+
+        Api Reference:
+            `RegisterTermsOfServiceAction <https://api.mattermost.com/#operation/RegisterTermsOfServiceAction>`_
         """
 
-        url = "/users/{user_id}/terms_of_service".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/terms_of_service"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -89,7 +94,7 @@ class TermsOfServiceApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -99,9 +104,9 @@ class TermsOfServiceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_terms_of_service(
@@ -115,14 +120,17 @@ class TermsOfServiceApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             5.4
+
+        Api Reference:
+            `GetTermsOfService <https://api.mattermost.com/#operation/GetTermsOfService>`_
         """
 
-        url = "/terms_of_service".format()
+        url = "/terms_of_service"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -132,9 +140,9 @@ class TermsOfServiceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TermsOfService.parse_obj(response.json())
+            response200 = TermsOfService.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def create_terms_of_service(
@@ -148,14 +156,17 @@ class TermsOfServiceApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.4
+
+        Api Reference:
+            `CreateTermsOfService <https://api.mattermost.com/#operation/CreateTermsOfService>`_
         """
 
-        url = "/terms_of_service".format()
+        url = "/terms_of_service"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -165,7 +176,7 @@ class TermsOfServiceApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = TermsOfService.parse_obj(response.json())
+            response200 = TermsOfService.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

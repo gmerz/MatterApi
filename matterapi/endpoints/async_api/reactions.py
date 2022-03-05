@@ -1,3 +1,6 @@
+""" Module to access the Reactions endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import List
 
 from pydantic import BaseModel
@@ -19,10 +22,14 @@ class ReactionsApi(ApiBaseClass):
         Create a reaction.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in.
+            Must have `read_channel` permission for the channel the post
+            is in.
+
+        Api Reference:
+            `SaveReaction <https://api.mattermost.com/#operation/SaveReaction>`_
         """
 
-        url = "/reactions".format()
+        url = "/reactions"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -33,7 +40,7 @@ class ReactionsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -43,9 +50,9 @@ class ReactionsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Reaction.parse_obj(response.json())
+            response201 = Reaction.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_reactions(
@@ -57,17 +64,19 @@ class ReactionsApi(ApiBaseClass):
         Get a list of reactions made by all users to a given post.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in.
+            Must have `read_channel` permission for the channel the post
+            is in.
+
+        Api Reference:
+            `GetReactions <https://api.mattermost.com/#operation/GetReactions>`_
         """
 
-        url = "/posts/{post_id}/reactions".format(
-            post_id=post_id,
-        )
+        url = f"/posts/{post_id}/reactions"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -77,14 +86,14 @@ class ReactionsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Reaction.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Reaction.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def delete_reaction(
@@ -99,18 +108,17 @@ class ReactionsApi(ApiBaseClass):
 
         Permissions:
             Must be user or have `manage_system` permission.
+
+        Api Reference:
+            `DeleteReaction <https://api.mattermost.com/#operation/DeleteReaction>`_
         """
 
-        url = "/users/{user_id}/posts/{post_id}/reactions/{emoji_name}".format(
-            user_id=user_id,
-            post_id=post_id,
-            emoji_name=emoji_name,
-        )
+        url = f"/users/{user_id}/posts/{post_id}/reactions/{emoji_name}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -120,9 +128,9 @@ class ReactionsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_bulk_reactions(
@@ -135,19 +143,23 @@ class ReactionsApi(ApiBaseClass):
         Get a list of reactions made by all users to a given post.
 
         Permissions:
-            Must have `read_channel` permission for the channel the post is in.
+            Must have `read_channel` permission for the channel the post
+            is in.
         Minimum Server Version:
             5.8
+
+        Api Reference:
+            `GetBulkReactions <https://api.mattermost.com/#operation/GetBulkReactions>`_
         """
 
-        url = "/posts/ids/reactions".format()
+        url = "/posts/ids/reactions"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -157,7 +169,7 @@ class ReactionsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostIdToReactionsMap.parse_obj(response.json())
+            response200 = PostIdToReactionsMap.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

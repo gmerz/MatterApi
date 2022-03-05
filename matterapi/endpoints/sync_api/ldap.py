@@ -1,3 +1,6 @@
+""" Module to access the Ldap endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -31,9 +34,12 @@ class LdapApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToLdap <https://api.mattermost.com/#operation/MigrateAuthToLdap>`_
         """
 
-        url = "/users/migrate_auth/ldap".format()
+        url = "/users/migrate_auth/ldap"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -44,7 +50,7 @@ class LdapApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -65,14 +71,17 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `SyncLdap <https://api.mattermost.com/#operation/SyncLdap>`_
         """
 
-        url = "/ldap/sync".format()
+        url = "/ldap/sync"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -82,9 +91,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def test_ldap(
@@ -97,14 +106,17 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `TestLdap <https://api.mattermost.com/#operation/TestLdap>`_
         """
 
-        url = "/ldap/test".format()
+        url = "/ldap/test"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -114,9 +126,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_ldap_groups(
@@ -134,9 +146,12 @@ class LdapApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `GetLdapGroups <https://api.mattermost.com/#operation/GetLdapGroups>`_
         """
 
-        url = "/ldap/groups".format()
+        url = "/ldap/groups"
         params: Dict[str, Any] = {
             "q": q,
             "page": page,
@@ -148,7 +163,7 @@ class LdapApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -158,14 +173,14 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = LDAPGroupsPaged.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = LDAPGroupsPaged.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def link_ldap_group(
@@ -180,16 +195,17 @@ class LdapApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.11
+
+        Api Reference:
+            `LinkLdapGroup <https://api.mattermost.com/#operation/LinkLdapGroup>`_
         """
 
-        url = "/ldap/groups/{remote_id}/link".format(
-            remote_id=remote_id,
-        )
+        url = f"/ldap/groups/{remote_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -199,9 +215,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def migrate_id_ldap(
@@ -217,9 +233,12 @@ class LdapApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `MigrateIdLdap <https://api.mattermost.com/#operation/MigrateIdLdap>`_
         """
 
-        url = "/ldap/migrateid".format()
+        url = "/ldap/migrateid"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -230,7 +249,7 @@ class LdapApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -240,9 +259,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def upload_ldap_public_certificate(
@@ -258,9 +277,12 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `UploadLdapPublicCertificate <https://api.mattermost.com/#operation/UploadLdapPublicCertificate>`_
         """
 
-        url = "/ldap/certificate/public".format()
+        url = "/ldap/certificate/public"
 
         multipart_body_data = UploadLdapPublicCertificateMultipartData.parse_obj(
             multipart_data
@@ -271,7 +293,7 @@ class LdapApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -281,9 +303,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_ldap_public_certificate(
@@ -295,14 +317,17 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `DeleteLdapPublicCertificate <https://api.mattermost.com/#operation/DeleteLdapPublicCertificate>`_
         """
 
-        url = "/ldap/certificate/public".format()
+        url = "/ldap/certificate/public"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -312,9 +337,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def upload_ldap_private_certificate(
@@ -330,9 +355,12 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `UploadLdapPrivateCertificate <https://api.mattermost.com/#operation/UploadLdapPrivateCertificate>`_
         """
 
-        url = "/ldap/certificate/private".format()
+        url = "/ldap/certificate/private"
 
         multipart_body_data = UploadLdapPrivateCertificateMultipartData.parse_obj(
             multipart_data
@@ -343,7 +371,7 @@ class LdapApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -353,9 +381,9 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_ldap_private_certificate(
@@ -367,14 +395,17 @@ class LdapApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `DeleteLdapPrivateCertificate <https://api.mattermost.com/#operation/DeleteLdapPrivateCertificate>`_
         """
 
-        url = "/ldap/certificate/private".format()
+        url = "/ldap/certificate/private"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -384,7 +415,7 @@ class LdapApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

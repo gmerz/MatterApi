@@ -1,12 +1,15 @@
+""" Module to access the Files endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, Optional
 
 from ...models import (
     FileInfo,
     FileInfoList,
-    GetFileLinkResponse_200,
+    GetFileLinkResponse200,
     SearchFilesMultipartData,
     UploadFileMultipartData,
-    UploadFileResponse_201,
+    UploadFileResponse201,
 )
 from ..base import ApiBaseClass
 
@@ -20,7 +23,7 @@ class FilesApi(ApiBaseClass):
         multipart_data: UploadFileMultipartData,
         channel_id: Optional[str] = None,
         filename: Optional[str] = None,
-    ) -> UploadFileResponse_201:
+    ) -> UploadFileResponse201:
         """Upload a file
 
         Uploads a file that can later be attached to a post.
@@ -38,9 +41,12 @@ class FilesApi(ApiBaseClass):
 
         Permissions:
             Must have `upload_file` permission.
+
+        Api Reference:
+            `UploadFile <https://api.mattermost.com/#operation/UploadFile>`_
         """
 
-        url = "/files".format()
+        url = "/files"
         params: Dict[str, Any] = {
             "channel_id": channel_id,
             "filename": filename,
@@ -55,7 +61,7 @@ class FilesApi(ApiBaseClass):
             "files": multipart_body_data.get_files(),
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -65,9 +71,9 @@ class FilesApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = UploadFileResponse_201.parse_obj(response.json())
+            response201 = UploadFileResponse201.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_file(
@@ -79,17 +85,19 @@ class FilesApi(ApiBaseClass):
         Gets a file that has been uploaded previously.
 
         Permissions:
-            Must have `read_channel` permission or be uploader of the file.
+            Must have `read_channel` permission or be uploader of the
+            file.
+
+        Api Reference:
+            `GetFile <https://api.mattermost.com/#operation/GetFile>`_
         """
 
-        url = "/files/{file_id}".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -109,17 +117,19 @@ class FilesApi(ApiBaseClass):
         Gets a file's thumbnail.
 
         Permissions:
-            Must have `read_channel` permission or be uploader of the file.
+            Must have `read_channel` permission or be uploader of the
+            file.
+
+        Api Reference:
+            `GetFileThumbnail <https://api.mattermost.com/#operation/GetFileThumbnail>`_
         """
 
-        url = "/files/{file_id}/thumbnail".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}/thumbnail"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -139,17 +149,19 @@ class FilesApi(ApiBaseClass):
         Gets a file's preview.
 
         Permissions:
-            Must have `read_channel` permission or be uploader of the file.
+            Must have `read_channel` permission or be uploader of the
+            file.
+
+        Api Reference:
+            `GetFilePreview <https://api.mattermost.com/#operation/GetFilePreview>`_
         """
 
-        url = "/files/{file_id}/preview".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}/preview"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -163,24 +175,26 @@ class FilesApi(ApiBaseClass):
     async def get_file_link(
         self,
         file_id: str,
-    ) -> GetFileLinkResponse_200:
+    ) -> GetFileLinkResponse200:
         """Get a public file link
 
         Gets a public link for a file that can be accessed without logging into
         Mattermost.
 
         Permissions:
-            Must have `read_channel` permission or be uploader of the file.
+            Must have `read_channel` permission or be uploader of the
+            file.
+
+        Api Reference:
+            `GetFileLink <https://api.mattermost.com/#operation/GetFileLink>`_
         """
 
-        url = "/files/{file_id}/link".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}/link"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -190,9 +204,9 @@ class FilesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetFileLinkResponse_200.parse_obj(response.json())
+            response200 = GetFileLinkResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_file_info(
@@ -204,17 +218,19 @@ class FilesApi(ApiBaseClass):
         Gets a file's info.
 
         Permissions:
-            Must have `read_channel` permission or be uploader of the file.
+            Must have `read_channel` permission or be uploader of the
+            file.
+
+        Api Reference:
+            `GetFileInfo <https://api.mattermost.com/#operation/GetFileInfo>`_
         """
 
-        url = "/files/{file_id}/info".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}/info"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -224,9 +240,9 @@ class FilesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = FileInfo.parse_obj(response.json())
+            response200 = FileInfo.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_file_public(
@@ -241,11 +257,12 @@ class FilesApi(ApiBaseClass):
 
         Permissions:
             No permissions required.
+
+        Api Reference:
+            `GetFilePublic <https://api.mattermost.com/#operation/GetFilePublic>`_
         """
 
-        url = "/files/{file_id}/public".format(
-            file_id=file_id,
-        )
+        url = f"/files/{file_id}/public"
         params: Dict[str, Any] = {
             "h": h,
         }
@@ -255,7 +272,7 @@ class FilesApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -282,11 +299,12 @@ class FilesApi(ApiBaseClass):
             Must be authenticated and have the `view_team` permission.
         Minimum Server Version:
             5.34
+
+        Api Reference:
+            `SearchFiles <https://api.mattermost.com/#operation/SearchFiles>`_
         """
 
-        url = "/teams/{team_id}/files/search".format(
-            team_id=team_id,
-        )
+        url = f"/teams/{team_id}/files/search"
 
         multipart_body_data = SearchFilesMultipartData.parse_obj(multipart_data)
 
@@ -294,7 +312,7 @@ class FilesApi(ApiBaseClass):
             "url": url,
             "data": multipart_body_data.get_data(),
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -304,7 +322,7 @@ class FilesApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = FileInfoList.parse_obj(response.json())
+            response200 = FileInfoList.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

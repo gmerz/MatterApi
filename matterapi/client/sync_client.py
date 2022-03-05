@@ -1,3 +1,4 @@
+from collections.abc import Generator
 from contextlib import contextmanager
 from typing import Optional
 
@@ -137,7 +138,7 @@ class SyncClient(BaseClient):
             yield self._httpx_client
 
     @contextmanager
-    def session(self):
+    def session(self) -> Generator["SyncClient", None, None]:
         """Open a Session which re-uses the underlying httpx client and it's connections"""
         api_client = self.copy()
         api_client._httpx_client = api_client._create_httpx_client()

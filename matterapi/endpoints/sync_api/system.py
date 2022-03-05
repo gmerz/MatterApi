@@ -1,3 +1,6 @@
+""" Module to access the System endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional, cast
 
 from pydantic import BaseModel
@@ -8,10 +11,9 @@ from ...models import (
     EnvironmentConfig,
     IntegrityCheckResult,
     LicenseRenewalLink,
-    MigrateConfigJsonBody,
     Notice,
     PostLogJsonBody,
-    PostLogResponse_200,
+    PostLogResponse200,
     PushNotification,
     RequestTrialLicenseJsonBody,
     SendWarnMetricAckJsonBody,
@@ -20,7 +22,7 @@ from ...models import (
     System,
     SystemStatusResponse,
     TestSiteURLJsonBody,
-    UpgradeToEnterpriseStatusResponse_200,
+    UpgradeToEnterpriseStatusResponse200,
     UploadLicenseFileMultipartData,
 )
 from ..base import ApiBaseClass
@@ -41,14 +43,17 @@ class SystemApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `GetSupportedTimezone <https://api.mattermost.com/#operation/GetSupportedTimezone>`_
         """
 
-        url = "/system/timezones".format()
+        url = "/system/timezones"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -58,15 +63,16 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_ping(
         self,
         *,
         get_server_status: Optional[bool] = None,
+        device_id: Optional[str] = None,
     ) -> SystemStatusResponse:
         """Check system health
 
@@ -76,16 +82,28 @@ class SystemApi(ApiBaseClass):
         considered unhealthy. If `GoRoutineHealthThreshold` is not set or the
         number of goroutines is below the threshold the server is considered
         healthy.
+        If a \"device_id\" is passed in the query, it will test the Push
+        Notification Proxy in order to discover whether the device is able to
+        receive notifications. The response will have a
+        \"CanReceiveNotifications\" property with one of the following values: -
+        true: It can receive notifications - false: It cannot receive
+        notifications - unknown: There has been an unknown error, and it is not
+        certain whether it can
+          receive notifications.
 
         Permissions:
-            Must be logged in.
+            None.
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `GetPing <https://api.mattermost.com/#operation/GetPing>`_
         """
 
-        url = "/system/ping".format()
+        url = "/system/ping"
         params: Dict[str, Any] = {
             "get_server_status": get_server_status,
+            "device_id": device_id,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
@@ -93,7 +111,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -103,9 +121,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SystemStatusResponse.parse_obj(response.json())
+            response200 = SystemStatusResponse.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_notices(
@@ -125,11 +143,12 @@ class SystemApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetNotices <https://api.mattermost.com/#operation/GetNotices>`_
         """
 
-        url = "/system/notices/{teamId}".format(
-            teamId=team_id,
-        )
+        url = f"/system/notices/{teamId}"
         params: Dict[str, Any] = {
             "clientVersion": client_version,
             "locale": locale,
@@ -141,7 +160,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -151,14 +170,14 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Notice.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Notice.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def mark_notices_viewed(
@@ -174,16 +193,19 @@ class SystemApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `MarkNoticesViewed <https://api.mattermost.com/#operation/MarkNoticesViewed>`_
         """
 
-        url = "/system/notices/view".format()
+        url = "/system/notices/view"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -193,9 +215,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def database_recycle(
@@ -208,14 +230,17 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `DatabaseRecycle <https://api.mattermost.com/#operation/DatabaseRecycle>`_
         """
 
-        url = "/database/recycle".format()
+        url = "/database/recycle"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -225,9 +250,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def test_email(
@@ -244,9 +269,12 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `TestEmail <https://api.mattermost.com/#operation/TestEmail>`_
         """
 
-        url = "/email/test".format()
+        url = "/email/test"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -257,7 +285,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -267,9 +295,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def test_site_url(
@@ -286,9 +314,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `TestSiteURL <https://api.mattermost.com/#operation/TestSiteURL>`_
         """
 
-        url = "/site_url/test".format()
+        url = "/site_url/test"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -299,7 +330,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -309,9 +340,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def test_s3_connection(
@@ -330,9 +361,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.8
+
+        Api Reference:
+            `TestS3Connection <https://api.mattermost.com/#operation/TestS3Connection>`_
         """
 
-        url = "/file/s3_test".format()
+        url = "/file/s3_test"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -343,7 +377,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -353,9 +387,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_config(
@@ -367,14 +401,17 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetConfig <https://api.mattermost.com/#operation/GetConfig>`_
         """
 
-        url = "/config".format()
+        url = "/config"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -384,9 +421,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Config.parse_obj(response.json())
+            response200 = Config.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_config(
@@ -402,9 +439,12 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `UpdateConfig <https://api.mattermost.com/#operation/UpdateConfig>`_
         """
 
-        url = "/config".format()
+        url = "/config"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -415,7 +455,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -425,9 +465,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Config.parse_obj(response.json())
+            response200 = Config.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def reload_config(
@@ -439,14 +479,17 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `ReloadConfig <https://api.mattermost.com/#operation/ReloadConfig>`_
         """
 
-        url = "/config/reload".format()
+        url = "/config/reload"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -456,9 +499,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_client_config(
@@ -472,9 +515,12 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             No permission required.
+
+        Api Reference:
+            `GetClientConfig <https://api.mattermost.com/#operation/GetClientConfig>`_
         """
 
-        url = "/config/client".format()
+        url = "/config/client"
         params: Dict[str, Any] = {
             "format": format,
         }
@@ -484,7 +530,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -511,14 +557,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.10
+
+        Api Reference:
+            `GetEnvironmentConfig <https://api.mattermost.com/#operation/GetEnvironmentConfig>`_
         """
 
-        url = "/config/environment".format()
+        url = "/config/environment"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -528,9 +577,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = EnvironmentConfig.parse_obj(response.json())
+            response200 = EnvironmentConfig.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def patch_config(
@@ -548,9 +597,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.20
+
+        Api Reference:
+            `PatchConfig <https://api.mattermost.com/#operation/PatchConfig>`_
         """
 
-        url = "/config/patch".format()
+        url = "/config/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -561,7 +613,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -571,53 +623,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Config.parse_obj(response.json())
+            response200 = Config.parse_obj(response.json())
 
-            return response_200
-        return response
-
-    def migrate_config(
-        self,
-        *,
-        json_body: MigrateConfigJsonBody,
-    ) -> StatusOK:
-        """Migrate configuration
-
-        Migrate a file-based configuration to (or from) a database-based
-        configuration.
-        Point the Mattermost server at the target configuration to start using
-        it.
-
-        Permissions:
-            Must have `manage_system` permission
-        Minimum Server Version:
-            5.26
-        """
-
-        url = "/config/migrate".format()
-
-        if isinstance(json_body, BaseModel):
-            json_json_body = json_body.dict(exclude_unset=True)
-        else:
-            json_json_body = json_body
-
-        request_kwargs = {
-            "url": url,
-            "json": json_json_body,
-        }
-
-        with self.client._get_httpx_client() as httpx_client:
-            response = httpx_client.post(
-                **request_kwargs,
-            )
-
-        if self.skip_response_parsing:
-            return response
-
-        if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
-
-            return response_200
+            return response200
         return response
 
     def upload_license_file(
@@ -633,9 +641,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.0
+
+        Api Reference:
+            `UploadLicenseFile <https://api.mattermost.com/#operation/UploadLicenseFile>`_
         """
 
-        url = "/license".format()
+        url = "/license"
 
         multipart_body_data = UploadLicenseFileMultipartData.parse_obj(multipart_data)
 
@@ -644,7 +655,7 @@ class SystemApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -654,9 +665,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def remove_license_file(
@@ -671,14 +682,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.0
+
+        Api Reference:
+            `RemoveLicenseFile <https://api.mattermost.com/#operation/RemoveLicenseFile>`_
         """
 
-        url = "/license".format()
+        url = "/license"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -699,11 +713,14 @@ class SystemApi(ApiBaseClass):
         Get a subset of the server license needed by the client.
 
         Permissions:
-            No permission required but having the `manage_system` permission
-        returns more information.
+            No permission required but having the `manage_system`
+            permission returns more information.
+
+        Api Reference:
+            `GetClientLicense <https://api.mattermost.com/#operation/GetClientLicense>`_
         """
 
-        url = "/license/client".format()
+        url = "/license/client"
         params: Dict[str, Any] = {
             "format": format,
         }
@@ -713,7 +730,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -736,14 +753,17 @@ class SystemApi(ApiBaseClass):
             Must have `sysconsole_write_about` permission.
         Minimum Server Version:
             5.32
+
+        Api Reference:
+            `RequestLicenseRenewalLink <https://api.mattermost.com/#operation/RequestLicenseRenewalLink>`_
         """
 
-        url = "/license/renewal".format()
+        url = "/license/renewal"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -753,9 +773,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = LicenseRenewalLink.parse_obj(response.json())
+            response200 = LicenseRenewalLink.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def request_trial_license(
@@ -771,9 +791,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.25
+
+        Api Reference:
+            `RequestTrialLicense <https://api.mattermost.com/#operation/RequestTrialLicense>`_
         """
 
-        url = "/trial-license".format()
+        url = "/trial-license"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -784,7 +807,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -795,7 +818,7 @@ class SystemApi(ApiBaseClass):
 
         return response
 
-    def get_trial_license_prev(
+    def get_prev_trial_license(
         self,
     ) -> None:
         """Get last trial license used
@@ -806,14 +829,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_systems` permissions.
         Minimum Server Version:
             5.36
+
+        Api Reference:
+            `GetPrevTrialLicense <https://api.mattermost.com/#operation/GetPrevTrialLicense>`_
         """
 
-        url = "/trial-license/prev".format()
+        url = "/trial-license/prev"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -837,9 +863,12 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetAudits <https://api.mattermost.com/#operation/GetAudits>`_
         """
 
-        url = "/audits".format()
+        url = "/audits"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -850,7 +879,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -860,14 +889,14 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Audit.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Audit.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def invalidate_caches(
@@ -881,14 +910,17 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `InvalidateCaches <https://api.mattermost.com/#operation/InvalidateCaches>`_
         """
 
-        url = "/caches/invalidate".format()
+        url = "/caches/invalidate"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -898,9 +930,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_logs(
@@ -916,9 +948,12 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Must have `manage_system` permission.
+
+        Api Reference:
+            `GetLogs <https://api.mattermost.com/#operation/GetLogs>`_
         """
 
-        url = "/logs".format()
+        url = "/logs"
         params: Dict[str, Any] = {
             "page": page,
             "logs_per_page": logs_per_page,
@@ -929,7 +964,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -939,16 +974,16 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response
 
     def post_log(
         self,
         *,
         json_body: PostLogJsonBody,
-    ) -> PostLogResponse_200:
+    ) -> PostLogResponse200:
         """Add log message
 
         Add log messages to the server logs.
@@ -960,10 +995,13 @@ class SystemApi(ApiBaseClass):
 
         Permissions:
             Users with `manage_system` permission can log ERROR or DEBUG
-        messages.
+            messages.
+
+        Api Reference:
+            `PostLog <https://api.mattermost.com/#operation/PostLog>`_
         """
 
-        url = "/logs".format()
+        url = "/logs"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -974,7 +1012,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -984,9 +1022,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = PostLogResponse_200.parse_obj(response.json())
+            response200 = PostLogResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_analytics_old(
@@ -1008,9 +1046,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.0
+
+        Api Reference:
+            `GetAnalyticsOld <https://api.mattermost.com/#operation/GetAnalyticsOld>`_
         """
 
-        url = "/analytics/old".format()
+        url = "/analytics/old"
         params: Dict[str, Any] = {
             "name": name,
             "team_id": team_id,
@@ -1021,7 +1062,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1044,14 +1085,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.20
+
+        Api Reference:
+            `GetServerBusyExpires <https://api.mattermost.com/#operation/GetServerBusyExpires>`_
         """
 
-        url = "/server_busy".format()
+        url = "/server_busy"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1061,9 +1105,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Server_Busy.parse_obj(response.json())
+            response200 = Server_Busy.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def set_server_busy(
@@ -1080,9 +1124,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.20
+
+        Api Reference:
+            `SetServerBusy <https://api.mattermost.com/#operation/SetServerBusy>`_
         """
 
-        url = "/server_busy".format()
+        url = "/server_busy"
         params: Dict[str, Any] = {
             "seconds": seconds,
         }
@@ -1092,7 +1139,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1102,9 +1149,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def clear_server_busy(
@@ -1119,14 +1166,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.20
+
+        Api Reference:
+            `ClearServerBusy <https://api.mattermost.com/#operation/ClearServerBusy>`_
         """
 
-        url = "/server_busy".format()
+        url = "/server_busy"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -1136,9 +1186,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_redirect_location(
@@ -1154,9 +1204,12 @@ class SystemApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `GetRedirectLocation <https://api.mattermost.com/#operation/GetRedirectLocation>`_
         """
 
-        url = "/redirect_location".format()
+        url = "/redirect_location"
         params: Dict[str, Any] = {
             "url": url,
         }
@@ -1166,7 +1219,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1188,14 +1241,17 @@ class SystemApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             3.10
+
+        Api Reference:
+            `GetImageByUrl <https://api.mattermost.com/#operation/GetImageByUrl>`_
         """
 
-        url = "/image".format()
+        url = "/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1219,14 +1275,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.27
+
+        Api Reference:
+            `UpgradeToEnterprise <https://api.mattermost.com/#operation/UpgradeToEnterprise>`_
         """
 
-        url = "/upgrade_to_enterprise".format()
+        url = "/upgrade_to_enterprise"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1236,14 +1295,14 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 202:
-            response_202 = PushNotification.parse_obj(response.json())
+            response202 = PushNotification.parse_obj(response.json())
 
-            return response_202
+            return response202
         return response
 
     def upgrade_to_enterprise_status(
         self,
-    ) -> UpgradeToEnterpriseStatusResponse_200:
+    ) -> UpgradeToEnterpriseStatusResponse200:
         """Get the current status for the inplace upgrade from Team Edition to
         Enterprise Edition
 
@@ -1254,14 +1313,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.27
+
+        Api Reference:
+            `UpgradeToEnterpriseStatus <https://api.mattermost.com/#operation/UpgradeToEnterpriseStatus>`_
         """
 
-        url = "/upgrade_to_enterprise/status".format()
+        url = "/upgrade_to_enterprise/status"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1271,11 +1333,11 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UpgradeToEnterpriseStatusResponse_200.parse_obj(
+            response200 = UpgradeToEnterpriseStatusResponse200.parse_obj(
                 response.json()
             )
 
-            return response_200
+            return response200
         return response
 
     def restart_server(
@@ -1291,14 +1353,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.27
+
+        Api Reference:
+            `RestartServer <https://api.mattermost.com/#operation/RestartServer>`_
         """
 
-        url = "/restart".format()
+        url = "/restart"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1308,9 +1373,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_warn_metrics_status(
@@ -1333,14 +1398,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetWarnMetricsStatus <https://api.mattermost.com/#operation/GetWarnMetricsStatus>`_
         """
 
-        url = "/warn_metrics/status".format()
+        url = "/warn_metrics/status"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1350,9 +1418,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def send_warn_metric_ack(
@@ -1373,11 +1441,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `SendWarnMetricAck <https://api.mattermost.com/#operation/SendWarnMetricAck>`_
         """
 
-        url = "/warn_metrics/ack/{warn_metric_id}".format(
-            warn_metric_id=warn_metric_id,
-        )
+        url = f"/warn_metrics/ack/{warn_metric_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1388,7 +1457,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1398,9 +1467,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def send_trial_license_warn_metric_ack(
@@ -1418,16 +1487,17 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `SendTrialLicenseWarnMetricAck <https://api.mattermost.com/#operation/SendTrialLicenseWarnMetricAck>`_
         """
 
-        url = "/warn_metrics/trial-license-ack/{warn_metric_id}".format(
-            warn_metric_id=warn_metric_id,
-        )
+        url = f"/warn_metrics/trial-license-ack/{warn_metric_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1437,9 +1507,9 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def check_integrity(
@@ -1453,19 +1523,21 @@ class SystemApi(ApiBaseClass):
             5.28.0
         Local Mode Only:
             This endpoint is only available through [local
-        mode](https://docs.mattermost.com/administration/mmctl-cli-
-        tool.html#local-mode).
-
+            mode](https://docs.mattermost.com/administration/mmctl-cli-
+            tool.html#local-mode).
         Warning:
             This check may temporarily harm system performance.
+
+        Api Reference:
+            `CheckIntegrity <https://api.mattermost.com/#operation/CheckIntegrity>`_
         """
 
-        url = "/integrity".format()
+        url = "/integrity"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1475,16 +1547,14 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = IntegrityCheckResult.parse_obj(
-                    response_200_item_data
-                )
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = IntegrityCheckResult.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def generate_support_packet(
@@ -1502,14 +1572,17 @@ class SystemApi(ApiBaseClass):
             Must have any of the system console read permissions.
         Minimum Server Version:
             5.32
+
+        Api Reference:
+            `GenerateSupportPacket <https://api.mattermost.com/#operation/GenerateSupportPacket>`_
         """
 
-        url = "/system/support_packet".format()
+        url = "/system/support_packet"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -1535,9 +1608,12 @@ class SystemApi(ApiBaseClass):
             Must have `manage_system` permissions.
         Minimum Server Version:
             5.33
+
+        Api Reference:
+            `UpdateMarketplaceVisitedByAdmin <https://api.mattermost.com/#operation/UpdateMarketplaceVisitedByAdmin>`_
         """
 
-        url = "/plugins/marketplace/first_admin_visit".format()
+        url = "/plugins/marketplace/first_admin_visit"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1548,7 +1624,7 @@ class SystemApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -1558,7 +1634,7 @@ class SystemApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

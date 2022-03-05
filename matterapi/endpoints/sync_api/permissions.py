@@ -1,3 +1,6 @@
+""" Module to access the Permissions endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional, cast
 
 from ..base import ApiBaseClass
@@ -19,9 +22,12 @@ class PermissionsApi(ApiBaseClass):
 
         Minimum Server Version:
             5.35
+
+        Api Reference:
+            `GetAncillaryPermissions <https://api.mattermost.com/#operation/GetAncillaryPermissions>`_
         """
 
-        url = "/permissions/ancillary".format()
+        url = "/permissions/ancillary"
         params: Dict[str, Any] = {
             "subsection_permissions": subsection_permissions,
         }
@@ -31,7 +37,7 @@ class PermissionsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -41,7 +47,7 @@ class PermissionsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = cast(List[str], response.json())
+            response200 = cast(List[str], response.json())
 
-            return response_200
+            return response200
         return response

@@ -1,3 +1,6 @@
+""" Module to access the Cloud endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import List
 
 from pydantic import BaseModel
@@ -27,20 +30,23 @@ class CloudApi(ApiBaseClass):
         Retrieve a list of all products that are offered for Mattermost Cloud.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.28
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetCloudProducts <https://api.mattermost.com/#operation/GetCloudProducts>`_
         """
 
-        url = "/cloud/products".format()
+        url = "/cloud/products"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -50,14 +56,14 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Product.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Product.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_customer_payment(
@@ -69,20 +75,23 @@ class CloudApi(ApiBaseClass):
         installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.28
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `CreateCustomerPayment <https://api.mattermost.com/#operation/CreateCustomerPayment>`_
         """
 
-        url = "/cloud/payment".format()
+        url = "/cloud/payment"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -92,9 +101,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = PaymentSetupIntent.parse_obj(response.json())
+            response201 = PaymentSetupIntent.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def confirm_customer_payment(
@@ -108,15 +117,18 @@ class CloudApi(ApiBaseClass):
         `/cloud/payment`.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.28
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `ConfirmCustomerPayment <https://api.mattermost.com/#operation/ConfirmCustomerPayment>`_
         """
 
-        url = "/cloud/payment/confirm".format()
+        url = "/cloud/payment/confirm"
 
         multipart_body_data = ConfirmCustomerPaymentMultipartData.parse_obj(
             multipart_data
@@ -126,7 +138,7 @@ class CloudApi(ApiBaseClass):
             "url": url,
             "data": multipart_body_data.get_data(),
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -146,20 +158,23 @@ class CloudApi(ApiBaseClass):
         bound to this installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.28
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetCloudCustomer <https://api.mattermost.com/#operation/GetCloudCustomer>`_
         """
 
-        url = "/cloud/customer".format()
+        url = "/cloud/customer"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -169,9 +184,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = CloudCustomer.parse_obj(response.json())
+            response200 = CloudCustomer.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_cloud_customer(
@@ -185,15 +200,18 @@ class CloudApi(ApiBaseClass):
         to this installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.29
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `UpdateCloudCustomer <https://api.mattermost.com/#operation/UpdateCloudCustomer>`_
         """
 
-        url = "/cloud/customer".format()
+        url = "/cloud/customer"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -204,7 +222,7 @@ class CloudApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -214,9 +232,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = CloudCustomer.parse_obj(response.json())
+            response200 = CloudCustomer.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_cloud_customer_address(
@@ -230,15 +248,18 @@ class CloudApi(ApiBaseClass):
         this installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.29
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `UpdateCloudCustomerAddress <https://api.mattermost.com/#operation/UpdateCloudCustomerAddress>`_
         """
 
-        url = "/cloud/customer/address".format()
+        url = "/cloud/customer/address"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -249,7 +270,7 @@ class CloudApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -259,9 +280,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = CloudCustomer.parse_obj(response.json())
+            response200 = CloudCustomer.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_subscription(
@@ -273,20 +294,23 @@ class CloudApi(ApiBaseClass):
         bound to this installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.28
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetSubscription <https://api.mattermost.com/#operation/GetSubscription>`_
         """
 
-        url = "/cloud/subscription".format()
+        url = "/cloud/subscription"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -296,9 +320,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Subscription.parse_obj(response.json())
+            response200 = Subscription.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_invoices_for_subscription(
@@ -309,20 +333,23 @@ class CloudApi(ApiBaseClass):
         Retrieves the invoices for the subscription bound to this installation.
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.30
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetInvoicesForSubscription <https://api.mattermost.com/#operation/GetInvoicesForSubscription>`_
         """
 
-        url = "/cloud/subscription/invoices".format()
+        url = "/cloud/subscription/invoices"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -332,14 +359,14 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Invoice.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Invoice.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_invoice_for_subscription_as_pdf(
@@ -351,22 +378,23 @@ class CloudApi(ApiBaseClass):
         Retrieves the PDF for the invoice passed as parameter
 
         Permissions:
-            Must have `manage_system` permission and be licensed for Cloud.
+            Must have `manage_system` permission and be licensed for
+            Cloud.
         Minimum Server Version:
             5.30
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetInvoiceForSubscriptionAsPdf <https://api.mattermost.com/#operation/GetInvoiceForSubscriptionAsPdf>`_
         """
 
-        url = "/cloud/subscription/invoices/{invoice_id}/pdf".format(
-            invoice_id=invoice_id,
-        )
+        url = f"/cloud/subscription/invoices/{invoice_id}/pdf"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -385,21 +413,23 @@ class CloudApi(ApiBaseClass):
         An endpoint for processing webhooks from the Customer Portal
 
         Permissions:
-            This endpoint should only be accessed by CWS, in a Mattermost Cloud
-        instance
+            This endpoint should only be accessed by CWS, in a
+            Mattermost Cloud instance
         Minimum Server Version:
             5.30
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `PostEndpointForCwsWebhooks <https://api.mattermost.com/#operation/PostEndpointForCwsWebhooks>`_
         """
 
-        url = "/cloud/webhook".format()
+        url = "/cloud/webhook"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -419,20 +449,23 @@ class CloudApi(ApiBaseClass):
         remaining seats on a free tier
 
         Permissions:
-            This endpoint should only be accessed in a Mattermost Cloud instance
+            This endpoint should only be accessed in a Mattermost Cloud
+            instance
         Minimum Server Version:
             5.34
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `GetSubscriptionStats <https://api.mattermost.com/#operation/GetSubscriptionStats>`_
         """
 
-        url = "/cloud/subscription/stats".format()
+        url = "/cloud/subscription/stats"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -442,9 +475,9 @@ class CloudApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SubscriptionStats.parse_obj(response.json())
+            response200 = SubscriptionStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def send_admin_upgrade_request_email(
@@ -457,20 +490,23 @@ class CloudApi(ApiBaseClass):
         them to upgrade the workspace when a user tries to invite more users
 
         Permissions:
-            This endpoint should only be accessed in a Mattermost Cloud instance
+            This endpoint should only be accessed in a Mattermost Cloud
+            instance
         Minimum Server Version:
             5.34
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `SendAdminUpgradeRequestEmail <https://api.mattermost.com/#operation/SendAdminUpgradeRequestEmail>`_
         """
 
-        url = "/cloud/subscription/limitreached/invite".format()
+        url = "/cloud/subscription/limitreached/invite"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -491,20 +527,23 @@ class CloudApi(ApiBaseClass):
         them to upgrade the workspace when a user tries to join the workspace
 
         Permissions:
-            This endpoint should only be accessed in a Mattermost Cloud instance
+            This endpoint should only be accessed in a Mattermost Cloud
+            instance
         Minimum Server Version:
             5.34
-
         Warning:
             This is intended for internal use and is subject to change.
+
+        Api Reference:
+            `SendAdminUpgradeRequestEmailOnJoin <https://api.mattermost.com/#operation/SendAdminUpgradeRequestEmailOnJoin>`_
         """
 
-        url = "/cloud/subscription/limitreached/join".format()
+        url = "/cloud/subscription/limitreached/join"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,

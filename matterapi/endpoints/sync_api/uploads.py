@@ -1,3 +1,6 @@
+""" Module to access the Uploads endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Union
 
 from pydantic import BaseModel
@@ -22,9 +25,12 @@ class UploadsApi(ApiBaseClass):
             Must have `upload_file` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `CreateUpload <https://api.mattermost.com/#operation/CreateUpload>`_
         """
 
-        url = "/uploads".format()
+        url = "/uploads"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -35,7 +41,7 @@ class UploadsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -45,9 +51,9 @@ class UploadsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = UploadSession.parse_obj(response.json())
+            response201 = UploadSession.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_upload(
@@ -59,17 +65,19 @@ class UploadsApi(ApiBaseClass):
         Gets an upload session that has been previously created.
 
         Permissions:
-            Must be logged in as the user who created the upload session.
+            Must be logged in as the user who created the upload
+            session.
+
+        Api Reference:
+            `GetUpload <https://api.mattermost.com/#operation/GetUpload>`_
         """
 
-        url = "/uploads/{upload_id}".format(
-            upload_id=upload_id,
-        )
+        url = f"/uploads/{upload_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -97,18 +105,20 @@ class UploadsApi(ApiBaseClass):
         - multipart/form-data
 
         Permissions:
-            Must be logged in as the user who created the upload session.
+            Must be logged in as the user who created the upload
+            session.
+
+        Api Reference:
+            `UploadData <https://api.mattermost.com/#operation/UploadData>`_
         """
 
-        url = "/uploads/{upload_id}".format(
-            upload_id=upload_id,
-        )
+        url = f"/uploads/{upload_id}"
 
         request_kwargs = {
             "url": url,
             "data": form_data,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -118,7 +128,7 @@ class UploadsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = FileInfo.parse_obj(response.json())
+            response201 = FileInfo.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response

@@ -1,3 +1,6 @@
+""" Module to access the Status endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import List
 
 from pydantic import BaseModel
@@ -25,16 +28,17 @@ class StatusApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetUserStatus <https://api.mattermost.com/#operation/GetUserStatus>`_
         """
 
-        url = "/users/{user_id}/status".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -44,9 +48,9 @@ class StatusApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Status.parse_obj(response.json())
+            response200 = Status.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_user_status(
@@ -63,11 +67,12 @@ class StatusApi(ApiBaseClass):
 
         Permissions:
             Must have `edit_other_users` permission for the team.
+
+        Api Reference:
+            `UpdateUserStatus <https://api.mattermost.com/#operation/UpdateUserStatus>`_
         """
 
-        url = "/users/{user_id}/status".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -78,7 +83,7 @@ class StatusApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -88,9 +93,9 @@ class StatusApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Status.parse_obj(response.json())
+            response200 = Status.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_users_statuses_by_ids(
@@ -104,16 +109,19 @@ class StatusApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetUsersStatusesByIds <https://api.mattermost.com/#operation/GetUsersStatusesByIds>`_
         """
 
-        url = "/users/status/ids".format()
+        url = "/users/status/ids"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -123,14 +131,14 @@ class StatusApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Status.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Status.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def update_user_custom_status(
@@ -146,12 +154,14 @@ class StatusApi(ApiBaseClass):
         custom statuses in the user's props
 
         Permissions:
-            Must be logged in as the user whose custom status is being updated.
+            Must be logged in as the user whose custom status is being
+            updated.
+
+        Api Reference:
+            `UpdateUserCustomStatus <https://api.mattermost.com/#operation/UpdateUserCustomStatus>`_
         """
 
-        url = "/users/{user_id}/status/custom".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status/custom"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -162,7 +172,7 @@ class StatusApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -183,17 +193,19 @@ class StatusApi(ApiBaseClass):
         the user
 
         Permissions:
-            Must be logged in as the user whose custom status is being removed.
+            Must be logged in as the user whose custom status is being
+            removed.
+
+        Api Reference:
+            `UnsetUserCustomStatus <https://api.mattermost.com/#operation/UnsetUserCustomStatus>`_
         """
 
-        url = "/users/{user_id}/status/custom".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status/custom"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -216,13 +228,14 @@ class StatusApi(ApiBaseClass):
         from the recentCustomStatuses in the user's props and updates the user.
 
         Permissions:
-            Must be logged in as the user whose recent custom status is being
-        deleted.
+            Must be logged in as the user whose recent custom status is
+            being deleted.
+
+        Api Reference:
+            `RemoveRecentCustomStatus <https://api.mattermost.com/#operation/RemoveRecentCustomStatus>`_
         """
 
-        url = "/users/{user_id}/status/custom/recent".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status/custom/recent"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -233,7 +246,7 @@ class StatusApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -256,13 +269,14 @@ class StatusApi(ApiBaseClass):
         from the recentCustomStatuses in the user's props and updates the user.
 
         Permissions:
-            Must be logged in as the user whose recent custom status is being
-        deleted.
+            Must be logged in as the user whose recent custom status is
+            being deleted.
+
+        Api Reference:
+            `PostUserRecentCustomStatusDelete <https://api.mattermost.com/#operation/PostUserRecentCustomStatusDelete>`_
         """
 
-        url = "/users/{user_id}/status/custom/recent/delete".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/status/custom/recent/delete"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -273,7 +287,7 @@ class StatusApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,

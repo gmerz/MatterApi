@@ -1,3 +1,6 @@
+""" Module to access the Webhooks endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -30,11 +33,14 @@ class WebhooksApi(ApiBaseClass):
         specific team using query parameters.
 
         Permissions:
-            `manage_webhooks` for the system or `manage_webhooks` for the
-        specific team.
+            `manage_webhooks` for the system or `manage_webhooks` for
+            the specific team.
+
+        Api Reference:
+            `GetIncomingWebhooks <https://api.mattermost.com/#operation/GetIncomingWebhooks>`_
         """
 
-        url = "/hooks/incoming".format()
+        url = "/hooks/incoming"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -46,7 +52,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -56,14 +62,14 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = IncomingWebhook.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = IncomingWebhook.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_incoming_webhook(
@@ -80,9 +86,12 @@ class WebhooksApi(ApiBaseClass):
 
         Permissions:
             `manage_webhooks` for the team the webhook is in.
+
+        Api Reference:
+            `CreateIncomingWebhook <https://api.mattermost.com/#operation/CreateIncomingWebhook>`_
         """
 
-        url = "/hooks/incoming".format()
+        url = "/hooks/incoming"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -93,7 +102,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -103,9 +112,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = IncomingWebhook.parse_obj(response.json())
+            response201 = IncomingWebhook.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_incoming_webhook(
@@ -117,18 +126,19 @@ class WebhooksApi(ApiBaseClass):
         Get an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `GetIncomingWebhook <https://api.mattermost.com/#operation/GetIncomingWebhook>`_
         """
 
-        url = "/hooks/incoming/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/incoming/{hook_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -138,9 +148,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = IncomingWebhook.parse_obj(response.json())
+            response200 = IncomingWebhook.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_incoming_webhook(
@@ -154,13 +164,14 @@ class WebhooksApi(ApiBaseClass):
         Update an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `UpdateIncomingWebhook <https://api.mattermost.com/#operation/UpdateIncomingWebhook>`_
         """
 
-        url = "/hooks/incoming/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/incoming/{hook_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -171,7 +182,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -181,9 +192,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = IncomingWebhook.parse_obj(response.json())
+            response200 = IncomingWebhook.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_incoming_webhook(
@@ -195,18 +206,19 @@ class WebhooksApi(ApiBaseClass):
         Delete an incoming webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `DeleteIncomingWebhook <https://api.mattermost.com/#operation/DeleteIncomingWebhook>`_
         """
 
-        url = "/hooks/incoming/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/incoming/{hook_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -216,9 +228,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_outgoing_webhooks(
@@ -235,11 +247,14 @@ class WebhooksApi(ApiBaseClass):
         specific team or channel using query parameters.
 
         Permissions:
-            `manage_webhooks` for the system or `manage_webhooks` for the
-        specific team/channel.
+            `manage_webhooks` for the system or `manage_webhooks` for
+            the specific team/channel.
+
+        Api Reference:
+            `GetOutgoingWebhooks <https://api.mattermost.com/#operation/GetOutgoingWebhooks>`_
         """
 
-        url = "/hooks/outgoing".format()
+        url = "/hooks/outgoing"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -252,7 +267,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -262,14 +277,14 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = OutgoingWebhook.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = OutgoingWebhook.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_outgoing_webhook(
@@ -286,9 +301,12 @@ class WebhooksApi(ApiBaseClass):
 
         Permissions:
             `manage_webhooks` for the team the webhook is in.
+
+        Api Reference:
+            `CreateOutgoingWebhook <https://api.mattermost.com/#operation/CreateOutgoingWebhook>`_
         """
 
-        url = "/hooks/outgoing".format()
+        url = "/hooks/outgoing"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -299,7 +317,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -309,9 +327,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = OutgoingWebhook.parse_obj(response.json())
+            response201 = OutgoingWebhook.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_outgoing_webhook(
@@ -323,18 +341,19 @@ class WebhooksApi(ApiBaseClass):
         Get an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `GetOutgoingWebhook <https://api.mattermost.com/#operation/GetOutgoingWebhook>`_
         """
 
-        url = "/hooks/outgoing/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/outgoing/{hook_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -344,9 +363,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OutgoingWebhook.parse_obj(response.json())
+            response200 = OutgoingWebhook.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def update_outgoing_webhook(
@@ -360,13 +379,14 @@ class WebhooksApi(ApiBaseClass):
         Update an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `UpdateOutgoingWebhook <https://api.mattermost.com/#operation/UpdateOutgoingWebhook>`_
         """
 
-        url = "/hooks/outgoing/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/outgoing/{hook_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -377,7 +397,7 @@ class WebhooksApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -387,9 +407,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = OutgoingWebhook.parse_obj(response.json())
+            response200 = OutgoingWebhook.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_outgoing_webhook(
@@ -401,18 +421,19 @@ class WebhooksApi(ApiBaseClass):
         Delete an outgoing webhook given the hook id.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `DeleteOutgoingWebhook <https://api.mattermost.com/#operation/DeleteOutgoingWebhook>`_
         """
 
-        url = "/hooks/outgoing/{hook_id}".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/outgoing/{hook_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -422,9 +443,9 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def regen_outgoing_hook_token(
@@ -436,18 +457,19 @@ class WebhooksApi(ApiBaseClass):
         Regenerate the token for the outgoing webhook.
 
         Permissions:
-            `manage_webhooks` for system or `manage_webhooks` for the specific
-        team or `manage_webhooks` for the channel.
+            `manage_webhooks` for system or `manage_webhooks` for the
+            specific team or `manage_webhooks` for the channel.
+
+        Api Reference:
+            `RegenOutgoingHookToken <https://api.mattermost.com/#operation/RegenOutgoingHookToken>`_
         """
 
-        url = "/hooks/outgoing/{hook_id}/regen_token".format(
-            hook_id=hook_id,
-        )
+        url = f"/hooks/outgoing/{hook_id}/regen_token"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -457,7 +479,7 @@ class WebhooksApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

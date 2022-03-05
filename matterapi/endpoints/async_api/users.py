@@ -1,3 +1,6 @@
+""" Module to access the Users endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
@@ -8,14 +11,14 @@ from ...models import (
     Audit,
     ChannelMemberWithTeamData,
     CheckUserMfaJsonBody,
-    CheckUserMfaResponse_200,
+    CheckUserMfaResponse200,
     ConvertBotToUserJsonBody,
     CreateUserAccessTokenJsonBody,
     CreateUserJsonBody,
     DisableUserAccessTokenJsonBody,
     EnableUserAccessTokenJsonBody,
-    GenerateMfaSecretResponse_200,
-    GetUsersByGroupChannelIdsResponse_200,
+    GenerateMfaSecretResponse200,
+    GetUsersByGroupChannelIdsResponse200,
     LoginByCwsTokenJsonBody,
     LoginJsonBody,
     MigrateAuthToLdapJsonBody,
@@ -34,7 +37,7 @@ from ...models import (
     SetProfileImageMultipartData,
     StatusOK,
     SwitchAccountTypeJsonBody,
-    SwitchAccountTypeResponse_200,
+    SwitchAccountTypeResponse200,
     UpdateUserActiveJsonBody,
     UpdateUserJsonBody,
     UpdateUserMfaJsonBody,
@@ -71,9 +74,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permission required
+
+        Api Reference:
+            `Login <https://api.mattermost.com/#operation/Login>`_
         """
 
-        url = "/users/login".format()
+        url = "/users/login"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -84,7 +90,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -94,9 +100,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = User.parse_obj(response.json())
+            response201 = User.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def login_by_cws_token(
@@ -111,9 +117,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             A Cloud license is required
+
+        Api Reference:
+            `LoginByCwsToken <https://api.mattermost.com/#operation/LoginByCwsToken>`_
         """
 
-        url = "/users/login/cws".format()
+        url = "/users/login/cws"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -124,7 +133,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -144,14 +153,17 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             An active session is required
+
+        Api Reference:
+            `Logout <https://api.mattermost.com/#operation/Logout>`_
         """
 
-        url = "/users/logout".format()
+        url = "/users/logout"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -161,9 +173,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = StatusOK.parse_obj(response.json())
+            response201 = StatusOK.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_users(
@@ -196,11 +208,14 @@ class UsersApi(ApiBaseClass):
         selecting users on a team.
 
         Permissions:
-            Requires an active session and (if specified) membership to the
-        channel or team being selected from.
+            Requires an active session and (if specified) membership to
+            the channel or team being selected from.
+
+        Api Reference:
+            `GetUsers <https://api.mattermost.com/#operation/GetUsers>`_
         """
 
-        url = "/users".format()
+        url = "/users"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -225,7 +240,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -235,14 +250,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = User.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = User.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_user(
@@ -259,11 +274,15 @@ class UsersApi(ApiBaseClass):
         auth_service fields are required.
 
         Permissions:
-            No permission required but user creation can be controlled by server
-        configuration.
+            No permission required for creating email/username accounts
+            on an open server. Auth Token is required for other
+            authentication types such as LDAP or SAML.
+
+        Api Reference:
+            `CreateUser <https://api.mattermost.com/#operation/CreateUser>`_
         """
 
-        url = "/users".format()
+        url = "/users"
         params: Dict[str, Any] = {
             "t": t,
             "iid": iid,
@@ -280,7 +299,7 @@ class UsersApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -290,9 +309,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = User.parse_obj(response.json())
+            response201 = User.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def permanent_delete_all_users(
@@ -307,16 +326,19 @@ class UsersApi(ApiBaseClass):
             5.26.0
         Local Mode Only:
             This endpoint is only available through [local
-        mode](https://docs.mattermost.com/administration/mmctl-cli-
-        tool.html#local-mode).
+            mode](https://docs.mattermost.com/administration/mmctl-cli-
+            tool.html#local-mode).
+
+        Api Reference:
+            `PermanentDeleteAllUsers <https://api.mattermost.com/#operation/PermanentDeleteAllUsers>`_
         """
 
-        url = "/users".format()
+        url = "/users"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -339,9 +361,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Requires an active session but no other permissions.
+
+        Api Reference:
+            `GetUsersByIds <https://api.mattermost.com/#operation/GetUsersByIds>`_
         """
 
-        url = "/users/ids".format()
+        url = "/users/ids"
         params: Dict[str, Any] = {
             "since": since,
         }
@@ -354,7 +379,7 @@ class UsersApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -364,21 +389,21 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = User.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = User.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_users_by_group_channel_ids(
         self,
         *,
         json_body: List[str],
-    ) -> GetUsersByGroupChannelIdsResponse_200:
+    ) -> GetUsersByGroupChannelIdsResponse200:
         """Get users by group channels ids
 
         Get an object containing a key per group channel id in the
@@ -392,16 +417,19 @@ class UsersApi(ApiBaseClass):
             Requires an active session but no other permissions.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `GetUsersByGroupChannelIds <https://api.mattermost.com/#operation/GetUsersByGroupChannelIds>`_
         """
 
-        url = "/users/group_channels".format()
+        url = "/users/group_channels"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -411,11 +439,11 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GetUsersByGroupChannelIdsResponse_200.parse_obj(
+            response200 = GetUsersByGroupChannelIdsResponse200.parse_obj(
                 response.json()
             )
 
-            return response_200
+            return response200
         return response
 
     async def get_users_by_usernames(
@@ -429,16 +457,19 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Requires an active session but no other permissions.
+
+        Api Reference:
+            `GetUsersByUsernames <https://api.mattermost.com/#operation/GetUsersByUsernames>`_
         """
 
-        url = "/users/usernames".format()
+        url = "/users/usernames"
         json_json_body = json_body
 
         request_kwargs = {
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -448,14 +479,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = User.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = User.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def search_users(
@@ -470,11 +501,15 @@ class UsersApi(ApiBaseClass):
         and email unless otherwise configured by the server.
 
         Permissions:
-            Requires an active session and `read_channel` and/or `view_team`
-        permissions for any channels or teams specified in the request body.
+            Requires an active session and `read_channel` and/or
+            `view_team` permissions for any channels or teams specified
+            in the request body.
+
+        Api Reference:
+            `SearchUsers <https://api.mattermost.com/#operation/SearchUsers>`_
         """
 
-        url = "/users/search".format()
+        url = "/users/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -485,7 +520,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -495,14 +530,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = User.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = User.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def autocomplete_users(
@@ -520,11 +555,15 @@ class UsersApi(ApiBaseClass):
         `channel_id` to filter results further.
 
         Permissions:
-            Requires an active session and `view_team` and `read_channel` on any
-        teams or channels used to filter the results further.
+            Requires an active session and `view_team` and
+            `read_channel` on any teams or channels used to filter the
+            results further.
+
+        Api Reference:
+            `AutocompleteUsers <https://api.mattermost.com/#operation/AutocompleteUsers>`_
         """
 
-        url = "/users/autocomplete".format()
+        url = "/users/autocomplete"
         params: Dict[str, Any] = {
             "team_id": team_id,
             "channel_id": channel_id,
@@ -537,7 +576,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -547,9 +586,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserAutocomplete.parse_obj(response.json())
+            response200 = UserAutocomplete.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_known_users(
@@ -565,14 +604,17 @@ class UsersApi(ApiBaseClass):
             Must be authenticated.
         Minimum Server Version:
             5.23
+
+        Api Reference:
+            `GetKnownUsers <https://api.mattermost.com/#operation/GetKnownUsers>`_
         """
 
-        url = "/users/known".format()
+        url = "/users/known"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -582,9 +624,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UsersStats.parse_obj(response.json())
+            response200 = UsersStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_total_users_stats(
@@ -596,14 +638,17 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `GetTotalUsersStats <https://api.mattermost.com/#operation/GetTotalUsersStats>`_
         """
 
-        url = "/users/stats".format()
+        url = "/users/stats"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -613,9 +658,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UsersStats.parse_obj(response.json())
+            response200 = UsersStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_total_users_stats_filtered(
@@ -637,9 +682,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `GetTotalUsersStatsFiltered <https://api.mattermost.com/#operation/GetTotalUsersStatsFiltered>`_
         """
 
-        url = "/users/stats/filtered".format()
+        url = "/users/stats/filtered"
         params: Dict[str, Any] = {
             "in_team": in_team,
             "in_channel": in_channel,
@@ -655,7 +703,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -665,9 +713,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UsersStats.parse_obj(response.json())
+            response200 = UsersStats.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user(
@@ -680,16 +728,17 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Requires an active session but no other permissions.
+
+        Api Reference:
+            `GetUser <https://api.mattermost.com/#operation/GetUser>`_
         """
 
-        url = "/users/{user_id}".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -699,9 +748,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_user(
@@ -719,12 +768,13 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `UpdateUser <https://api.mattermost.com/#operation/UpdateUser>`_
         """
 
-        url = "/users/{user_id}".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -735,7 +785,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -745,9 +795,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def delete_user(
@@ -766,17 +816,18 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being deactivated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `DeleteUser <https://api.mattermost.com/#operation/DeleteUser>`_
         """
 
-        url = "/users/{user_id}".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -786,9 +837,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def patch_user(
@@ -805,12 +856,13 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `PatchUser <https://api.mattermost.com/#operation/PatchUser>`_
         """
 
-        url = "/users/{user_id}/patch".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/patch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -821,7 +873,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -831,9 +883,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_user_roles(
@@ -850,11 +902,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must have the `manage_roles` permission.
+
+        Api Reference:
+            `UpdateUserRoles <https://api.mattermost.com/#operation/UpdateUserRoles>`_
         """
 
-        url = "/users/{user_id}/roles".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/roles"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -865,7 +918,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -875,9 +928,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_user_active(
@@ -901,11 +954,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             User can deactivate themselves.
+
+        Api Reference:
+            `UpdateUserActive <https://api.mattermost.com/#operation/UpdateUserActive>`_
         """
 
-        url = "/users/{user_id}/active".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/active"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -916,7 +970,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -926,14 +980,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_profile_image(
         self,
         user_id: str,
+        *,
+        _: Optional[float] = None,
     ) -> None:
         """Get user's profile image
 
@@ -941,16 +997,22 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in.
+
+        Api Reference:
+            `GetProfileImage <https://api.mattermost.com/#operation/GetProfileImage>`_
         """
 
-        url = "/users/{user_id}/image".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/image"
+        params: Dict[str, Any] = {
+            "_": _,
+        }
+        params = {k: v for k, v in params.items() if v is not None}
 
         request_kwargs = {
             "url": url,
+            "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -973,12 +1035,13 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `SetProfileImage <https://api.mattermost.com/#operation/SetProfileImage>`_
         """
 
-        url = "/users/{user_id}/image".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/image"
 
         multipart_body_data = SetProfileImageMultipartData.parse_obj(multipart_data)
 
@@ -987,7 +1050,7 @@ class UsersApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -997,9 +1060,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def set_default_profile_image(
@@ -1013,19 +1076,20 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
         Minimum Server Version:
             5.5
+
+        Api Reference:
+            `SetDefaultProfileImage <https://api.mattermost.com/#operation/SetDefaultProfileImage>`_
         """
 
-        url = "/users/{user_id}/image".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/image"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.delete(
                 **request_kwargs,
@@ -1035,9 +1099,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_default_profile_image(
@@ -1053,16 +1117,17 @@ class UsersApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             5.5
+
+        Api Reference:
+            `GetDefaultProfileImage <https://api.mattermost.com/#operation/GetDefaultProfileImage>`_
         """
 
-        url = "/users/{user_id}/image/default".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/image/default"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1084,16 +1149,17 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Requires an active session but no other permissions.
+
+        Api Reference:
+            `GetUserByUsername <https://api.mattermost.com/#operation/GetUserByUsername>`_
         """
 
-        url = "/users/username/{username}".format(
-            username=username,
-        )
+        url = f"/users/username/{username}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1103,9 +1169,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def reset_password(
@@ -1120,9 +1186,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permissions required.
+
+        Api Reference:
+            `ResetPassword <https://api.mattermost.com/#operation/ResetPassword>`_
         """
 
-        url = "/users/password/reset".format()
+        url = "/users/password/reset"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1133,7 +1202,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1143,9 +1212,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_user_mfa(
@@ -1162,12 +1231,13 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `UpdateUserMfa <https://api.mattermost.com/#operation/UpdateUserMfa>`_
         """
 
-        url = "/users/{user_id}/mfa".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/mfa"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1178,7 +1248,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -1188,15 +1258,15 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def generate_mfa_secret(
         self,
         user_id: str,
-    ) -> GenerateMfaSecretResponse_200:
+    ) -> GenerateMfaSecretResponse200:
         """Generate MFA secret
 
         Generates an multi-factor authentication secret for a user and returns
@@ -1204,17 +1274,18 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have the `edit_other_users`
-        permission.
+            permission.
+
+        Api Reference:
+            `GenerateMfaSecret <https://api.mattermost.com/#operation/GenerateMfaSecret>`_
         """
 
-        url = "/users/{user_id}/mfa/generate".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/mfa/generate"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1224,9 +1295,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = GenerateMfaSecretResponse_200.parse_obj(response.json())
+            response200 = GenerateMfaSecretResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def demote_user_to_guest(
@@ -1241,19 +1312,20 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have the `demote_to_guest`
-        permission.
+            permission.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `DemoteUserToGuest <https://api.mattermost.com/#operation/DemoteUserToGuest>`_
         """
 
-        url = "/users/{user_id}/demote".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/demote"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1263,9 +1335,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def promote_guest_to_user(
@@ -1280,19 +1352,20 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have the `promote_guest`
-        permission.
+            permission.
         Minimum Server Version:
             5.16
+
+        Api Reference:
+            `PromoteGuestToUser <https://api.mattermost.com/#operation/PromoteGuestToUser>`_
         """
 
-        url = "/users/{user_id}/promote".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/promote"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1302,9 +1375,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def convert_user_to_bot(
@@ -1319,16 +1392,17 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `ConvertUserToBot <https://api.mattermost.com/#operation/ConvertUserToBot>`_
         """
 
-        url = "/users/{user_id}/convert_to_bot".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/convert_to_bot"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1338,16 +1412,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def check_user_mfa(
         self,
         *,
         json_body: CheckUserMfaJsonBody,
-    ) -> CheckUserMfaResponse_200:
+    ) -> CheckUserMfaResponse200:
         """Check MFA
 
         Check if a user has multi-factor authentication active on their account
@@ -1356,9 +1430,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permission required.
+
+        Api Reference:
+            `CheckUserMfa <https://api.mattermost.com/#operation/CheckUserMfa>`_
         """
 
-        url = "/users/mfa".format()
+        url = "/users/mfa"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1369,7 +1446,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1379,9 +1456,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = CheckUserMfaResponse_200.parse_obj(response.json())
+            response200 = CheckUserMfaResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def update_user_password(
@@ -1397,13 +1474,14 @@ class UsersApi(ApiBaseClass):
         your own password.
 
         Permissions:
-            Must be logged in as the user the password is being changed for or
-        have `manage_system` permission.
+            Must be logged in as the user the password is being changed
+            for or have `manage_system` permission.
+
+        Api Reference:
+            `UpdateUserPassword <https://api.mattermost.com/#operation/UpdateUserPassword>`_
         """
 
-        url = "/users/{user_id}/password".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/password"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1414,7 +1492,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -1424,9 +1502,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def send_password_reset_email(
@@ -1442,9 +1520,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permissions required.
+
+        Api Reference:
+            `SendPasswordResetEmail <https://api.mattermost.com/#operation/SendPasswordResetEmail>`_
         """
 
-        url = "/users/password/reset/send".format()
+        url = "/users/password/reset/send"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1455,7 +1536,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1465,9 +1546,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user_by_email(
@@ -1480,18 +1561,20 @@ class UsersApi(ApiBaseClass):
         be sanitized out.
 
         Permissions:
-            Requires an active session and for the current session to be able to
-        view another user's email based on the server's privacy settings.
+            Requires an active session and for the current session to be
+            able to view another user's email based on the server's
+            privacy settings.
+
+        Api Reference:
+            `GetUserByEmail <https://api.mattermost.com/#operation/GetUserByEmail>`_
         """
 
-        url = "/users/email/{email}".format(
-            email=email,
-        )
+        url = f"/users/email/{email}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1501,9 +1584,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_sessions(
@@ -1517,17 +1600,18 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `GetSessions <https://api.mattermost.com/#operation/GetSessions>`_
         """
 
-        url = "/users/{user_id}/sessions".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/sessions"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1537,14 +1621,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Session.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Session.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def revoke_session(
@@ -1559,12 +1643,13 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
+
+        Api Reference:
+            `RevokeSession <https://api.mattermost.com/#operation/RevokeSession>`_
         """
 
-        url = "/users/{user_id}/sessions/revoke".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/sessions/revoke"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1575,7 +1660,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1585,9 +1670,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def revoke_all_sessions(
@@ -1601,19 +1686,20 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user being updated or have the
-        `edit_other_users` permission.
+            `edit_other_users` permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `RevokeAllSessions <https://api.mattermost.com/#operation/RevokeAllSessions>`_
         """
 
-        url = "/users/{user_id}/sessions/revoke/all".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/sessions/revoke/all"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1623,9 +1709,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def attach_device_id(
@@ -1640,9 +1726,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be authenticated.
+
+        Api Reference:
+            `AttachDeviceId <https://api.mattermost.com/#operation/AttachDeviceId>`_
         """
 
-        url = "/users/sessions/device".format()
+        url = "/users/sessions/device"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1653,7 +1742,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -1663,9 +1752,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user_audits(
@@ -1678,17 +1767,18 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must be logged in as the user or have the `edit_other_users`
-        permission.
+            permission.
+
+        Api Reference:
+            `GetUserAudits <https://api.mattermost.com/#operation/GetUserAudits>`_
         """
 
-        url = "/users/{user_id}/audits".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/audits"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1698,14 +1788,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Audit.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Audit.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def verify_user_email_without_token(
@@ -1720,16 +1810,17 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.24
+
+        Api Reference:
+            `VerifyUserEmailWithoutToken <https://api.mattermost.com/#operation/VerifyUserEmailWithoutToken>`_
         """
 
-        url = "/users/{user_id}/email/verify/member".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/email/verify/member"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1739,9 +1830,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = User.parse_obj(response.json())
+            response200 = User.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def verify_user_email(
@@ -1755,9 +1846,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permissions required.
+
+        Api Reference:
+            `VerifyUserEmail <https://api.mattermost.com/#operation/VerifyUserEmail>`_
         """
 
-        url = "/users/email/verify".format()
+        url = "/users/email/verify"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1768,7 +1862,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1778,9 +1872,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def send_verification_email(
@@ -1796,9 +1890,12 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             No permissions required.
+
+        Api Reference:
+            `SendVerificationEmail <https://api.mattermost.com/#operation/SendVerificationEmail>`_
         """
 
-        url = "/users/email/verify/send".format()
+        url = "/users/email/verify/send"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1809,7 +1906,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1819,16 +1916,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def switch_account_type(
         self,
         *,
         json_body: SwitchAccountTypeJsonBody,
-    ) -> SwitchAccountTypeResponse_200:
+    ) -> SwitchAccountTypeResponse200:
         """Switch login method
 
         Switch a user's login method from using email to OAuth2/SAML/LDAP or
@@ -1854,11 +1951,14 @@ class UsersApi(ApiBaseClass):
         LDAP/AD or email that has MFA activated.
 
         Permissions:
-            No current authentication required except when switching from
-        OAuth2/SAML to email.
+            No current authentication required except when switching
+            from OAuth2/SAML to email.
+
+        Api Reference:
+            `SwitchAccountType <https://api.mattermost.com/#operation/SwitchAccountType>`_
         """
 
-        url = "/users/login/switch".format()
+        url = "/users/login/switch"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1869,7 +1969,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1879,9 +1979,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = SwitchAccountTypeResponse_200.parse_obj(response.json())
+            response200 = SwitchAccountTypeResponse200.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user_access_tokens_for_user(
@@ -1898,14 +1998,15 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must have `read_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            requests, must also have the `edit_other_users` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `GetUserAccessTokensForUser <https://api.mattermost.com/#operation/GetUserAccessTokensForUser>`_
         """
 
-        url = "/users/{user_id}/tokens".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/tokens"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -1916,7 +2017,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -1926,16 +2027,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = UserAccessTokenSanitized.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = UserAccessTokenSanitized.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def create_user_access_token(
@@ -1950,15 +2051,17 @@ class UsersApi(ApiBaseClass):
         Mattermost REST API.
 
         Permissions:
-            Must have `create_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            Must have `create_user_access_token` permission. For non-
+            self requests, must also have the `edit_other_users`
+            permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `CreateUserAccessToken <https://api.mattermost.com/#operation/CreateUserAccessToken>`_
         """
 
-        url = "/users/{user_id}/tokens".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/tokens"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -1969,7 +2072,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -1979,9 +2082,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = UserAccessToken.parse_obj(response.json())
+            response201 = UserAccessToken.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     async def get_user_access_tokens(
@@ -2000,9 +2103,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `GetUserAccessTokens <https://api.mattermost.com/#operation/GetUserAccessTokens>`_
         """
 
-        url = "/users/tokens".format()
+        url = "/users/tokens"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -2013,7 +2119,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -2023,16 +2129,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = UserAccessTokenSanitized.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = UserAccessTokenSanitized.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def revoke_user_access_token(
@@ -2045,13 +2151,17 @@ class UsersApi(ApiBaseClass):
         Revoke a user access token and delete any sessions using the token.
 
         Permissions:
-            Must have `revoke_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            Must have `revoke_user_access_token` permission. For non-
+            self requests, must also have the `edit_other_users`
+            permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `RevokeUserAccessToken <https://api.mattermost.com/#operation/RevokeUserAccessToken>`_
         """
 
-        url = "/users/tokens/revoke".format()
+        url = "/users/tokens/revoke"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2062,7 +2172,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2072,9 +2182,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user_access_token(
@@ -2088,19 +2198,20 @@ class UsersApi(ApiBaseClass):
 
         Permissions:
             Must have `read_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            requests, must also have the `edit_other_users` permission.
         Minimum Server Version:
             4.1
+
+        Api Reference:
+            `GetUserAccessToken <https://api.mattermost.com/#operation/GetUserAccessToken>`_
         """
 
-        url = "/users/tokens/{token_id}".format(
-            token_id=token_id,
-        )
+        url = f"/users/tokens/{token_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -2110,9 +2221,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserAccessTokenSanitized.parse_obj(response.json())
+            response200 = UserAccessTokenSanitized.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def disable_user_access_token(
@@ -2126,13 +2237,17 @@ class UsersApi(ApiBaseClass):
         The token can be re-enabled using `/users/tokens/enable`.
 
         Permissions:
-            Must have `revoke_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            Must have `revoke_user_access_token` permission. For non-
+            self requests, must also have the `edit_other_users`
+            permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `DisableUserAccessToken <https://api.mattermost.com/#operation/DisableUserAccessToken>`_
         """
 
-        url = "/users/tokens/disable".format()
+        url = "/users/tokens/disable"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2143,7 +2258,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2153,9 +2268,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def enable_user_access_token(
@@ -2168,13 +2283,17 @@ class UsersApi(ApiBaseClass):
         Re-enable a personal access token that has been disabled.
 
         Permissions:
-            Must have `create_user_access_token` permission. For non-self
-        requests, must also have the `edit_other_users` permission.
+            Must have `create_user_access_token` permission. For non-
+            self requests, must also have the `edit_other_users`
+            permission.
         Minimum Server Version:
             4.4
+
+        Api Reference:
+            `EnableUserAccessToken <https://api.mattermost.com/#operation/EnableUserAccessToken>`_
         """
 
-        url = "/users/tokens/enable".format()
+        url = "/users/tokens/enable"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2185,7 +2304,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2195,9 +2314,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def search_user_access_tokens(
@@ -2214,9 +2333,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             4.7
+
+        Api Reference:
+            `SearchUserAccessTokens <https://api.mattermost.com/#operation/SearchUserAccessTokens>`_
         """
 
-        url = "/users/tokens/search".format()
+        url = "/users/tokens/search"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2227,7 +2349,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2237,16 +2359,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = UserAccessTokenSanitized.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = UserAccessTokenSanitized.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def update_user_auth(
@@ -2264,11 +2386,12 @@ class UsersApi(ApiBaseClass):
             Must have the `edit_other_users` permission.
         Minimum Server Version:
             4.6
+
+        Api Reference:
+            `UpdateUserAuth <https://api.mattermost.com/#operation/UpdateUserAuth>`_
         """
 
-        url = "/users/{user_id}/auth".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/auth"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2279,7 +2402,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.put(
                 **request_kwargs,
@@ -2289,9 +2412,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserAuthData.parse_obj(response.json())
+            response200 = UserAuthData.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def get_user_terms_of_service(
@@ -2309,16 +2432,17 @@ class UsersApi(ApiBaseClass):
             Must be logged in as the user being acted on.
         Minimum Server Version:
             5.6
+
+        Api Reference:
+            `GetUserTermsOfService <https://api.mattermost.com/#operation/GetUserTermsOfService>`_
         """
 
-        url = "/users/{user_id}/terms_of_service".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/terms_of_service"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -2328,13 +2452,13 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = UserTermsOfService.parse_obj(response.json())
+            response200 = UserTermsOfService.parse_obj(response.json())
 
-            return response_200
+            return response200
         if response.status_code == 404:
-            response_404 = AppError.parse_obj(response.json())
+            response404 = AppError.parse_obj(response.json())
 
-            return response_404
+            return response404
         return response
 
     async def register_terms_of_service_action(
@@ -2353,11 +2477,12 @@ class UsersApi(ApiBaseClass):
             Must be logged in as the user being acted on.
         Minimum Server Version:
             5.4
+
+        Api Reference:
+            `RegisterTermsOfServiceAction <https://api.mattermost.com/#operation/RegisterTermsOfServiceAction>`_
         """
 
-        url = "/users/{user_id}/terms_of_service".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/terms_of_service"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2368,7 +2493,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2378,9 +2503,9 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     async def revoke_sessions_from_all_users(
@@ -2396,14 +2521,17 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `RevokeSessionsFromAllUsers <https://api.mattermost.com/#operation/RevokeSessionsFromAllUsers>`_
         """
 
-        url = "/users/sessions/revoke/all".format()
+        url = "/users/sessions/revoke/all"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2426,15 +2554,16 @@ class UsersApi(ApiBaseClass):
         typing.
 
         Permissions:
-            Must have `manage_system` permission to publish for any user other
-        than oneself.
+            Must have `manage_system` permission to publish for any user
+            other than oneself.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `PublishUserTyping <https://api.mattermost.com/#operation/PublishUserTyping>`_
         """
 
-        url = "/users/{user_id}/typing".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/typing"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2445,7 +2574,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2465,19 +2594,21 @@ class UsersApi(ApiBaseClass):
         Gets all the upload sessions belonging to a user.
 
         Permissions:
-            Must be logged in as the user who created the upload sessions.
+            Must be logged in as the user who created the upload
+            sessions.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `GetUploadsForUser <https://api.mattermost.com/#operation/GetUploadsForUser>`_
         """
 
-        url = "/users/{user_id}/uploads".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/uploads"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -2487,14 +2618,14 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = UploadSession.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = UploadSession.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def get_channel_members_with_team_data_for_user(
@@ -2509,14 +2640,16 @@ class UsersApi(ApiBaseClass):
         Get all channel members from all teams for a user.
 
         Permissions:
-            Logged in as the user, or have `edit_other_users` permission.
+            Logged in as the user, or have `edit_other_users`
+            permission.
         Minimum Server Version:
             6.2.0
+
+        Api Reference:
+            `GetChannelMembersWithTeamDataForUser <https://api.mattermost.com/#operation/GetChannelMembersWithTeamDataForUser>`_
         """
 
-        url = "/users/{user_id}/channel_members".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/channel_members"
         params: Dict[str, Any] = {
             "page": page,
             "pageSize": page_size,
@@ -2527,7 +2660,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.get(
                 **request_kwargs,
@@ -2537,16 +2670,16 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = ChannelMemberWithTeamData.parse_obj(
-                    response_200_item_data
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = ChannelMemberWithTeamData.parse_obj(
+                    response200_item_data
                 )
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     async def migrate_auth_to_ldap(
@@ -2564,9 +2697,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToLdap <https://api.mattermost.com/#operation/MigrateAuthToLdap>`_
         """
 
-        url = "/users/migrate_auth/ldap".format()
+        url = "/users/migrate_auth/ldap"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2577,7 +2713,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2603,9 +2739,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.28
+
+        Api Reference:
+            `MigrateAuthToSaml <https://api.mattermost.com/#operation/MigrateAuthToSaml>`_
         """
 
-        url = "/users/migrate_auth/saml".format()
+        url = "/users/migrate_auth/saml"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -2616,7 +2755,7 @@ class UsersApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2642,11 +2781,12 @@ class UsersApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `ConvertBotToUser <https://api.mattermost.com/#operation/ConvertBotToUser>`_
         """
 
-        url = "/bots/{bot_user_id}/convert_to_user".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/convert_to_user"
         params: Dict[str, Any] = {
             "set_system_admin": set_system_admin,
         }
@@ -2662,7 +2802,7 @@ class UsersApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         async with self.client._get_httpx_client() as httpx_client:
             response = await httpx_client.post(
                 **request_kwargs,
@@ -2672,7 +2812,7 @@ class UsersApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response

@@ -1,3 +1,6 @@
+""" Module to access the Bots endpoints """
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
@@ -28,16 +31,17 @@ class BotsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `ConvertUserToBot <https://api.mattermost.com/#operation/ConvertUserToBot>`_
         """
 
-        url = "/users/{user_id}/convert_to_bot".format(
-            user_id=user_id,
-        )
+        url = f"/users/{user_id}/convert_to_bot"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -47,9 +51,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_bots(
@@ -65,13 +69,17 @@ class BotsApi(ApiBaseClass):
         Get a page of a list of bots.
 
         Permissions:
-            Must have `read_bots` permission for bots you are managing, and
-        `read_others_bots` permission for bots others are managing.
+            Must have `read_bots` permission for bots you are managing,
+            and `read_others_bots` permission for bots others are
+            managing.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `GetBots <https://api.mattermost.com/#operation/GetBots>`_
         """
 
-        url = "/bots".format()
+        url = "/bots"
         params: Dict[str, Any] = {
             "page": page,
             "per_page": per_page,
@@ -84,7 +92,7 @@ class BotsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -94,14 +102,14 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = []
-            _response_200 = response.json()
-            for response_200_item_data in _response_200:
-                response_200_item = Bot.parse_obj(response_200_item_data)
+            response200 = []
+            _response200 = response.json()
+            for response200_item_data in _response200:
+                response200_item = Bot.parse_obj(response200_item_data)
 
-                response_200.append(response_200_item)
+                response200.append(response200_item)
 
-            return response_200
+            return response200
         return response
 
     def create_bot(
@@ -117,9 +125,12 @@ class BotsApi(ApiBaseClass):
             Must have `create_bot` permission.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `CreateBot <https://api.mattermost.com/#operation/CreateBot>`_
         """
 
-        url = "/bots".format()
+        url = "/bots"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -130,7 +141,7 @@ class BotsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -140,9 +151,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 201:
-            response_201 = Bot.parse_obj(response.json())
+            response201 = Bot.parse_obj(response.json())
 
-            return response_201
+            return response201
         return response
 
     def get_bot(
@@ -156,15 +167,17 @@ class BotsApi(ApiBaseClass):
         Get a bot specified by its bot id.
 
         Permissions:
-            Must have `read_bots` permission for bots you are managing, and
-        `read_others_bots` permission for bots others are managing.
+            Must have `read_bots` permission for bots you are managing,
+            and `read_others_bots` permission for bots others are
+            managing.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `GetBot <https://api.mattermost.com/#operation/GetBot>`_
         """
 
-        url = "/bots/{bot_user_id}".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}"
         params: Dict[str, Any] = {
             "include_deleted": include_deleted,
         }
@@ -174,7 +187,7 @@ class BotsApi(ApiBaseClass):
             "url": url,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -184,9 +197,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Bot.parse_obj(response.json())
+            response200 = Bot.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def patch_bot(
@@ -205,11 +218,12 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `PatchBot <https://api.mattermost.com/#operation/PatchBot>`_
         """
 
-        url = "/bots/{bot_user_id}".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}"
 
         if isinstance(json_body, BaseModel):
             json_json_body = json_body.dict(exclude_unset=True)
@@ -220,7 +234,7 @@ class BotsApi(ApiBaseClass):
             "url": url,
             "json": json_json_body,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.put(
                 **request_kwargs,
@@ -230,9 +244,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Bot.parse_obj(response.json())
+            response200 = Bot.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def disable_bot(
@@ -247,16 +261,17 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `DisableBot <https://api.mattermost.com/#operation/DisableBot>`_
         """
 
-        url = "/bots/{bot_user_id}/disable".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/disable"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -266,9 +281,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Bot.parse_obj(response.json())
+            response200 = Bot.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def enable_bot(
@@ -283,16 +298,17 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `EnableBot <https://api.mattermost.com/#operation/EnableBot>`_
         """
 
-        url = "/bots/{bot_user_id}/enable".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/enable"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -302,9 +318,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Bot.parse_obj(response.json())
+            response200 = Bot.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def assign_bot(
@@ -320,17 +336,17 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.10
+
+        Api Reference:
+            `AssignBot <https://api.mattermost.com/#operation/AssignBot>`_
         """
 
-        url = "/bots/{bot_user_id}/assign/{user_id}".format(
-            bot_user_id=bot_user_id,
-            user_id=user_id,
-        )
+        url = f"/bots/{bot_user_id}/assign/{user_id}"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -340,9 +356,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = Bot.parse_obj(response.json())
+            response200 = Bot.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def get_bot_icon_image(
@@ -357,16 +373,17 @@ class BotsApi(ApiBaseClass):
             Must be logged in.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `GetBotIconImage <https://api.mattermost.com/#operation/GetBotIconImage>`_
         """
 
-        url = "/bots/{bot_user_id}/icon".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/icon"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.get(
                 **request_kwargs,
@@ -392,11 +409,12 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `SetBotIconImage <https://api.mattermost.com/#operation/SetBotIconImage>`_
         """
 
-        url = "/bots/{bot_user_id}/icon".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/icon"
 
         multipart_body_data = SetBotIconImageMultipartData.parse_obj(multipart_data)
 
@@ -405,7 +423,7 @@ class BotsApi(ApiBaseClass):
             "data": multipart_body_data.get_data(),
             "files": multipart_body_data.get_files(),
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -415,9 +433,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def delete_bot_icon_image(
@@ -432,16 +450,17 @@ class BotsApi(ApiBaseClass):
             Must have `manage_bots` permission.
         Minimum Server Version:
             5.14
+
+        Api Reference:
+            `DeleteBotIconImage <https://api.mattermost.com/#operation/DeleteBotIconImage>`_
         """
 
-        url = "/bots/{bot_user_id}/icon".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/icon"
 
         request_kwargs = {
             "url": url,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.delete(
                 **request_kwargs,
@@ -451,9 +470,9 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
 
     def convert_bot_to_user(
@@ -471,11 +490,12 @@ class BotsApi(ApiBaseClass):
             Must have `manage_system` permission.
         Minimum Server Version:
             5.26
+
+        Api Reference:
+            `ConvertBotToUser <https://api.mattermost.com/#operation/ConvertBotToUser>`_
         """
 
-        url = "/bots/{bot_user_id}/convert_to_user".format(
-            bot_user_id=bot_user_id,
-        )
+        url = f"/bots/{bot_user_id}/convert_to_user"
         params: Dict[str, Any] = {
             "set_system_admin": set_system_admin,
         }
@@ -491,7 +511,7 @@ class BotsApi(ApiBaseClass):
             "json": json_json_body,
             "params": params,
         }
-
+        # pylint: disable-next=protected-access
         with self.client._get_httpx_client() as httpx_client:
             response = httpx_client.post(
                 **request_kwargs,
@@ -501,7 +521,7 @@ class BotsApi(ApiBaseClass):
             return response
 
         if response.status_code == 200:
-            response_200 = StatusOK.parse_obj(response.json())
+            response200 = StatusOK.parse_obj(response.json())
 
-            return response_200
+            return response200
         return response
