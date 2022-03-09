@@ -2633,7 +2633,7 @@ class UsersApi(ApiBaseClass):
         user_id: str,
         *,
         page: Optional[int] = None,
-        page_size: Optional[int] = None,
+        pageSize: Optional[int] = None,
     ) -> List[ChannelMemberWithTeamData]:
         """Get all channel members from all teams for a user
 
@@ -2652,7 +2652,7 @@ class UsersApi(ApiBaseClass):
         url = f"/users/{user_id}/channel_members"
         params: Dict[str, Any] = {
             "page": page,
-            "pageSize": page_size,
+            "pageSize": pageSize,
         }
         params = {k: v for k, v in params.items() if v is not None}
 

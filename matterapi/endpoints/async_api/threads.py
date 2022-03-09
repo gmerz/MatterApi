@@ -19,8 +19,8 @@ class ThreadsApi(ApiBaseClass):
         deleted: Optional[bool] = False,
         extended: Optional[bool] = False,
         page: Optional[int] = 0,
-        page_size: Optional[int] = 30,
-        totals_only: Optional[bool] = False,
+        pageSize: Optional[int] = 30,
+        totalsOnly: Optional[bool] = False,
     ) -> UserThreads:
         """Get all threads that user is following
 
@@ -42,8 +42,8 @@ class ThreadsApi(ApiBaseClass):
             "deleted": deleted,
             "extended": extended,
             "page": page,
-            "pageSize": page_size,
-            "totalsOnly": totals_only,
+            "pageSize": pageSize,
+            "totalsOnly": totalsOnly,
         }
         params = {k: v for k, v in params.items() if v is not None}
 

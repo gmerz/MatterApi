@@ -128,9 +128,9 @@ class SystemApi(ApiBaseClass):
 
     async def get_notices(
         self,
-        team_id: str,
+        teamId: str,
         *,
-        client_version: str,
+        clientVersion: str,
         locale: Optional[str] = None,
         client: str,
     ) -> List[Notice]:
@@ -150,7 +150,7 @@ class SystemApi(ApiBaseClass):
 
         url = f"/system/notices/{teamId}"
         params: Dict[str, Any] = {
-            "clientVersion": client_version,
+            "clientVersion": clientVersion,
             "locale": locale,
             "client": client,
         }

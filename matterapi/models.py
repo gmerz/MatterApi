@@ -1,6 +1,8 @@
 # pylint: disable=empty-docstring,too-few-public-methods
 from typing import ClassVar, Dict, List, Optional, Set
 
+from pydantic import Field
+
 from .enums import (
     PluginStatusState,
     PostMetadataEmbedsItemType,
@@ -538,11 +540,11 @@ class AutocompleteSuggestion(BaseConfig):
         icon_data (Optional[str]): Base64 encoded svg image
     """
 
-    complete: Optional[str] = None
-    suggestion: Optional[str] = None
-    hint: Optional[str] = None
-    description: Optional[str] = None
-    icon_data: Optional[str] = None
+    complete: Optional[str] = Field(None, alias="Complete")
+    suggestion: Optional[str] = Field(None, alias="Suggestion")
+    hint: Optional[str] = Field(None, alias="Hint")
+    description: Optional[str] = Field(None, alias="Description")
+    icon_data: Optional[str] = Field(None, alias="IconData")
 
 
 class SlackAttachmentField(BaseConfig):
@@ -554,9 +556,9 @@ class SlackAttachmentField(BaseConfig):
         short (Optional[bool]):
     """
 
-    title: Optional[str] = None
-    value: Optional[str] = None
-    short: Optional[bool] = None
+    title: Optional[str] = Field(None, alias="Title")
+    value: Optional[str] = Field(None, alias="Value")
+    short: Optional[bool] = Field(None, alias="Short")
 
 
 class StatusOK(BaseConfig):
@@ -824,42 +826,76 @@ class Config(BaseConfig):
             restrict_custom_emoji_creation (Optional[str]):
         """
 
-        site_url: Optional[str] = None
-        listen_address: Optional[str] = None
-        connection_security: Optional[str] = None
-        tls_cert_file: Optional[str] = None
-        tls_key_file: Optional[str] = None
-        use_lets_encrypt: Optional[bool] = None
-        lets_encrypt_certificate_cache_file: Optional[str] = None
-        forward80_to443: Optional[bool] = None
-        read_timeout: Optional[int] = None
-        write_timeout: Optional[int] = None
-        maximum_login_attempts: Optional[int] = None
-        segment_developer_key: Optional[str] = None
-        google_developer_key: Optional[str] = None
-        enable_oauth_service_provider: Optional[bool] = None
-        enable_incoming_webhooks: Optional[bool] = None
-        enable_outgoing_webhooks: Optional[bool] = None
-        enable_commands: Optional[bool] = None
-        enable_only_admin_integrations: Optional[bool] = None
-        enable_post_username_override: Optional[bool] = None
-        enable_post_icon_override: Optional[bool] = None
-        enable_testing: Optional[bool] = None
-        enable_developer: Optional[bool] = None
-        enable_security_fix_alert: Optional[bool] = None
-        enable_insecure_outgoing_connections: Optional[bool] = None
-        enable_multifactor_authentication: Optional[bool] = None
-        enforce_multifactor_authentication: Optional[bool] = None
-        allow_cors_from: Optional[str] = None
-        session_length_web_in_days: Optional[int] = None
-        session_length_mobile_in_days: Optional[int] = None
-        session_length_sso_in_days: Optional[int] = None
-        session_cache_in_minutes: Optional[int] = None
-        websocket_secure_port: Optional[int] = None
-        websocket_port: Optional[int] = None
-        webserver_mode: Optional[str] = None
-        enable_custom_emoji: Optional[bool] = None
-        restrict_custom_emoji_creation: Optional[str] = None
+        site_url: Optional[str] = Field(None, alias="SiteURL")
+        listen_address: Optional[str] = Field(None, alias="ListenAddress")
+        connection_security: Optional[str] = Field(None, alias="ConnectionSecurity")
+        tls_cert_file: Optional[str] = Field(None, alias="TLSCertFile")
+        tls_key_file: Optional[str] = Field(None, alias="TLSKeyFile")
+        use_lets_encrypt: Optional[bool] = Field(None, alias="UseLetsEncrypt")
+        lets_encrypt_certificate_cache_file: Optional[str] = Field(
+            None, alias="LetsEncryptCertificateCacheFile"
+        )
+        forward80_to443: Optional[bool] = Field(None, alias="Forward80To443")
+        read_timeout: Optional[int] = Field(None, alias="ReadTimeout")
+        write_timeout: Optional[int] = Field(None, alias="WriteTimeout")
+        maximum_login_attempts: Optional[int] = Field(
+            None, alias="MaximumLoginAttempts"
+        )
+        segment_developer_key: Optional[str] = Field(None, alias="SegmentDeveloperKey")
+        google_developer_key: Optional[str] = Field(None, alias="GoogleDeveloperKey")
+        enable_oauth_service_provider: Optional[bool] = Field(
+            None, alias="EnableOAuthServiceProvider"
+        )
+        enable_incoming_webhooks: Optional[bool] = Field(
+            None, alias="EnableIncomingWebhooks"
+        )
+        enable_outgoing_webhooks: Optional[bool] = Field(
+            None, alias="EnableOutgoingWebhooks"
+        )
+        enable_commands: Optional[bool] = Field(None, alias="EnableCommands")
+        enable_only_admin_integrations: Optional[bool] = Field(
+            None, alias="EnableOnlyAdminIntegrations"
+        )
+        enable_post_username_override: Optional[bool] = Field(
+            None, alias="EnablePostUsernameOverride"
+        )
+        enable_post_icon_override: Optional[bool] = Field(
+            None, alias="EnablePostIconOverride"
+        )
+        enable_testing: Optional[bool] = Field(None, alias="EnableTesting")
+        enable_developer: Optional[bool] = Field(None, alias="EnableDeveloper")
+        enable_security_fix_alert: Optional[bool] = Field(
+            None, alias="EnableSecurityFixAlert"
+        )
+        enable_insecure_outgoing_connections: Optional[bool] = Field(
+            None, alias="EnableInsecureOutgoingConnections"
+        )
+        enable_multifactor_authentication: Optional[bool] = Field(
+            None, alias="EnableMultifactorAuthentication"
+        )
+        enforce_multifactor_authentication: Optional[bool] = Field(
+            None, alias="EnforceMultifactorAuthentication"
+        )
+        allow_cors_from: Optional[str] = Field(None, alias="AllowCorsFrom")
+        session_length_web_in_days: Optional[int] = Field(
+            None, alias="SessionLengthWebInDays"
+        )
+        session_length_mobile_in_days: Optional[int] = Field(
+            None, alias="SessionLengthMobileInDays"
+        )
+        session_length_sso_in_days: Optional[int] = Field(
+            None, alias="SessionLengthSSOInDays"
+        )
+        session_cache_in_minutes: Optional[int] = Field(
+            None, alias="SessionCacheInMinutes"
+        )
+        websocket_secure_port: Optional[int] = Field(None, alias="WebsocketSecurePort")
+        websocket_port: Optional[int] = Field(None, alias="WebsocketPort")
+        webserver_mode: Optional[str] = Field(None, alias="WebserverMode")
+        enable_custom_emoji: Optional[bool] = Field(None, alias="EnableCustomEmoji")
+        restrict_custom_emoji_creation: Optional[str] = Field(
+            None, alias="RestrictCustomEmojiCreation"
+        )
 
     class TeamSettings(BaseConfig):
         """
@@ -886,26 +922,48 @@ class Config(BaseConfig):
             max_notifications_per_channel (Optional[int]):
         """
 
-        site_name: Optional[str] = None
-        max_users_per_team: Optional[int] = None
-        enable_team_creation: Optional[bool] = None
-        enable_user_creation: Optional[bool] = None
-        enable_open_server: Optional[bool] = None
-        restrict_creation_to_domains: Optional[str] = None
-        enable_custom_brand: Optional[bool] = None
-        custom_brand_text: Optional[str] = None
-        custom_description_text: Optional[str] = None
-        restrict_direct_message: Optional[str] = None
-        restrict_team_invite: Optional[str] = None
-        restrict_public_channel_management: Optional[str] = None
-        restrict_private_channel_management: Optional[str] = None
-        restrict_public_channel_creation: Optional[str] = None
-        restrict_private_channel_creation: Optional[str] = None
-        restrict_public_channel_deletion: Optional[str] = None
-        restrict_private_channel_deletion: Optional[str] = None
-        user_status_away_timeout: Optional[int] = None
-        max_channels_per_team: Optional[int] = None
-        max_notifications_per_channel: Optional[int] = None
+        site_name: Optional[str] = Field(None, alias="SiteName")
+        max_users_per_team: Optional[int] = Field(None, alias="MaxUsersPerTeam")
+        enable_team_creation: Optional[bool] = Field(None, alias="EnableTeamCreation")
+        enable_user_creation: Optional[bool] = Field(None, alias="EnableUserCreation")
+        enable_open_server: Optional[bool] = Field(None, alias="EnableOpenServer")
+        restrict_creation_to_domains: Optional[str] = Field(
+            None, alias="RestrictCreationToDomains"
+        )
+        enable_custom_brand: Optional[bool] = Field(None, alias="EnableCustomBrand")
+        custom_brand_text: Optional[str] = Field(None, alias="CustomBrandText")
+        custom_description_text: Optional[str] = Field(
+            None, alias="CustomDescriptionText"
+        )
+        restrict_direct_message: Optional[str] = Field(
+            None, alias="RestrictDirectMessage"
+        )
+        restrict_team_invite: Optional[str] = Field(None, alias="RestrictTeamInvite")
+        restrict_public_channel_management: Optional[str] = Field(
+            None, alias="RestrictPublicChannelManagement"
+        )
+        restrict_private_channel_management: Optional[str] = Field(
+            None, alias="RestrictPrivateChannelManagement"
+        )
+        restrict_public_channel_creation: Optional[str] = Field(
+            None, alias="RestrictPublicChannelCreation"
+        )
+        restrict_private_channel_creation: Optional[str] = Field(
+            None, alias="RestrictPrivateChannelCreation"
+        )
+        restrict_public_channel_deletion: Optional[str] = Field(
+            None, alias="RestrictPublicChannelDeletion"
+        )
+        restrict_private_channel_deletion: Optional[str] = Field(
+            None, alias="RestrictPrivateChannelDeletion"
+        )
+        user_status_away_timeout: Optional[int] = Field(
+            None, alias="UserStatusAwayTimeout"
+        )
+        max_channels_per_team: Optional[int] = Field(None, alias="MaxChannelsPerTeam")
+        max_notifications_per_channel: Optional[int] = Field(
+            None, alias="MaxNotificationsPerChannel"
+        )
 
     class SqlSettings(BaseConfig):
         """
@@ -919,13 +977,15 @@ class Config(BaseConfig):
             at_rest_encrypt_key (Optional[str]):
         """
 
-        driver_name: Optional[str] = None
-        data_source: Optional[str] = None
-        data_source_replicas: Optional[List[str]] = None
-        max_idle_conns: Optional[int] = None
-        max_open_conns: Optional[int] = None
-        trace: Optional[bool] = None
-        at_rest_encrypt_key: Optional[str] = None
+        driver_name: Optional[str] = Field(None, alias="DriverName")
+        data_source: Optional[str] = Field(None, alias="DataSource")
+        data_source_replicas: Optional[List[str]] = Field(
+            None, alias="DataSourceReplicas"
+        )
+        max_idle_conns: Optional[int] = Field(None, alias="MaxIdleConns")
+        max_open_conns: Optional[int] = Field(None, alias="MaxOpenConns")
+        trace: Optional[bool] = Field(None, alias="Trace")
+        at_rest_encrypt_key: Optional[str] = Field(None, alias="AtRestEncryptKey")
 
     class LogSettings(BaseConfig):
         """
@@ -939,13 +999,15 @@ class Config(BaseConfig):
             enable_diagnostics (Optional[bool]):
         """
 
-        enable_console: Optional[bool] = None
-        console_level: Optional[str] = None
-        enable_file: Optional[bool] = None
-        file_level: Optional[str] = None
-        file_location: Optional[str] = None
-        enable_webhook_debugging: Optional[bool] = None
-        enable_diagnostics: Optional[bool] = None
+        enable_console: Optional[bool] = Field(None, alias="EnableConsole")
+        console_level: Optional[str] = Field(None, alias="ConsoleLevel")
+        enable_file: Optional[bool] = Field(None, alias="EnableFile")
+        file_level: Optional[str] = Field(None, alias="FileLevel")
+        file_location: Optional[str] = Field(None, alias="FileLocation")
+        enable_webhook_debugging: Optional[bool] = Field(
+            None, alias="EnableWebhookDebugging"
+        )
+        enable_diagnostics: Optional[bool] = Field(None, alias="EnableDiagnostics")
 
     class PasswordSettings(BaseConfig):
         """
@@ -957,11 +1019,11 @@ class Config(BaseConfig):
             symbol (Optional[bool]):
         """
 
-        minimum_length: Optional[int] = None
-        lowercase: Optional[bool] = None
-        number: Optional[bool] = None
-        uppercase: Optional[bool] = None
-        symbol: Optional[bool] = None
+        minimum_length: Optional[int] = Field(None, alias="MinimumLength")
+        lowercase: Optional[bool] = Field(None, alias="Lowercase")
+        number: Optional[bool] = Field(None, alias="Number")
+        uppercase: Optional[bool] = Field(None, alias="Uppercase")
+        symbol: Optional[bool] = Field(None, alias="Symbol")
 
     class FileSettings(BaseConfig):
         """
@@ -986,24 +1048,28 @@ class Config(BaseConfig):
             amazon_s3_ssl (Optional[bool]):
         """
 
-        max_file_size: Optional[int] = None
-        driver_name: Optional[str] = None
-        directory: Optional[str] = None
-        enable_public_link: Optional[bool] = None
-        public_link_salt: Optional[str] = None
-        thumbnail_width: Optional[int] = None
-        thumbnail_height: Optional[int] = None
-        preview_width: Optional[int] = None
-        preview_height: Optional[int] = None
-        profile_width: Optional[int] = None
-        profile_height: Optional[int] = None
-        initial_font: Optional[str] = None
-        amazon_s3_access_key_id: Optional[str] = None
-        amazon_s3_secret_access_key: Optional[str] = None
-        amazon_s3_bucket: Optional[str] = None
-        amazon_s3_region: Optional[str] = None
-        amazon_s3_endpoint: Optional[str] = None
-        amazon_s3_ssl: Optional[bool] = None
+        max_file_size: Optional[int] = Field(None, alias="MaxFileSize")
+        driver_name: Optional[str] = Field(None, alias="DriverName")
+        directory: Optional[str] = Field(None, alias="Directory")
+        enable_public_link: Optional[bool] = Field(None, alias="EnablePublicLink")
+        public_link_salt: Optional[str] = Field(None, alias="PublicLinkSalt")
+        thumbnail_width: Optional[int] = Field(None, alias="ThumbnailWidth")
+        thumbnail_height: Optional[int] = Field(None, alias="ThumbnailHeight")
+        preview_width: Optional[int] = Field(None, alias="PreviewWidth")
+        preview_height: Optional[int] = Field(None, alias="PreviewHeight")
+        profile_width: Optional[int] = Field(None, alias="ProfileWidth")
+        profile_height: Optional[int] = Field(None, alias="ProfileHeight")
+        initial_font: Optional[str] = Field(None, alias="InitialFont")
+        amazon_s3_access_key_id: Optional[str] = Field(
+            None, alias="AmazonS3AccessKeyId"
+        )
+        amazon_s3_secret_access_key: Optional[str] = Field(
+            None, alias="AmazonS3SecretAccessKey"
+        )
+        amazon_s3_bucket: Optional[str] = Field(None, alias="AmazonS3Bucket")
+        amazon_s3_region: Optional[str] = Field(None, alias="AmazonS3Region")
+        amazon_s3_endpoint: Optional[str] = Field(None, alias="AmazonS3Endpoint")
+        amazon_s3_ssl: Optional[bool] = Field(None, alias="AmazonS3SSL")
 
     class EmailSettings(BaseConfig):
         """
@@ -1031,27 +1097,47 @@ class Config(BaseConfig):
             email_batching_interval (Optional[int]):
         """
 
-        enable_sign_up_with_email: Optional[bool] = None
-        enable_sign_in_with_email: Optional[bool] = None
-        enable_sign_in_with_username: Optional[bool] = None
-        send_email_notifications: Optional[bool] = None
-        require_email_verification: Optional[bool] = None
-        feedback_name: Optional[str] = None
-        feedback_email: Optional[str] = None
-        feedback_organization: Optional[str] = None
-        smtp_username: Optional[str] = None
-        smtp_password: Optional[str] = None
-        smtp_server: Optional[str] = None
-        smtp_port: Optional[str] = None
-        connection_security: Optional[str] = None
-        invite_salt: Optional[str] = None
-        password_reset_salt: Optional[str] = None
-        send_push_notifications: Optional[bool] = None
-        push_notification_server: Optional[str] = None
-        push_notification_contents: Optional[str] = None
-        enable_email_batching: Optional[bool] = None
-        email_batching_buffer_size: Optional[int] = None
-        email_batching_interval: Optional[int] = None
+        enable_sign_up_with_email: Optional[bool] = Field(
+            None, alias="EnableSignUpWithEmail"
+        )
+        enable_sign_in_with_email: Optional[bool] = Field(
+            None, alias="EnableSignInWithEmail"
+        )
+        enable_sign_in_with_username: Optional[bool] = Field(
+            None, alias="EnableSignInWithUsername"
+        )
+        send_email_notifications: Optional[bool] = Field(
+            None, alias="SendEmailNotifications"
+        )
+        require_email_verification: Optional[bool] = Field(
+            None, alias="RequireEmailVerification"
+        )
+        feedback_name: Optional[str] = Field(None, alias="FeedbackName")
+        feedback_email: Optional[str] = Field(None, alias="FeedbackEmail")
+        feedback_organization: Optional[str] = Field(None, alias="FeedbackOrganization")
+        smtp_username: Optional[str] = Field(None, alias="SMTPUsername")
+        smtp_password: Optional[str] = Field(None, alias="SMTPPassword")
+        smtp_server: Optional[str] = Field(None, alias="SMTPServer")
+        smtp_port: Optional[str] = Field(None, alias="SMTPPort")
+        connection_security: Optional[str] = Field(None, alias="ConnectionSecurity")
+        invite_salt: Optional[str] = Field(None, alias="InviteSalt")
+        password_reset_salt: Optional[str] = Field(None, alias="PasswordResetSalt")
+        send_push_notifications: Optional[bool] = Field(
+            None, alias="SendPushNotifications"
+        )
+        push_notification_server: Optional[str] = Field(
+            None, alias="PushNotificationServer"
+        )
+        push_notification_contents: Optional[str] = Field(
+            None, alias="PushNotificationContents"
+        )
+        enable_email_batching: Optional[bool] = Field(None, alias="EnableEmailBatching")
+        email_batching_buffer_size: Optional[int] = Field(
+            None, alias="EmailBatchingBufferSize"
+        )
+        email_batching_interval: Optional[int] = Field(
+            None, alias="EmailBatchingInterval"
+        )
 
     class RateLimitSettings(BaseConfig):
         """
@@ -1064,12 +1150,12 @@ class Config(BaseConfig):
             vary_by_header (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        per_sec: Optional[int] = None
-        max_burst: Optional[int] = None
-        memory_store_size: Optional[int] = None
-        vary_by_remote_addr: Optional[bool] = None
-        vary_by_header: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        per_sec: Optional[int] = Field(None, alias="PerSec")
+        max_burst: Optional[int] = Field(None, alias="MaxBurst")
+        memory_store_size: Optional[int] = Field(None, alias="MemoryStoreSize")
+        vary_by_remote_addr: Optional[bool] = Field(None, alias="VaryByRemoteAddr")
+        vary_by_header: Optional[str] = Field(None, alias="VaryByHeader")
 
     class PrivacySettings(BaseConfig):
         """
@@ -1078,8 +1164,8 @@ class Config(BaseConfig):
             show_full_name (Optional[bool]):
         """
 
-        show_email_address: Optional[bool] = None
-        show_full_name: Optional[bool] = None
+        show_email_address: Optional[bool] = Field(None, alias="ShowEmailAddress")
+        show_full_name: Optional[bool] = Field(None, alias="ShowFullName")
 
     class SupportSettings(BaseConfig):
         """
@@ -1092,12 +1178,12 @@ class Config(BaseConfig):
             support_email (Optional[str]):
         """
 
-        terms_of_service_link: Optional[str] = None
-        privacy_policy_link: Optional[str] = None
-        about_link: Optional[str] = None
-        help_link: Optional[str] = None
-        report_aproblem_link: Optional[str] = None
-        support_email: Optional[str] = None
+        terms_of_service_link: Optional[str] = Field(None, alias="TermsOfServiceLink")
+        privacy_policy_link: Optional[str] = Field(None, alias="PrivacyPolicyLink")
+        about_link: Optional[str] = Field(None, alias="AboutLink")
+        help_link: Optional[str] = Field(None, alias="HelpLink")
+        report_aproblem_link: Optional[str] = Field(None, alias="ReportAProblemLink")
+        support_email: Optional[str] = Field(None, alias="SupportEmail")
 
     class GitLabSettings(BaseConfig):
         """
@@ -1111,13 +1197,13 @@ class Config(BaseConfig):
             user_api_endpoint (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[str] = None
-        id: Optional[str] = None
-        scope: Optional[str] = None
-        auth_endpoint: Optional[str] = None
-        token_endpoint: Optional[str] = None
-        user_api_endpoint: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[str] = Field(None, alias="Secret")
+        id: Optional[str] = Field(None, alias="Id")
+        scope: Optional[str] = Field(None, alias="Scope")
+        auth_endpoint: Optional[str] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[str] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[str] = Field(None, alias="UserApiEndpoint")
 
     class GoogleSettings(BaseConfig):
         """
@@ -1131,13 +1217,13 @@ class Config(BaseConfig):
             user_api_endpoint (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[str] = None
-        id: Optional[str] = None
-        scope: Optional[str] = None
-        auth_endpoint: Optional[str] = None
-        token_endpoint: Optional[str] = None
-        user_api_endpoint: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[str] = Field(None, alias="Secret")
+        id: Optional[str] = Field(None, alias="Id")
+        scope: Optional[str] = Field(None, alias="Scope")
+        auth_endpoint: Optional[str] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[str] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[str] = Field(None, alias="UserApiEndpoint")
 
     class Office365Settings(BaseConfig):
         """
@@ -1151,13 +1237,13 @@ class Config(BaseConfig):
             user_api_endpoint (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[str] = None
-        id: Optional[str] = None
-        scope: Optional[str] = None
-        auth_endpoint: Optional[str] = None
-        token_endpoint: Optional[str] = None
-        user_api_endpoint: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[str] = Field(None, alias="Secret")
+        id: Optional[str] = Field(None, alias="Id")
+        scope: Optional[str] = Field(None, alias="Scope")
+        auth_endpoint: Optional[str] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[str] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[str] = Field(None, alias="UserApiEndpoint")
 
     class LdapSettings(BaseConfig):
         """
@@ -1184,26 +1270,28 @@ class Config(BaseConfig):
             login_field_name (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        ldap_server: Optional[str] = None
-        ldap_port: Optional[int] = None
-        connection_security: Optional[str] = None
-        base_dn: Optional[str] = None
-        bind_username: Optional[str] = None
-        bind_password: Optional[str] = None
-        user_filter: Optional[str] = None
-        first_name_attribute: Optional[str] = None
-        last_name_attribute: Optional[str] = None
-        email_attribute: Optional[str] = None
-        username_attribute: Optional[str] = None
-        nickname_attribute: Optional[str] = None
-        id_attribute: Optional[str] = None
-        position_attribute: Optional[str] = None
-        sync_interval_minutes: Optional[int] = None
-        skip_certificate_verification: Optional[bool] = None
-        query_timeout: Optional[int] = None
-        max_page_size: Optional[int] = None
-        login_field_name: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        ldap_server: Optional[str] = Field(None, alias="LdapServer")
+        ldap_port: Optional[int] = Field(None, alias="LdapPort")
+        connection_security: Optional[str] = Field(None, alias="ConnectionSecurity")
+        base_dn: Optional[str] = Field(None, alias="BaseDN")
+        bind_username: Optional[str] = Field(None, alias="BindUsername")
+        bind_password: Optional[str] = Field(None, alias="BindPassword")
+        user_filter: Optional[str] = Field(None, alias="UserFilter")
+        first_name_attribute: Optional[str] = Field(None, alias="FirstNameAttribute")
+        last_name_attribute: Optional[str] = Field(None, alias="LastNameAttribute")
+        email_attribute: Optional[str] = Field(None, alias="EmailAttribute")
+        username_attribute: Optional[str] = Field(None, alias="UsernameAttribute")
+        nickname_attribute: Optional[str] = Field(None, alias="NicknameAttribute")
+        id_attribute: Optional[str] = Field(None, alias="IdAttribute")
+        position_attribute: Optional[str] = Field(None, alias="PositionAttribute")
+        sync_interval_minutes: Optional[int] = Field(None, alias="SyncIntervalMinutes")
+        skip_certificate_verification: Optional[bool] = Field(
+            None, alias="SkipCertificateVerification"
+        )
+        query_timeout: Optional[int] = Field(None, alias="QueryTimeout")
+        max_page_size: Optional[int] = Field(None, alias="MaxPageSize")
+        login_field_name: Optional[str] = Field(None, alias="LoginFieldName")
 
     class ComplianceSettings(BaseConfig):
         """
@@ -1213,9 +1301,9 @@ class Config(BaseConfig):
             enable_daily (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        directory: Optional[str] = None
-        enable_daily: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        directory: Optional[str] = Field(None, alias="Directory")
+        enable_daily: Optional[bool] = Field(None, alias="EnableDaily")
 
     class LocalizationSettings(BaseConfig):
         """
@@ -1225,9 +1313,9 @@ class Config(BaseConfig):
             available_locales (Optional[str]):
         """
 
-        default_server_locale: Optional[str] = None
-        default_client_locale: Optional[str] = None
-        available_locales: Optional[str] = None
+        default_server_locale: Optional[str] = Field(None, alias="DefaultServerLocale")
+        default_client_locale: Optional[str] = Field(None, alias="DefaultClientLocale")
+        available_locales: Optional[str] = Field(None, alias="AvailableLocales")
 
     class SamlSettings(BaseConfig):
         """
@@ -1251,23 +1339,27 @@ class Config(BaseConfig):
             login_button_text (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        verify: Optional[bool] = None
-        encrypt: Optional[bool] = None
-        idp_url: Optional[str] = None
-        idp_descriptor_url: Optional[str] = None
-        assertion_consumer_service_url: Optional[str] = None
-        idp_certificate_file: Optional[str] = None
-        public_certificate_file: Optional[str] = None
-        private_key_file: Optional[str] = None
-        first_name_attribute: Optional[str] = None
-        last_name_attribute: Optional[str] = None
-        email_attribute: Optional[str] = None
-        username_attribute: Optional[str] = None
-        nickname_attribute: Optional[str] = None
-        locale_attribute: Optional[str] = None
-        position_attribute: Optional[str] = None
-        login_button_text: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        verify: Optional[bool] = Field(None, alias="Verify")
+        encrypt: Optional[bool] = Field(None, alias="Encrypt")
+        idp_url: Optional[str] = Field(None, alias="IdpUrl")
+        idp_descriptor_url: Optional[str] = Field(None, alias="IdpDescriptorUrl")
+        assertion_consumer_service_url: Optional[str] = Field(
+            None, alias="AssertionConsumerServiceURL"
+        )
+        idp_certificate_file: Optional[str] = Field(None, alias="IdpCertificateFile")
+        public_certificate_file: Optional[str] = Field(
+            None, alias="PublicCertificateFile"
+        )
+        private_key_file: Optional[str] = Field(None, alias="PrivateKeyFile")
+        first_name_attribute: Optional[str] = Field(None, alias="FirstNameAttribute")
+        last_name_attribute: Optional[str] = Field(None, alias="LastNameAttribute")
+        email_attribute: Optional[str] = Field(None, alias="EmailAttribute")
+        username_attribute: Optional[str] = Field(None, alias="UsernameAttribute")
+        nickname_attribute: Optional[str] = Field(None, alias="NicknameAttribute")
+        locale_attribute: Optional[str] = Field(None, alias="LocaleAttribute")
+        position_attribute: Optional[str] = Field(None, alias="PositionAttribute")
+        login_button_text: Optional[str] = Field(None, alias="LoginButtonText")
 
     class NativeAppSettings(BaseConfig):
         """
@@ -1277,9 +1369,11 @@ class Config(BaseConfig):
             ios_app_download_link (Optional[str]):
         """
 
-        app_download_link: Optional[str] = None
-        android_app_download_link: Optional[str] = None
-        ios_app_download_link: Optional[str] = None
+        app_download_link: Optional[str] = Field(None, alias="AppDownloadLink")
+        android_app_download_link: Optional[str] = Field(
+            None, alias="AndroidAppDownloadLink"
+        )
+        ios_app_download_link: Optional[str] = Field(None, alias="IosAppDownloadLink")
 
     class ClusterSettings(BaseConfig):
         """
@@ -1289,9 +1383,11 @@ class Config(BaseConfig):
             inter_node_urls (Optional[List[str]]):
         """
 
-        enable: Optional[bool] = None
-        inter_node_listen_address: Optional[str] = None
-        inter_node_urls: Optional[List[str]] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        inter_node_listen_address: Optional[str] = Field(
+            None, alias="InterNodeListenAddress"
+        )
+        inter_node_urls: Optional[List[str]] = Field(None, alias="InterNodeUrls")
 
     class MetricsSettings(BaseConfig):
         """
@@ -1301,9 +1397,9 @@ class Config(BaseConfig):
             listen_address (Optional[str]):
         """
 
-        enable: Optional[bool] = None
-        block_profile_rate: Optional[int] = None
-        listen_address: Optional[str] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        block_profile_rate: Optional[int] = Field(None, alias="BlockProfileRate")
+        listen_address: Optional[str] = Field(None, alias="ListenAddress")
 
     class AnalyticsSettings(BaseConfig):
         """
@@ -1311,29 +1407,45 @@ class Config(BaseConfig):
             max_users_for_statistics (Optional[int]):
         """
 
-        max_users_for_statistics: Optional[int] = None
+        max_users_for_statistics: Optional[int] = Field(
+            None, alias="MaxUsersForStatistics"
+        )
 
-    service_settings: Optional[ServiceSettings] = None
-    team_settings: Optional[TeamSettings] = None
-    sql_settings: Optional[SqlSettings] = None
-    log_settings: Optional[LogSettings] = None
-    password_settings: Optional[PasswordSettings] = None
-    file_settings: Optional[FileSettings] = None
-    email_settings: Optional[EmailSettings] = None
-    rate_limit_settings: Optional[RateLimitSettings] = None
-    privacy_settings: Optional[PrivacySettings] = None
-    support_settings: Optional[SupportSettings] = None
-    git_lab_settings: Optional[GitLabSettings] = None
-    google_settings: Optional[GoogleSettings] = None
-    office365_settings: Optional[Office365Settings] = None
-    ldap_settings: Optional[LdapSettings] = None
-    compliance_settings: Optional[ComplianceSettings] = None
-    localization_settings: Optional[LocalizationSettings] = None
-    saml_settings: Optional[SamlSettings] = None
-    native_app_settings: Optional[NativeAppSettings] = None
-    cluster_settings: Optional[ClusterSettings] = None
-    metrics_settings: Optional[MetricsSettings] = None
-    analytics_settings: Optional[AnalyticsSettings] = None
+    service_settings: Optional[ServiceSettings] = Field(None, alias="ServiceSettings")
+    team_settings: Optional[TeamSettings] = Field(None, alias="TeamSettings")
+    sql_settings: Optional[SqlSettings] = Field(None, alias="SqlSettings")
+    log_settings: Optional[LogSettings] = Field(None, alias="LogSettings")
+    password_settings: Optional[PasswordSettings] = Field(
+        None, alias="PasswordSettings"
+    )
+    file_settings: Optional[FileSettings] = Field(None, alias="FileSettings")
+    email_settings: Optional[EmailSettings] = Field(None, alias="EmailSettings")
+    rate_limit_settings: Optional[RateLimitSettings] = Field(
+        None, alias="RateLimitSettings"
+    )
+    privacy_settings: Optional[PrivacySettings] = Field(None, alias="PrivacySettings")
+    support_settings: Optional[SupportSettings] = Field(None, alias="SupportSettings")
+    git_lab_settings: Optional[GitLabSettings] = Field(None, alias="GitLabSettings")
+    google_settings: Optional[GoogleSettings] = Field(None, alias="GoogleSettings")
+    office365_settings: Optional[Office365Settings] = Field(
+        None, alias="Office365Settings"
+    )
+    ldap_settings: Optional[LdapSettings] = Field(None, alias="LdapSettings")
+    compliance_settings: Optional[ComplianceSettings] = Field(
+        None, alias="ComplianceSettings"
+    )
+    localization_settings: Optional[LocalizationSettings] = Field(
+        None, alias="LocalizationSettings"
+    )
+    saml_settings: Optional[SamlSettings] = Field(None, alias="SamlSettings")
+    native_app_settings: Optional[NativeAppSettings] = Field(
+        None, alias="NativeAppSettings"
+    )
+    cluster_settings: Optional[ClusterSettings] = Field(None, alias="ClusterSettings")
+    metrics_settings: Optional[MetricsSettings] = Field(None, alias="MetricsSettings")
+    analytics_settings: Optional[AnalyticsSettings] = Field(
+        None, alias="AnalyticsSettings"
+    )
 
 
 class EnvironmentConfig(BaseConfig):
@@ -1403,42 +1515,76 @@ class EnvironmentConfig(BaseConfig):
             restrict_custom_emoji_creation (Optional[bool]):
         """
 
-        site_url: Optional[bool] = None
-        listen_address: Optional[bool] = None
-        connection_security: Optional[bool] = None
-        tls_cert_file: Optional[bool] = None
-        tls_key_file: Optional[bool] = None
-        use_lets_encrypt: Optional[bool] = None
-        lets_encrypt_certificate_cache_file: Optional[bool] = None
-        forward80_to443: Optional[bool] = None
-        read_timeout: Optional[bool] = None
-        write_timeout: Optional[bool] = None
-        maximum_login_attempts: Optional[bool] = None
-        segment_developer_key: Optional[bool] = None
-        google_developer_key: Optional[bool] = None
-        enable_oauth_service_provider: Optional[bool] = None
-        enable_incoming_webhooks: Optional[bool] = None
-        enable_outgoing_webhooks: Optional[bool] = None
-        enable_commands: Optional[bool] = None
-        enable_only_admin_integrations: Optional[bool] = None
-        enable_post_username_override: Optional[bool] = None
-        enable_post_icon_override: Optional[bool] = None
-        enable_testing: Optional[bool] = None
-        enable_developer: Optional[bool] = None
-        enable_security_fix_alert: Optional[bool] = None
-        enable_insecure_outgoing_connections: Optional[bool] = None
-        enable_multifactor_authentication: Optional[bool] = None
-        enforce_multifactor_authentication: Optional[bool] = None
-        allow_cors_from: Optional[bool] = None
-        session_length_web_in_days: Optional[bool] = None
-        session_length_mobile_in_days: Optional[bool] = None
-        session_length_sso_in_days: Optional[bool] = None
-        session_cache_in_minutes: Optional[bool] = None
-        websocket_secure_port: Optional[bool] = None
-        websocket_port: Optional[bool] = None
-        webserver_mode: Optional[bool] = None
-        enable_custom_emoji: Optional[bool] = None
-        restrict_custom_emoji_creation: Optional[bool] = None
+        site_url: Optional[bool] = Field(None, alias="SiteURL")
+        listen_address: Optional[bool] = Field(None, alias="ListenAddress")
+        connection_security: Optional[bool] = Field(None, alias="ConnectionSecurity")
+        tls_cert_file: Optional[bool] = Field(None, alias="TLSCertFile")
+        tls_key_file: Optional[bool] = Field(None, alias="TLSKeyFile")
+        use_lets_encrypt: Optional[bool] = Field(None, alias="UseLetsEncrypt")
+        lets_encrypt_certificate_cache_file: Optional[bool] = Field(
+            None, alias="LetsEncryptCertificateCacheFile"
+        )
+        forward80_to443: Optional[bool] = Field(None, alias="Forward80To443")
+        read_timeout: Optional[bool] = Field(None, alias="ReadTimeout")
+        write_timeout: Optional[bool] = Field(None, alias="WriteTimeout")
+        maximum_login_attempts: Optional[bool] = Field(
+            None, alias="MaximumLoginAttempts"
+        )
+        segment_developer_key: Optional[bool] = Field(None, alias="SegmentDeveloperKey")
+        google_developer_key: Optional[bool] = Field(None, alias="GoogleDeveloperKey")
+        enable_oauth_service_provider: Optional[bool] = Field(
+            None, alias="EnableOAuthServiceProvider"
+        )
+        enable_incoming_webhooks: Optional[bool] = Field(
+            None, alias="EnableIncomingWebhooks"
+        )
+        enable_outgoing_webhooks: Optional[bool] = Field(
+            None, alias="EnableOutgoingWebhooks"
+        )
+        enable_commands: Optional[bool] = Field(None, alias="EnableCommands")
+        enable_only_admin_integrations: Optional[bool] = Field(
+            None, alias="EnableOnlyAdminIntegrations"
+        )
+        enable_post_username_override: Optional[bool] = Field(
+            None, alias="EnablePostUsernameOverride"
+        )
+        enable_post_icon_override: Optional[bool] = Field(
+            None, alias="EnablePostIconOverride"
+        )
+        enable_testing: Optional[bool] = Field(None, alias="EnableTesting")
+        enable_developer: Optional[bool] = Field(None, alias="EnableDeveloper")
+        enable_security_fix_alert: Optional[bool] = Field(
+            None, alias="EnableSecurityFixAlert"
+        )
+        enable_insecure_outgoing_connections: Optional[bool] = Field(
+            None, alias="EnableInsecureOutgoingConnections"
+        )
+        enable_multifactor_authentication: Optional[bool] = Field(
+            None, alias="EnableMultifactorAuthentication"
+        )
+        enforce_multifactor_authentication: Optional[bool] = Field(
+            None, alias="EnforceMultifactorAuthentication"
+        )
+        allow_cors_from: Optional[bool] = Field(None, alias="AllowCorsFrom")
+        session_length_web_in_days: Optional[bool] = Field(
+            None, alias="SessionLengthWebInDays"
+        )
+        session_length_mobile_in_days: Optional[bool] = Field(
+            None, alias="SessionLengthMobileInDays"
+        )
+        session_length_sso_in_days: Optional[bool] = Field(
+            None, alias="SessionLengthSSOInDays"
+        )
+        session_cache_in_minutes: Optional[bool] = Field(
+            None, alias="SessionCacheInMinutes"
+        )
+        websocket_secure_port: Optional[bool] = Field(None, alias="WebsocketSecurePort")
+        websocket_port: Optional[bool] = Field(None, alias="WebsocketPort")
+        webserver_mode: Optional[bool] = Field(None, alias="WebserverMode")
+        enable_custom_emoji: Optional[bool] = Field(None, alias="EnableCustomEmoji")
+        restrict_custom_emoji_creation: Optional[bool] = Field(
+            None, alias="RestrictCustomEmojiCreation"
+        )
 
     class TeamSettings(BaseConfig):
         """
@@ -1465,26 +1611,48 @@ class EnvironmentConfig(BaseConfig):
             max_notifications_per_channel (Optional[bool]):
         """
 
-        site_name: Optional[bool] = None
-        max_users_per_team: Optional[bool] = None
-        enable_team_creation: Optional[bool] = None
-        enable_user_creation: Optional[bool] = None
-        enable_open_server: Optional[bool] = None
-        restrict_creation_to_domains: Optional[bool] = None
-        enable_custom_brand: Optional[bool] = None
-        custom_brand_text: Optional[bool] = None
-        custom_description_text: Optional[bool] = None
-        restrict_direct_message: Optional[bool] = None
-        restrict_team_invite: Optional[bool] = None
-        restrict_public_channel_management: Optional[bool] = None
-        restrict_private_channel_management: Optional[bool] = None
-        restrict_public_channel_creation: Optional[bool] = None
-        restrict_private_channel_creation: Optional[bool] = None
-        restrict_public_channel_deletion: Optional[bool] = None
-        restrict_private_channel_deletion: Optional[bool] = None
-        user_status_away_timeout: Optional[bool] = None
-        max_channels_per_team: Optional[bool] = None
-        max_notifications_per_channel: Optional[bool] = None
+        site_name: Optional[bool] = Field(None, alias="SiteName")
+        max_users_per_team: Optional[bool] = Field(None, alias="MaxUsersPerTeam")
+        enable_team_creation: Optional[bool] = Field(None, alias="EnableTeamCreation")
+        enable_user_creation: Optional[bool] = Field(None, alias="EnableUserCreation")
+        enable_open_server: Optional[bool] = Field(None, alias="EnableOpenServer")
+        restrict_creation_to_domains: Optional[bool] = Field(
+            None, alias="RestrictCreationToDomains"
+        )
+        enable_custom_brand: Optional[bool] = Field(None, alias="EnableCustomBrand")
+        custom_brand_text: Optional[bool] = Field(None, alias="CustomBrandText")
+        custom_description_text: Optional[bool] = Field(
+            None, alias="CustomDescriptionText"
+        )
+        restrict_direct_message: Optional[bool] = Field(
+            None, alias="RestrictDirectMessage"
+        )
+        restrict_team_invite: Optional[bool] = Field(None, alias="RestrictTeamInvite")
+        restrict_public_channel_management: Optional[bool] = Field(
+            None, alias="RestrictPublicChannelManagement"
+        )
+        restrict_private_channel_management: Optional[bool] = Field(
+            None, alias="RestrictPrivateChannelManagement"
+        )
+        restrict_public_channel_creation: Optional[bool] = Field(
+            None, alias="RestrictPublicChannelCreation"
+        )
+        restrict_private_channel_creation: Optional[bool] = Field(
+            None, alias="RestrictPrivateChannelCreation"
+        )
+        restrict_public_channel_deletion: Optional[bool] = Field(
+            None, alias="RestrictPublicChannelDeletion"
+        )
+        restrict_private_channel_deletion: Optional[bool] = Field(
+            None, alias="RestrictPrivateChannelDeletion"
+        )
+        user_status_away_timeout: Optional[bool] = Field(
+            None, alias="UserStatusAwayTimeout"
+        )
+        max_channels_per_team: Optional[bool] = Field(None, alias="MaxChannelsPerTeam")
+        max_notifications_per_channel: Optional[bool] = Field(
+            None, alias="MaxNotificationsPerChannel"
+        )
 
     class SqlSettings(BaseConfig):
         """
@@ -1498,13 +1666,13 @@ class EnvironmentConfig(BaseConfig):
             at_rest_encrypt_key (Optional[bool]):
         """
 
-        driver_name: Optional[bool] = None
-        data_source: Optional[bool] = None
-        data_source_replicas: Optional[bool] = None
-        max_idle_conns: Optional[bool] = None
-        max_open_conns: Optional[bool] = None
-        trace: Optional[bool] = None
-        at_rest_encrypt_key: Optional[bool] = None
+        driver_name: Optional[bool] = Field(None, alias="DriverName")
+        data_source: Optional[bool] = Field(None, alias="DataSource")
+        data_source_replicas: Optional[bool] = Field(None, alias="DataSourceReplicas")
+        max_idle_conns: Optional[bool] = Field(None, alias="MaxIdleConns")
+        max_open_conns: Optional[bool] = Field(None, alias="MaxOpenConns")
+        trace: Optional[bool] = Field(None, alias="Trace")
+        at_rest_encrypt_key: Optional[bool] = Field(None, alias="AtRestEncryptKey")
 
     class LogSettings(BaseConfig):
         """
@@ -1518,13 +1686,15 @@ class EnvironmentConfig(BaseConfig):
             enable_diagnostics (Optional[bool]):
         """
 
-        enable_console: Optional[bool] = None
-        console_level: Optional[bool] = None
-        enable_file: Optional[bool] = None
-        file_level: Optional[bool] = None
-        file_location: Optional[bool] = None
-        enable_webhook_debugging: Optional[bool] = None
-        enable_diagnostics: Optional[bool] = None
+        enable_console: Optional[bool] = Field(None, alias="EnableConsole")
+        console_level: Optional[bool] = Field(None, alias="ConsoleLevel")
+        enable_file: Optional[bool] = Field(None, alias="EnableFile")
+        file_level: Optional[bool] = Field(None, alias="FileLevel")
+        file_location: Optional[bool] = Field(None, alias="FileLocation")
+        enable_webhook_debugging: Optional[bool] = Field(
+            None, alias="EnableWebhookDebugging"
+        )
+        enable_diagnostics: Optional[bool] = Field(None, alias="EnableDiagnostics")
 
     class PasswordSettings(BaseConfig):
         """
@@ -1536,11 +1706,11 @@ class EnvironmentConfig(BaseConfig):
             symbol (Optional[bool]):
         """
 
-        minimum_length: Optional[bool] = None
-        lowercase: Optional[bool] = None
-        number: Optional[bool] = None
-        uppercase: Optional[bool] = None
-        symbol: Optional[bool] = None
+        minimum_length: Optional[bool] = Field(None, alias="MinimumLength")
+        lowercase: Optional[bool] = Field(None, alias="Lowercase")
+        number: Optional[bool] = Field(None, alias="Number")
+        uppercase: Optional[bool] = Field(None, alias="Uppercase")
+        symbol: Optional[bool] = Field(None, alias="Symbol")
 
     class FileSettings(BaseConfig):
         """
@@ -1565,24 +1735,28 @@ class EnvironmentConfig(BaseConfig):
             amazon_s3_ssl (Optional[bool]):
         """
 
-        max_file_size: Optional[bool] = None
-        driver_name: Optional[bool] = None
-        directory: Optional[bool] = None
-        enable_public_link: Optional[bool] = None
-        public_link_salt: Optional[bool] = None
-        thumbnail_width: Optional[bool] = None
-        thumbnail_height: Optional[bool] = None
-        preview_width: Optional[bool] = None
-        preview_height: Optional[bool] = None
-        profile_width: Optional[bool] = None
-        profile_height: Optional[bool] = None
-        initial_font: Optional[bool] = None
-        amazon_s3_access_key_id: Optional[bool] = None
-        amazon_s3_secret_access_key: Optional[bool] = None
-        amazon_s3_bucket: Optional[bool] = None
-        amazon_s3_region: Optional[bool] = None
-        amazon_s3_endpoint: Optional[bool] = None
-        amazon_s3_ssl: Optional[bool] = None
+        max_file_size: Optional[bool] = Field(None, alias="MaxFileSize")
+        driver_name: Optional[bool] = Field(None, alias="DriverName")
+        directory: Optional[bool] = Field(None, alias="Directory")
+        enable_public_link: Optional[bool] = Field(None, alias="EnablePublicLink")
+        public_link_salt: Optional[bool] = Field(None, alias="PublicLinkSalt")
+        thumbnail_width: Optional[bool] = Field(None, alias="ThumbnailWidth")
+        thumbnail_height: Optional[bool] = Field(None, alias="ThumbnailHeight")
+        preview_width: Optional[bool] = Field(None, alias="PreviewWidth")
+        preview_height: Optional[bool] = Field(None, alias="PreviewHeight")
+        profile_width: Optional[bool] = Field(None, alias="ProfileWidth")
+        profile_height: Optional[bool] = Field(None, alias="ProfileHeight")
+        initial_font: Optional[bool] = Field(None, alias="InitialFont")
+        amazon_s3_access_key_id: Optional[bool] = Field(
+            None, alias="AmazonS3AccessKeyId"
+        )
+        amazon_s3_secret_access_key: Optional[bool] = Field(
+            None, alias="AmazonS3SecretAccessKey"
+        )
+        amazon_s3_bucket: Optional[bool] = Field(None, alias="AmazonS3Bucket")
+        amazon_s3_region: Optional[bool] = Field(None, alias="AmazonS3Region")
+        amazon_s3_endpoint: Optional[bool] = Field(None, alias="AmazonS3Endpoint")
+        amazon_s3_ssl: Optional[bool] = Field(None, alias="AmazonS3SSL")
 
     class EmailSettings(BaseConfig):
         """
@@ -1610,27 +1784,49 @@ class EnvironmentConfig(BaseConfig):
             email_batching_interval (Optional[bool]):
         """
 
-        enable_sign_up_with_email: Optional[bool] = None
-        enable_sign_in_with_email: Optional[bool] = None
-        enable_sign_in_with_username: Optional[bool] = None
-        send_email_notifications: Optional[bool] = None
-        require_email_verification: Optional[bool] = None
-        feedback_name: Optional[bool] = None
-        feedback_email: Optional[bool] = None
-        feedback_organization: Optional[bool] = None
-        smtp_username: Optional[bool] = None
-        smtp_password: Optional[bool] = None
-        smtp_server: Optional[bool] = None
-        smtp_port: Optional[bool] = None
-        connection_security: Optional[bool] = None
-        invite_salt: Optional[bool] = None
-        password_reset_salt: Optional[bool] = None
-        send_push_notifications: Optional[bool] = None
-        push_notification_server: Optional[bool] = None
-        push_notification_contents: Optional[bool] = None
-        enable_email_batching: Optional[bool] = None
-        email_batching_buffer_size: Optional[bool] = None
-        email_batching_interval: Optional[bool] = None
+        enable_sign_up_with_email: Optional[bool] = Field(
+            None, alias="EnableSignUpWithEmail"
+        )
+        enable_sign_in_with_email: Optional[bool] = Field(
+            None, alias="EnableSignInWithEmail"
+        )
+        enable_sign_in_with_username: Optional[bool] = Field(
+            None, alias="EnableSignInWithUsername"
+        )
+        send_email_notifications: Optional[bool] = Field(
+            None, alias="SendEmailNotifications"
+        )
+        require_email_verification: Optional[bool] = Field(
+            None, alias="RequireEmailVerification"
+        )
+        feedback_name: Optional[bool] = Field(None, alias="FeedbackName")
+        feedback_email: Optional[bool] = Field(None, alias="FeedbackEmail")
+        feedback_organization: Optional[bool] = Field(
+            None, alias="FeedbackOrganization"
+        )
+        smtp_username: Optional[bool] = Field(None, alias="SMTPUsername")
+        smtp_password: Optional[bool] = Field(None, alias="SMTPPassword")
+        smtp_server: Optional[bool] = Field(None, alias="SMTPServer")
+        smtp_port: Optional[bool] = Field(None, alias="SMTPPort")
+        connection_security: Optional[bool] = Field(None, alias="ConnectionSecurity")
+        invite_salt: Optional[bool] = Field(None, alias="InviteSalt")
+        password_reset_salt: Optional[bool] = Field(None, alias="PasswordResetSalt")
+        send_push_notifications: Optional[bool] = Field(
+            None, alias="SendPushNotifications"
+        )
+        push_notification_server: Optional[bool] = Field(
+            None, alias="PushNotificationServer"
+        )
+        push_notification_contents: Optional[bool] = Field(
+            None, alias="PushNotificationContents"
+        )
+        enable_email_batching: Optional[bool] = Field(None, alias="EnableEmailBatching")
+        email_batching_buffer_size: Optional[bool] = Field(
+            None, alias="EmailBatchingBufferSize"
+        )
+        email_batching_interval: Optional[bool] = Field(
+            None, alias="EmailBatchingInterval"
+        )
 
     class RateLimitSettings(BaseConfig):
         """
@@ -1643,12 +1839,12 @@ class EnvironmentConfig(BaseConfig):
             vary_by_header (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        per_sec: Optional[bool] = None
-        max_burst: Optional[bool] = None
-        memory_store_size: Optional[bool] = None
-        vary_by_remote_addr: Optional[bool] = None
-        vary_by_header: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        per_sec: Optional[bool] = Field(None, alias="PerSec")
+        max_burst: Optional[bool] = Field(None, alias="MaxBurst")
+        memory_store_size: Optional[bool] = Field(None, alias="MemoryStoreSize")
+        vary_by_remote_addr: Optional[bool] = Field(None, alias="VaryByRemoteAddr")
+        vary_by_header: Optional[bool] = Field(None, alias="VaryByHeader")
 
     class PrivacySettings(BaseConfig):
         """
@@ -1657,8 +1853,8 @@ class EnvironmentConfig(BaseConfig):
             show_full_name (Optional[bool]):
         """
 
-        show_email_address: Optional[bool] = None
-        show_full_name: Optional[bool] = None
+        show_email_address: Optional[bool] = Field(None, alias="ShowEmailAddress")
+        show_full_name: Optional[bool] = Field(None, alias="ShowFullName")
 
     class SupportSettings(BaseConfig):
         """
@@ -1671,12 +1867,12 @@ class EnvironmentConfig(BaseConfig):
             support_email (Optional[bool]):
         """
 
-        terms_of_service_link: Optional[bool] = None
-        privacy_policy_link: Optional[bool] = None
-        about_link: Optional[bool] = None
-        help_link: Optional[bool] = None
-        report_aproblem_link: Optional[bool] = None
-        support_email: Optional[bool] = None
+        terms_of_service_link: Optional[bool] = Field(None, alias="TermsOfServiceLink")
+        privacy_policy_link: Optional[bool] = Field(None, alias="PrivacyPolicyLink")
+        about_link: Optional[bool] = Field(None, alias="AboutLink")
+        help_link: Optional[bool] = Field(None, alias="HelpLink")
+        report_aproblem_link: Optional[bool] = Field(None, alias="ReportAProblemLink")
+        support_email: Optional[bool] = Field(None, alias="SupportEmail")
 
     class GitLabSettings(BaseConfig):
         """
@@ -1690,13 +1886,13 @@ class EnvironmentConfig(BaseConfig):
             user_api_endpoint (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[bool] = None
-        id: Optional[bool] = None
-        scope: Optional[bool] = None
-        auth_endpoint: Optional[bool] = None
-        token_endpoint: Optional[bool] = None
-        user_api_endpoint: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[bool] = Field(None, alias="Secret")
+        id: Optional[bool] = Field(None, alias="Id")
+        scope: Optional[bool] = Field(None, alias="Scope")
+        auth_endpoint: Optional[bool] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[bool] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[bool] = Field(None, alias="UserApiEndpoint")
 
     class GoogleSettings(BaseConfig):
         """
@@ -1710,13 +1906,13 @@ class EnvironmentConfig(BaseConfig):
             user_api_endpoint (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[bool] = None
-        id: Optional[bool] = None
-        scope: Optional[bool] = None
-        auth_endpoint: Optional[bool] = None
-        token_endpoint: Optional[bool] = None
-        user_api_endpoint: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[bool] = Field(None, alias="Secret")
+        id: Optional[bool] = Field(None, alias="Id")
+        scope: Optional[bool] = Field(None, alias="Scope")
+        auth_endpoint: Optional[bool] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[bool] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[bool] = Field(None, alias="UserApiEndpoint")
 
     class Office365Settings(BaseConfig):
         """
@@ -1730,13 +1926,13 @@ class EnvironmentConfig(BaseConfig):
             user_api_endpoint (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        secret: Optional[bool] = None
-        id: Optional[bool] = None
-        scope: Optional[bool] = None
-        auth_endpoint: Optional[bool] = None
-        token_endpoint: Optional[bool] = None
-        user_api_endpoint: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        secret: Optional[bool] = Field(None, alias="Secret")
+        id: Optional[bool] = Field(None, alias="Id")
+        scope: Optional[bool] = Field(None, alias="Scope")
+        auth_endpoint: Optional[bool] = Field(None, alias="AuthEndpoint")
+        token_endpoint: Optional[bool] = Field(None, alias="TokenEndpoint")
+        user_api_endpoint: Optional[bool] = Field(None, alias="UserApiEndpoint")
 
     class LdapSettings(BaseConfig):
         """
@@ -1763,26 +1959,28 @@ class EnvironmentConfig(BaseConfig):
             login_field_name (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        ldap_server: Optional[bool] = None
-        ldap_port: Optional[bool] = None
-        connection_security: Optional[bool] = None
-        base_dn: Optional[bool] = None
-        bind_username: Optional[bool] = None
-        bind_password: Optional[bool] = None
-        user_filter: Optional[bool] = None
-        first_name_attribute: Optional[bool] = None
-        last_name_attribute: Optional[bool] = None
-        email_attribute: Optional[bool] = None
-        username_attribute: Optional[bool] = None
-        nickname_attribute: Optional[bool] = None
-        id_attribute: Optional[bool] = None
-        position_attribute: Optional[bool] = None
-        sync_interval_minutes: Optional[bool] = None
-        skip_certificate_verification: Optional[bool] = None
-        query_timeout: Optional[bool] = None
-        max_page_size: Optional[bool] = None
-        login_field_name: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        ldap_server: Optional[bool] = Field(None, alias="LdapServer")
+        ldap_port: Optional[bool] = Field(None, alias="LdapPort")
+        connection_security: Optional[bool] = Field(None, alias="ConnectionSecurity")
+        base_dn: Optional[bool] = Field(None, alias="BaseDN")
+        bind_username: Optional[bool] = Field(None, alias="BindUsername")
+        bind_password: Optional[bool] = Field(None, alias="BindPassword")
+        user_filter: Optional[bool] = Field(None, alias="UserFilter")
+        first_name_attribute: Optional[bool] = Field(None, alias="FirstNameAttribute")
+        last_name_attribute: Optional[bool] = Field(None, alias="LastNameAttribute")
+        email_attribute: Optional[bool] = Field(None, alias="EmailAttribute")
+        username_attribute: Optional[bool] = Field(None, alias="UsernameAttribute")
+        nickname_attribute: Optional[bool] = Field(None, alias="NicknameAttribute")
+        id_attribute: Optional[bool] = Field(None, alias="IdAttribute")
+        position_attribute: Optional[bool] = Field(None, alias="PositionAttribute")
+        sync_interval_minutes: Optional[bool] = Field(None, alias="SyncIntervalMinutes")
+        skip_certificate_verification: Optional[bool] = Field(
+            None, alias="SkipCertificateVerification"
+        )
+        query_timeout: Optional[bool] = Field(None, alias="QueryTimeout")
+        max_page_size: Optional[bool] = Field(None, alias="MaxPageSize")
+        login_field_name: Optional[bool] = Field(None, alias="LoginFieldName")
 
     class ComplianceSettings(BaseConfig):
         """
@@ -1792,9 +1990,9 @@ class EnvironmentConfig(BaseConfig):
             enable_daily (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        directory: Optional[bool] = None
-        enable_daily: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        directory: Optional[bool] = Field(None, alias="Directory")
+        enable_daily: Optional[bool] = Field(None, alias="EnableDaily")
 
     class LocalizationSettings(BaseConfig):
         """
@@ -1804,9 +2002,9 @@ class EnvironmentConfig(BaseConfig):
             available_locales (Optional[bool]):
         """
 
-        default_server_locale: Optional[bool] = None
-        default_client_locale: Optional[bool] = None
-        available_locales: Optional[bool] = None
+        default_server_locale: Optional[bool] = Field(None, alias="DefaultServerLocale")
+        default_client_locale: Optional[bool] = Field(None, alias="DefaultClientLocale")
+        available_locales: Optional[bool] = Field(None, alias="AvailableLocales")
 
     class SamlSettings(BaseConfig):
         """
@@ -1830,23 +2028,27 @@ class EnvironmentConfig(BaseConfig):
             login_button_text (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        verify: Optional[bool] = None
-        encrypt: Optional[bool] = None
-        idp_url: Optional[bool] = None
-        idp_descriptor_url: Optional[bool] = None
-        assertion_consumer_service_url: Optional[bool] = None
-        idp_certificate_file: Optional[bool] = None
-        public_certificate_file: Optional[bool] = None
-        private_key_file: Optional[bool] = None
-        first_name_attribute: Optional[bool] = None
-        last_name_attribute: Optional[bool] = None
-        email_attribute: Optional[bool] = None
-        username_attribute: Optional[bool] = None
-        nickname_attribute: Optional[bool] = None
-        locale_attribute: Optional[bool] = None
-        position_attribute: Optional[bool] = None
-        login_button_text: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        verify: Optional[bool] = Field(None, alias="Verify")
+        encrypt: Optional[bool] = Field(None, alias="Encrypt")
+        idp_url: Optional[bool] = Field(None, alias="IdpUrl")
+        idp_descriptor_url: Optional[bool] = Field(None, alias="IdpDescriptorUrl")
+        assertion_consumer_service_url: Optional[bool] = Field(
+            None, alias="AssertionConsumerServiceURL"
+        )
+        idp_certificate_file: Optional[bool] = Field(None, alias="IdpCertificateFile")
+        public_certificate_file: Optional[bool] = Field(
+            None, alias="PublicCertificateFile"
+        )
+        private_key_file: Optional[bool] = Field(None, alias="PrivateKeyFile")
+        first_name_attribute: Optional[bool] = Field(None, alias="FirstNameAttribute")
+        last_name_attribute: Optional[bool] = Field(None, alias="LastNameAttribute")
+        email_attribute: Optional[bool] = Field(None, alias="EmailAttribute")
+        username_attribute: Optional[bool] = Field(None, alias="UsernameAttribute")
+        nickname_attribute: Optional[bool] = Field(None, alias="NicknameAttribute")
+        locale_attribute: Optional[bool] = Field(None, alias="LocaleAttribute")
+        position_attribute: Optional[bool] = Field(None, alias="PositionAttribute")
+        login_button_text: Optional[bool] = Field(None, alias="LoginButtonText")
 
     class NativeAppSettings(BaseConfig):
         """
@@ -1856,9 +2058,11 @@ class EnvironmentConfig(BaseConfig):
             ios_app_download_link (Optional[bool]):
         """
 
-        app_download_link: Optional[bool] = None
-        android_app_download_link: Optional[bool] = None
-        ios_app_download_link: Optional[bool] = None
+        app_download_link: Optional[bool] = Field(None, alias="AppDownloadLink")
+        android_app_download_link: Optional[bool] = Field(
+            None, alias="AndroidAppDownloadLink"
+        )
+        ios_app_download_link: Optional[bool] = Field(None, alias="IosAppDownloadLink")
 
     class ClusterSettings(BaseConfig):
         """
@@ -1868,9 +2072,11 @@ class EnvironmentConfig(BaseConfig):
             inter_node_urls (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        inter_node_listen_address: Optional[bool] = None
-        inter_node_urls: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        inter_node_listen_address: Optional[bool] = Field(
+            None, alias="InterNodeListenAddress"
+        )
+        inter_node_urls: Optional[bool] = Field(None, alias="InterNodeUrls")
 
     class MetricsSettings(BaseConfig):
         """
@@ -1880,9 +2086,9 @@ class EnvironmentConfig(BaseConfig):
             listen_address (Optional[bool]):
         """
 
-        enable: Optional[bool] = None
-        block_profile_rate: Optional[bool] = None
-        listen_address: Optional[bool] = None
+        enable: Optional[bool] = Field(None, alias="Enable")
+        block_profile_rate: Optional[bool] = Field(None, alias="BlockProfileRate")
+        listen_address: Optional[bool] = Field(None, alias="ListenAddress")
 
     class AnalyticsSettings(BaseConfig):
         """
@@ -1890,29 +2096,45 @@ class EnvironmentConfig(BaseConfig):
             max_users_for_statistics (Optional[bool]):
         """
 
-        max_users_for_statistics: Optional[bool] = None
+        max_users_for_statistics: Optional[bool] = Field(
+            None, alias="MaxUsersForStatistics"
+        )
 
-    service_settings: Optional[ServiceSettings] = None
-    team_settings: Optional[TeamSettings] = None
-    sql_settings: Optional[SqlSettings] = None
-    log_settings: Optional[LogSettings] = None
-    password_settings: Optional[PasswordSettings] = None
-    file_settings: Optional[FileSettings] = None
-    email_settings: Optional[EmailSettings] = None
-    rate_limit_settings: Optional[RateLimitSettings] = None
-    privacy_settings: Optional[PrivacySettings] = None
-    support_settings: Optional[SupportSettings] = None
-    git_lab_settings: Optional[GitLabSettings] = None
-    google_settings: Optional[GoogleSettings] = None
-    office365_settings: Optional[Office365Settings] = None
-    ldap_settings: Optional[LdapSettings] = None
-    compliance_settings: Optional[ComplianceSettings] = None
-    localization_settings: Optional[LocalizationSettings] = None
-    saml_settings: Optional[SamlSettings] = None
-    native_app_settings: Optional[NativeAppSettings] = None
-    cluster_settings: Optional[ClusterSettings] = None
-    metrics_settings: Optional[MetricsSettings] = None
-    analytics_settings: Optional[AnalyticsSettings] = None
+    service_settings: Optional[ServiceSettings] = Field(None, alias="ServiceSettings")
+    team_settings: Optional[TeamSettings] = Field(None, alias="TeamSettings")
+    sql_settings: Optional[SqlSettings] = Field(None, alias="SqlSettings")
+    log_settings: Optional[LogSettings] = Field(None, alias="LogSettings")
+    password_settings: Optional[PasswordSettings] = Field(
+        None, alias="PasswordSettings"
+    )
+    file_settings: Optional[FileSettings] = Field(None, alias="FileSettings")
+    email_settings: Optional[EmailSettings] = Field(None, alias="EmailSettings")
+    rate_limit_settings: Optional[RateLimitSettings] = Field(
+        None, alias="RateLimitSettings"
+    )
+    privacy_settings: Optional[PrivacySettings] = Field(None, alias="PrivacySettings")
+    support_settings: Optional[SupportSettings] = Field(None, alias="SupportSettings")
+    git_lab_settings: Optional[GitLabSettings] = Field(None, alias="GitLabSettings")
+    google_settings: Optional[GoogleSettings] = Field(None, alias="GoogleSettings")
+    office365_settings: Optional[Office365Settings] = Field(
+        None, alias="Office365Settings"
+    )
+    ldap_settings: Optional[LdapSettings] = Field(None, alias="LdapSettings")
+    compliance_settings: Optional[ComplianceSettings] = Field(
+        None, alias="ComplianceSettings"
+    )
+    localization_settings: Optional[LocalizationSettings] = Field(
+        None, alias="LocalizationSettings"
+    )
+    saml_settings: Optional[SamlSettings] = Field(None, alias="SamlSettings")
+    native_app_settings: Optional[NativeAppSettings] = Field(
+        None, alias="NativeAppSettings"
+    )
+    cluster_settings: Optional[ClusterSettings] = Field(None, alias="ClusterSettings")
+    metrics_settings: Optional[MetricsSettings] = Field(None, alias="MetricsSettings")
+    analytics_settings: Optional[AnalyticsSettings] = Field(
+        None, alias="AnalyticsSettings"
+    )
 
 
 class SamlCertificateStatus(BaseConfig):
@@ -2299,9 +2521,9 @@ class Timezone(BaseConfig):
             the "useAutomaticTimezone" is set to "true".
     """
 
-    use_automatic_timezone: Optional[bool] = None
-    manual_timezone: Optional[str] = None
-    automatic_timezone: Optional[str] = None
+    use_automatic_timezone: Optional[bool] = Field(None, alias="useAutomaticTimezone")
+    manual_timezone: Optional[str] = Field(None, alias="manualTimezone")
+    automatic_timezone: Optional[str] = Field(None, alias="automaticTimezone")
 
 
 class ChannelNotifyProps(BaseConfig):
@@ -2375,9 +2597,9 @@ class PluginManifest(BaseConfig):
                     windows_amd64 (Optional[str]):
             """
 
-            linux_amd64: Optional[str] = None
-            darwin_amd64: Optional[str] = None
-            windows_amd64: Optional[str] = None
+            linux_amd64: Optional[str] = Field(None, alias="linux-amd64")
+            darwin_amd64: Optional[str] = Field(None, alias="darwin-amd64")
+            windows_amd64: Optional[str] = Field(None, alias="windows-amd64")
 
         executables: Optional[Executables] = None
         executable: Optional[str] = None
@@ -3154,11 +3376,11 @@ class Notice(BaseConfig):
     """
 
     id: Optional[str] = None
-    sys_admin_only: Optional[bool] = None
-    team_admin_only: Optional[bool] = None
+    sys_admin_only: Optional[bool] = Field(None, alias="sysAdminOnly")
+    team_admin_only: Optional[bool] = Field(None, alias="teamAdminOnly")
     action: Optional[str] = None
-    action_param: Optional[str] = None
-    action_text: Optional[str] = None
+    action_param: Optional[str] = Field(None, alias="actionParam")
+    action_text: Optional[str] = Field(None, alias="actionText")
     description: Optional[str] = None
     image: Optional[str] = None
     title: Optional[str] = None
@@ -3234,16 +3456,18 @@ class SystemStatusResponse(BaseConfig):
             Included when device_id parameter set.
     """
 
-    android_latest_version: Optional[str] = None
-    android_min_version: Optional[str] = None
-    desktop_latest_version: Optional[str] = None
-    desktop_min_version: Optional[str] = None
-    ios_latest_version: Optional[str] = None
-    ios_min_version: Optional[str] = None
+    android_latest_version: Optional[str] = Field(None, alias="AndroidLatestVersion")
+    android_min_version: Optional[str] = Field(None, alias="AndroidMinVersion")
+    desktop_latest_version: Optional[str] = Field(None, alias="DesktopLatestVersion")
+    desktop_min_version: Optional[str] = Field(None, alias="DesktopMinVersion")
+    ios_latest_version: Optional[str] = Field(None, alias="IosLatestVersion")
+    ios_min_version: Optional[str] = Field(None, alias="IosMinVersion")
     database_status: Optional[str] = None
     filestore_status: Optional[str] = None
     status: Optional[str] = None
-    can_receive_notifications: Optional[str] = None
+    can_receive_notifications: Optional[str] = Field(
+        None, alias="CanReceiveNotifications"
+    )
 
 
 class LicenseRenewalLink(BaseConfig):
@@ -3532,22 +3756,22 @@ class SlackAttachment(BaseConfig):
             type of string or integer
     """
 
-    id: Optional[str] = None
-    fallback: Optional[str] = None
-    color: Optional[str] = None
-    pretext: Optional[str] = None
-    author_name: Optional[str] = None
-    author_link: Optional[str] = None
-    author_icon: Optional[str] = None
-    title: Optional[str] = None
-    title_link: Optional[str] = None
-    text: Optional[str] = None
-    fields: Optional[List[SlackAttachmentField]] = None
-    image_url: Optional[str] = None
-    thumb_url: Optional[str] = None
-    footer: Optional[str] = None
-    footer_icon: Optional[str] = None
-    timestamp: Optional[str] = None
+    id: Optional[str] = Field(None, alias="Id")
+    fallback: Optional[str] = Field(None, alias="Fallback")
+    color: Optional[str] = Field(None, alias="Color")
+    pretext: Optional[str] = Field(None, alias="Pretext")
+    author_name: Optional[str] = Field(None, alias="AuthorName")
+    author_link: Optional[str] = Field(None, alias="AuthorLink")
+    author_icon: Optional[str] = Field(None, alias="AuthorIcon")
+    title: Optional[str] = Field(None, alias="Title")
+    title_link: Optional[str] = Field(None, alias="TitleLink")
+    text: Optional[str] = Field(None, alias="Text")
+    fields: Optional[List[SlackAttachmentField]] = Field(None, alias="Fields")
+    image_url: Optional[str] = Field(None, alias="ImageURL")
+    thumb_url: Optional[str] = Field(None, alias="ThumbURL")
+    footer: Optional[str] = Field(None, alias="Footer")
+    footer_icon: Optional[str] = Field(None, alias="FooterIcon")
+    timestamp: Optional[str] = Field(None, alias="Timestamp")
 
 
 class Product(BaseConfig):
@@ -3728,12 +3952,12 @@ class CommandResponse(BaseConfig):
         attachments (Optional[List[SlackAttachment]]):
     """
 
-    response_type: Optional[str] = None
-    text: Optional[str] = None
-    username: Optional[str] = None
-    icon_url: Optional[str] = None
-    goto_location: Optional[str] = None
-    attachments: Optional[List[SlackAttachment]] = None
+    response_type: Optional[str] = Field(None, alias="ResponseType")
+    text: Optional[str] = Field(None, alias="Text")
+    username: Optional[str] = Field(None, alias="Username")
+    icon_url: Optional[str] = Field(None, alias="IconURL")
+    goto_location: Optional[str] = Field(None, alias="GotoLocation")
+    attachments: Optional[List[SlackAttachment]] = Field(None, alias="Attachments")
 
 
 class ChannelModeration(BaseConfig):
@@ -3850,7 +4074,7 @@ class GetUsersByGroupChannelIdsResponse200(BaseConfig):
         channel_id (Optional[List[User]]):
     """
 
-    channel_id: Optional[List[User]] = None
+    channel_id: Optional[List[User]] = Field(None, alias="<CHANNEL_ID>")
 
 
 class SearchUsersJsonBody(BaseConfig):
@@ -4207,7 +4431,7 @@ class RegisterTermsOfServiceActionJsonBody(BaseConfig):
             rejected the terms of service.
     """
 
-    service_terms_id: str
+    service_terms_id: str = Field(alias="serviceTermsId")
     accepted: str
 
 
@@ -4233,7 +4457,7 @@ class MigrateAuthToLdapJsonBody(BaseConfig):
         force (bool):
     """
 
-    from_: str
+    from_: str = Field(alias="from")
     match_field: str
     force: bool
 
@@ -4249,7 +4473,7 @@ class MigrateAuthToSamlJsonBody(BaseConfig):
     class Matches(BaseConfig):
         """Users map."""
 
-    from_: str
+    from_: str = Field(alias="from")
     matches: Matches
     auto: bool
 
@@ -4541,7 +4765,7 @@ class ImportTeamMultipartData(BaseConfig):
 
     file: File
     filesize: int
-    import_from: str
+    import_from: str = Field(alias="importFrom")
 
     _file_properties: ClassVar[Set[str]] = set(["file"])
     """Properties to be included into `files` parameter of request"""
@@ -5205,7 +5429,7 @@ class SendWarnMetricAckJsonBody(BaseConfig):
             first) or not
     """
 
-    force_ack: Optional[bool] = None
+    force_ack: Optional[bool] = Field(None, alias="forceAck")
 
 
 class CreateEmojiMultipartData(BaseConfig):
@@ -5516,7 +5740,7 @@ class MigrateIdLdapJsonBody(BaseConfig):
         to_attribute (str): New IdAttribute value
     """
 
-    to_attribute: str
+    to_attribute: str = Field(alias="toAttribute")
 
 
 class UploadLdapPublicCertificateMultipartData(BaseConfig):

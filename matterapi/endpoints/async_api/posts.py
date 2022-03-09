@@ -521,9 +521,9 @@ class PostsApi(ApiBaseClass):
         *,
         limit_before: Optional[int] = 60,
         limit_after: Optional[int] = 60,
-        skip_fetch_threads: Optional[bool] = False,
-        collapsed_threads: Optional[bool] = False,
-        collapsed_threads_extended: Optional[bool] = False,
+        skipFetchThreads: Optional[bool] = False,
+        collapsedThreads: Optional[bool] = False,
+        collapsedThreadsExtended: Optional[bool] = False,
     ) -> PostList:
         """Get posts around oldest unread
 
@@ -546,9 +546,9 @@ class PostsApi(ApiBaseClass):
         params: Dict[str, Any] = {
             "limit_before": limit_before,
             "limit_after": limit_after,
-            "skipFetchThreads": skip_fetch_threads,
-            "collapsedThreads": collapsed_threads,
-            "collapsedThreadsExtended": collapsed_threads_extended,
+            "skipFetchThreads": skipFetchThreads,
+            "collapsedThreads": collapsedThreads,
+            "collapsedThreadsExtended": collapsedThreadsExtended,
         }
         params = {k: v for k, v in params.items() if v is not None}
 
