@@ -1,7 +1,7 @@
 """ Module to access the Teams endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -94,7 +94,7 @@ class TeamsApi(ApiBaseClass):
     async def create_team(
         self,
         *,
-        json_body: CreateTeamJsonBody,
+        json_body: Union[CreateTeamJsonBody, Dict],
     ) -> Team:
         """Create a team
 
@@ -172,7 +172,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: UpdateTeamJsonBody,
+        json_body: Union[UpdateTeamJsonBody, Dict],
     ) -> Team:
         """Update a team
 
@@ -265,7 +265,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: PatchTeamJsonBody,
+        json_body: Union[PatchTeamJsonBody, Dict],
     ) -> Team:
         """Patch a team
 
@@ -310,7 +310,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: UpdateTeamPrivacyJsonBody,
+        json_body: Union[UpdateTeamPrivacyJsonBody, Dict],
     ) -> Team:
         """Update teams's privacy
 
@@ -428,7 +428,7 @@ class TeamsApi(ApiBaseClass):
     async def search_teams(
         self,
         *,
-        json_body: SearchTeamsJsonBody,
+        json_body: Union[SearchTeamsJsonBody, Dict],
     ) -> SearchTeamsResponse200:
         """Search teams
 
@@ -600,7 +600,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: AddTeamMemberJsonBody,
+        json_body: Union[AddTeamMemberJsonBody, Dict],
     ) -> TeamMember:
         """Add user to team
 
@@ -687,7 +687,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: List[TeamMember],
+        json_body: Union[List[TeamMember], Dict],
         graceful: Optional[bool] = None,
     ) -> List[TeamMember]:
         """Add multiple users to team
@@ -863,7 +863,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[TeamMember]:
         """Get team members by ids
 
@@ -1011,7 +1011,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        multipart_data: SetTeamIconMultipartData,
+        multipart_data: Union[SetTeamIconMultipartData, Dict],
     ) -> StatusOK:
         """Sets the team icon
 
@@ -1092,7 +1092,7 @@ class TeamsApi(ApiBaseClass):
         team_id: str,
         user_id: str,
         *,
-        json_body: UpdateTeamMemberRolesJsonBody,
+        json_body: Union[UpdateTeamMemberRolesJsonBody, Dict],
     ) -> StatusOK:
         """Update a team member roles
 
@@ -1139,7 +1139,7 @@ class TeamsApi(ApiBaseClass):
         team_id: str,
         user_id: str,
         *,
-        json_body: UpdateTeamMemberSchemeRolesJsonBody,
+        json_body: Union[UpdateTeamMemberSchemeRolesJsonBody, Dict],
     ) -> StatusOK:
         """Update the scheme-derived roles of a team member.
 
@@ -1276,7 +1276,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Invite users to the team by email
 
@@ -1320,7 +1320,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: InviteGuestsToTeamJsonBody,
+        json_body: Union[InviteGuestsToTeamJsonBody, Dict],
     ) -> StatusOK:
         """Invite guests to the team by email
 
@@ -1404,7 +1404,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        multipart_data: ImportTeamMultipartData,
+        multipart_data: Union[ImportTeamMultipartData, Dict],
     ) -> ImportTeamResponse200:
         """Import a Team from other application
 
@@ -1484,7 +1484,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: UpdateTeamSchemeJsonBody,
+        json_body: Union[UpdateTeamSchemeJsonBody, Dict],
     ) -> StatusOK:
         """Set a team's scheme
 
@@ -1580,7 +1580,7 @@ class TeamsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        multipart_data: SearchFilesMultipartData,
+        multipart_data: Union[SearchFilesMultipartData, Dict],
     ) -> FileInfoList:
         """Search files in a team
 

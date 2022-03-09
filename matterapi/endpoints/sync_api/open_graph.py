@@ -1,5 +1,7 @@
 """ Module to access the OpenGraph endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -13,7 +15,7 @@ class OpenGraphApi(ApiBaseClass):
     def open_graph(
         self,
         *,
-        json_body: OpenGraphJsonBody,
+        json_body: Union[OpenGraphJsonBody, Dict],
     ) -> OpenGraph:
         """Get open graph metadata for url
 

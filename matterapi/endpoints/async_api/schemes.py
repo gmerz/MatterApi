@@ -1,7 +1,7 @@
 """ Module to access the Schemes endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -75,7 +75,7 @@ class SchemesApi(ApiBaseClass):
     async def create_scheme(
         self,
         *,
-        json_body: CreateSchemeJsonBody,
+        json_body: Union[CreateSchemeJsonBody, Dict],
     ) -> Scheme:
         """Create a scheme
 
@@ -194,7 +194,7 @@ class SchemesApi(ApiBaseClass):
         self,
         scheme_id: str,
         *,
-        json_body: PatchSchemeJsonBody,
+        json_body: Union[PatchSchemeJsonBody, Dict],
     ) -> Scheme:
         """Patch a scheme
 

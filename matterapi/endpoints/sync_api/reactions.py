@@ -1,7 +1,7 @@
 """ Module to access the Reactions endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class ReactionsApi(ApiBaseClass):
     def save_reaction(
         self,
         *,
-        json_body: Reaction,
+        json_body: Union[Reaction, Dict],
     ) -> Reaction:
         """Create a reaction
 
@@ -136,7 +136,7 @@ class ReactionsApi(ApiBaseClass):
     def get_bulk_reactions(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> PostIdToReactionsMap:
         """Bulk get the reaction for posts
 

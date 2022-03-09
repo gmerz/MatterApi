@@ -1,7 +1,7 @@
 """ Module to access the Oauth endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -66,7 +66,7 @@ class OauthApi(ApiBaseClass):
     def create_oauth_app(
         self,
         *,
-        json_body: CreateOAuthAppJsonBody,
+        json_body: Union[CreateOAuthAppJsonBody, Dict],
     ) -> OAuthApp:
         """Register OAuth app
 
@@ -146,7 +146,7 @@ class OauthApi(ApiBaseClass):
         self,
         app_id: str,
         *,
-        json_body: UpdateOAuthAppJsonBody,
+        json_body: Union[UpdateOAuthAppJsonBody, Dict],
     ) -> OAuthApp:
         """Update an OAuth app
 

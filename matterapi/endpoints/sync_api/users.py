@@ -1,5 +1,5 @@
 """ Module to access the Users endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
 from typing import Any, Dict, List, Optional, Union
 
@@ -66,7 +66,7 @@ class UsersApi(ApiBaseClass):
     def login(
         self,
         *,
-        json_body: LoginJsonBody,
+        json_body: Union[LoginJsonBody, Dict],
     ) -> User:
         """Login to Mattermost server
 
@@ -108,7 +108,7 @@ class UsersApi(ApiBaseClass):
     def login_by_cws_token(
         self,
         *,
-        json_body: LoginByCwsTokenJsonBody,
+        json_body: Union[LoginByCwsTokenJsonBody, Dict],
     ) -> None:
         """Auto-Login to Mattermost server using CWS token
 
@@ -263,7 +263,7 @@ class UsersApi(ApiBaseClass):
     def create_user(
         self,
         *,
-        json_body: CreateUserJsonBody,
+        json_body: Union[CreateUserJsonBody, Dict],
         t: Optional[str] = None,
         iid: Optional[str] = None,
     ) -> User:
@@ -352,7 +352,7 @@ class UsersApi(ApiBaseClass):
     def get_users_by_ids(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
         since: Optional[int] = None,
     ) -> List[User]:
         """Get users by ids
@@ -402,7 +402,7 @@ class UsersApi(ApiBaseClass):
     def get_users_by_group_channel_ids(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> GetUsersByGroupChannelIdsResponse200:
         """Get users by group channels ids
 
@@ -449,7 +449,7 @@ class UsersApi(ApiBaseClass):
     def get_users_by_usernames(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[User]:
         """Get users by usernames
 
@@ -492,7 +492,7 @@ class UsersApi(ApiBaseClass):
     def search_users(
         self,
         *,
-        json_body: SearchUsersJsonBody,
+        json_body: Union[SearchUsersJsonBody, Dict],
     ) -> List[User]:
         """Search users
 
@@ -757,7 +757,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserJsonBody,
+        json_body: Union[UpdateUserJsonBody, Dict],
     ) -> User:
         """Update a user
 
@@ -846,7 +846,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: PatchUserJsonBody,
+        json_body: Union[PatchUserJsonBody, Dict],
     ) -> User:
         """Patch a user
 
@@ -892,7 +892,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserRolesJsonBody,
+        json_body: Union[UpdateUserRolesJsonBody, Dict],
     ) -> StatusOK:
         """Update a user's roles
 
@@ -937,7 +937,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserActiveJsonBody,
+        json_body: Union[UpdateUserActiveJsonBody, Dict],
     ) -> StatusOK:
         """Update user active status
 
@@ -1027,7 +1027,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        multipart_data: SetProfileImageMultipartData,
+        multipart_data: Union[SetProfileImageMultipartData, Dict],
     ) -> StatusOK:
         """Set user's profile image
 
@@ -1177,7 +1177,7 @@ class UsersApi(ApiBaseClass):
     def reset_password(
         self,
         *,
-        json_body: ResetPasswordJsonBody,
+        json_body: Union[ResetPasswordJsonBody, Dict],
     ) -> StatusOK:
         """Reset password
 
@@ -1221,7 +1221,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserMfaJsonBody,
+        json_body: Union[UpdateUserMfaJsonBody, Dict],
     ) -> StatusOK:
         """Update a user's MFA
 
@@ -1420,7 +1420,7 @@ class UsersApi(ApiBaseClass):
     def check_user_mfa(
         self,
         *,
-        json_body: CheckUserMfaJsonBody,
+        json_body: Union[CheckUserMfaJsonBody, Dict],
     ) -> CheckUserMfaResponse200:
         """Check MFA
 
@@ -1465,7 +1465,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserPasswordJsonBody,
+        json_body: Union[UpdateUserPasswordJsonBody, Dict],
     ) -> StatusOK:
         """Update a user's password
 
@@ -1510,7 +1510,7 @@ class UsersApi(ApiBaseClass):
     def send_password_reset_email(
         self,
         *,
-        json_body: SendPasswordResetEmailJsonBody,
+        json_body: Union[SendPasswordResetEmailJsonBody, Dict],
     ) -> StatusOK:
         """Send password reset email
 
@@ -1635,7 +1635,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: RevokeSessionJsonBody,
+        json_body: Union[RevokeSessionJsonBody, Dict],
     ) -> StatusOK:
         """Revoke a user session
 
@@ -1717,7 +1717,7 @@ class UsersApi(ApiBaseClass):
     def attach_device_id(
         self,
         *,
-        json_body: AttachDeviceIdJsonBody,
+        json_body: Union[AttachDeviceIdJsonBody, Dict],
     ) -> StatusOK:
         """Attach mobile device
 
@@ -1838,7 +1838,7 @@ class UsersApi(ApiBaseClass):
     def verify_user_email(
         self,
         *,
-        json_body: VerifyUserEmailJsonBody,
+        json_body: Union[VerifyUserEmailJsonBody, Dict],
     ) -> StatusOK:
         """Verify user email
 
@@ -1880,7 +1880,7 @@ class UsersApi(ApiBaseClass):
     def send_verification_email(
         self,
         *,
-        json_body: SendVerificationEmailJsonBody,
+        json_body: Union[SendVerificationEmailJsonBody, Dict],
     ) -> StatusOK:
         """Send verification email
 
@@ -1924,7 +1924,7 @@ class UsersApi(ApiBaseClass):
     def switch_account_type(
         self,
         *,
-        json_body: SwitchAccountTypeJsonBody,
+        json_body: Union[SwitchAccountTypeJsonBody, Dict],
     ) -> SwitchAccountTypeResponse200:
         """Switch login method
 
@@ -2043,7 +2043,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: CreateUserAccessTokenJsonBody,
+        json_body: Union[CreateUserAccessTokenJsonBody, Dict],
     ) -> UserAccessToken:
         """Create a user access token
 
@@ -2144,7 +2144,7 @@ class UsersApi(ApiBaseClass):
     def revoke_user_access_token(
         self,
         *,
-        json_body: RevokeUserAccessTokenJsonBody,
+        json_body: Union[RevokeUserAccessTokenJsonBody, Dict],
     ) -> StatusOK:
         """Revoke a user access token
 
@@ -2229,7 +2229,7 @@ class UsersApi(ApiBaseClass):
     def disable_user_access_token(
         self,
         *,
-        json_body: DisableUserAccessTokenJsonBody,
+        json_body: Union[DisableUserAccessTokenJsonBody, Dict],
     ) -> StatusOK:
         """Disable personal access token
 
@@ -2276,7 +2276,7 @@ class UsersApi(ApiBaseClass):
     def enable_user_access_token(
         self,
         *,
-        json_body: EnableUserAccessTokenJsonBody,
+        json_body: Union[EnableUserAccessTokenJsonBody, Dict],
     ) -> StatusOK:
         """Enable personal access token
 
@@ -2322,7 +2322,7 @@ class UsersApi(ApiBaseClass):
     def search_user_access_tokens(
         self,
         *,
-        json_body: SearchUserAccessTokensJsonBody,
+        json_body: Union[SearchUserAccessTokensJsonBody, Dict],
     ) -> List[UserAccessTokenSanitized]:
         """Search tokens
 
@@ -2375,7 +2375,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UserAuthData,
+        json_body: Union[UserAuthData, Dict],
     ) -> UserAuthData:
         """Update a user's authentication method
 
@@ -2465,7 +2465,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: RegisterTermsOfServiceActionJsonBody,
+        json_body: Union[RegisterTermsOfServiceActionJsonBody, Dict],
     ) -> StatusOK:
         """Records user action when they accept or decline custom terms of service
 
@@ -2546,7 +2546,7 @@ class UsersApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: PublishUserTypingJsonBody,
+        json_body: Union[PublishUserTypingJsonBody, Dict],
     ) -> None:
         """Publish a user typing websocket event.
 
@@ -2685,7 +2685,7 @@ class UsersApi(ApiBaseClass):
     def migrate_auth_to_ldap(
         self,
         *,
-        json_body: MigrateAuthToLdapJsonBody,
+        json_body: Union[MigrateAuthToLdapJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to LDAP.
 
@@ -2727,7 +2727,7 @@ class UsersApi(ApiBaseClass):
     def migrate_auth_to_saml(
         self,
         *,
-        json_body: MigrateAuthToSamlJsonBody,
+        json_body: Union[MigrateAuthToSamlJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to SAML.
 
@@ -2770,7 +2770,7 @@ class UsersApi(ApiBaseClass):
         self,
         bot_user_id: str,
         *,
-        json_body: ConvertBotToUserJsonBody,
+        json_body: Union[ConvertBotToUserJsonBody, Dict],
         set_system_admin: Optional[bool] = False,
     ) -> StatusOK:
         """Convert a bot into a user

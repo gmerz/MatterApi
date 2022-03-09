@@ -1,5 +1,7 @@
 """ Module to access the Search endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from ...models import FileInfoList, SearchFilesMultipartData
 from ..base import ApiBaseClass
@@ -12,7 +14,7 @@ class SearchApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        multipart_data: SearchFilesMultipartData,
+        multipart_data: Union[SearchFilesMultipartData, Dict],
     ) -> FileInfoList:
         """Search files in a team
 

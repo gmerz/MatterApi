@@ -1,9 +1,13 @@
+"""Definition of Exceptions and Errors thrown"""
+
 from typing import Optional
 
 from pydantic import BaseModel
 
 
 class ExceptionBody(BaseModel):
+    """Exception Body definition for errors returned by the API"""
+
     id: str
     message: str
     request_id: str

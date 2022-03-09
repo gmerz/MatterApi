@@ -1,7 +1,7 @@
 """ Module to access the Roles endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
@@ -131,7 +131,7 @@ class RolesApi(ApiBaseClass):
         self,
         role_id: str,
         *,
-        json_body: PatchRoleJsonBody,
+        json_body: Union[PatchRoleJsonBody, Dict],
     ) -> Role:
         """Patch a role
 
@@ -177,7 +177,7 @@ class RolesApi(ApiBaseClass):
     def get_roles_by_names(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[Role]:
         """Get a list of roles by name
 

@@ -1,5 +1,5 @@
 """ Module to access the Bleve endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
 from ...models import StatusOK
 from ..base import ApiBaseClass

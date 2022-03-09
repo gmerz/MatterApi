@@ -1,7 +1,7 @@
 """ Module to access the Bots endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -115,7 +115,7 @@ class BotsApi(ApiBaseClass):
     async def create_bot(
         self,
         *,
-        json_body: CreateBotJsonBody,
+        json_body: Union[CreateBotJsonBody, Dict],
     ) -> Bot:
         """Create a bot
 
@@ -206,7 +206,7 @@ class BotsApi(ApiBaseClass):
         self,
         bot_user_id: str,
         *,
-        json_body: PatchBotJsonBody,
+        json_body: Union[PatchBotJsonBody, Dict],
     ) -> Bot:
         """Patch a bot
 
@@ -398,7 +398,7 @@ class BotsApi(ApiBaseClass):
         self,
         bot_user_id: str,
         *,
-        multipart_data: SetBotIconImageMultipartData,
+        multipart_data: Union[SetBotIconImageMultipartData, Dict],
     ) -> StatusOK:
         """Set bot's LHS icon image
 
@@ -479,7 +479,7 @@ class BotsApi(ApiBaseClass):
         self,
         bot_user_id: str,
         *,
-        json_body: ConvertBotToUserJsonBody,
+        json_body: Union[ConvertBotToUserJsonBody, Dict],
         set_system_admin: Optional[bool] = False,
     ) -> StatusOK:
         """Convert a bot into a user

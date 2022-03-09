@@ -1,7 +1,7 @@
 """ Module to access the Commands endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -72,7 +72,7 @@ class CommandsApi(ApiBaseClass):
     def create_command(
         self,
         *,
-        json_body: CreateCommandJsonBody,
+        json_body: Union[CreateCommandJsonBody, Dict],
     ) -> Command:
         """Create a command
 
@@ -244,7 +244,7 @@ class CommandsApi(ApiBaseClass):
         self,
         command_id: str,
         *,
-        json_body: Command,
+        json_body: Union[Command, Dict],
     ) -> Command:
         """Update a command
 
@@ -324,7 +324,7 @@ class CommandsApi(ApiBaseClass):
         self,
         command_id: str,
         *,
-        json_body: MoveCommandJsonBody,
+        json_body: Union[MoveCommandJsonBody, Dict],
     ) -> StatusOK:
         """Move a command
 
@@ -405,7 +405,7 @@ class CommandsApi(ApiBaseClass):
     def execute_command(
         self,
         *,
-        json_body: ExecuteCommandJsonBody,
+        json_body: Union[ExecuteCommandJsonBody, Dict],
     ) -> CommandResponse:
         """Execute a command
 

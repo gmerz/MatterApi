@@ -1,7 +1,7 @@
 """ Module to access the Posts endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -27,7 +27,7 @@ class PostsApi(ApiBaseClass):
     async def create_post(
         self,
         *,
-        json_body: CreatePostJsonBody,
+        json_body: Union[CreatePostJsonBody, Dict],
         set_online: Optional[bool] = None,
     ) -> Post:
         """Create a post
@@ -77,7 +77,7 @@ class PostsApi(ApiBaseClass):
     async def create_post_ephemeral(
         self,
         *,
-        json_body: CreatePostEphemeralJsonBody,
+        json_body: Union[CreatePostEphemeralJsonBody, Dict],
     ) -> Post:
         """Create a ephemeral post
 
@@ -158,7 +158,7 @@ class PostsApi(ApiBaseClass):
         self,
         post_id: str,
         *,
-        json_body: UpdatePostJsonBody,
+        json_body: Union[UpdatePostJsonBody, Dict],
     ) -> Post:
         """Update a post
 
@@ -282,7 +282,7 @@ class PostsApi(ApiBaseClass):
         self,
         post_id: str,
         *,
-        json_body: PatchPostJsonBody,
+        json_body: Union[PatchPostJsonBody, Dict],
     ) -> Post:
         """Patch a post
 
@@ -575,7 +575,7 @@ class PostsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: SearchPostsJsonBody,
+        json_body: Union[SearchPostsJsonBody, Dict],
     ) -> PostListWithSearchMatches:
         """Search for team posts
 
@@ -728,7 +728,7 @@ class PostsApi(ApiBaseClass):
     async def get_posts_by_ids(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[Post]:
         """Get posts by a list of ids
 

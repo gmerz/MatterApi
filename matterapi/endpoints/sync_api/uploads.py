@@ -1,7 +1,7 @@
 """ Module to access the Uploads endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Union
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -15,7 +15,7 @@ class UploadsApi(ApiBaseClass):
     def create_upload(
         self,
         *,
-        json_body: CreateUploadJsonBody,
+        json_body: Union[CreateUploadJsonBody, Dict],
     ) -> UploadSession:
         """Create an upload
 

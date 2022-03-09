@@ -1,7 +1,7 @@
 """ Module to access the Plugins endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -62,7 +62,7 @@ class PluginsApi(ApiBaseClass):
     async def upload_plugin(
         self,
         *,
-        multipart_data: UploadPluginMultipartData,
+        multipart_data: Union[UploadPluginMultipartData, Dict],
     ) -> StatusOK:
         """Upload plugin
 
@@ -406,7 +406,7 @@ class PluginsApi(ApiBaseClass):
     async def install_marketplace_plugin(
         self,
         *,
-        json_body: InstallMarketplacePluginJsonBody,
+        json_body: Union[InstallMarketplacePluginJsonBody, Dict],
     ) -> PluginManifest:
         """Installs a marketplace plugin
 

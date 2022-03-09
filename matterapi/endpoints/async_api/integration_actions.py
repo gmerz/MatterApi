@@ -1,5 +1,7 @@
 """ Module to access the IntegrationActions endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -17,7 +19,7 @@ class IntegrationActionsApi(ApiBaseClass):
     async def open_interactive_dialog(
         self,
         *,
-        json_body: OpenInteractiveDialogJsonBody,
+        json_body: Union[OpenInteractiveDialogJsonBody, Dict],
     ) -> StatusOK:
         """Open a dialog
 
@@ -62,7 +64,7 @@ class IntegrationActionsApi(ApiBaseClass):
     async def submit_interactive_dialog(
         self,
         *,
-        json_body: SubmitInteractiveDialogJsonBody,
+        json_body: Union[SubmitInteractiveDialogJsonBody, Dict],
     ) -> StatusOK:
         """Submit a dialog
 

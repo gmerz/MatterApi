@@ -1,7 +1,7 @@
 """ Module to access the Preferences endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
@@ -57,7 +57,7 @@ class PreferencesApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: List[Preference],
+        json_body: Union[List[Preference], Dict],
     ) -> StatusOK:
         """Save the user's preferences
 
@@ -105,7 +105,7 @@ class PreferencesApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: List[Preference],
+        json_body: Union[List[Preference], Dict],
     ) -> StatusOK:
         """Delete user's preferences
 

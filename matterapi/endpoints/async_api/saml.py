@@ -1,5 +1,7 @@
 """ Module to access the Saml endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -22,7 +24,7 @@ class SamlApi(ApiBaseClass):
     async def migrate_auth_to_saml(
         self,
         *,
-        json_body: MigrateAuthToSamlJsonBody,
+        json_body: Union[MigrateAuthToSamlJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to SAML.
 
@@ -131,7 +133,7 @@ class SamlApi(ApiBaseClass):
     async def upload_saml_idp_certificate(
         self,
         *,
-        multipart_data: UploadSamlIdpCertificateMultipartData,
+        multipart_data: Union[UploadSamlIdpCertificateMultipartData, Dict],
     ) -> StatusOK:
         """Upload IDP certificate
 
@@ -211,7 +213,7 @@ class SamlApi(ApiBaseClass):
     async def upload_saml_public_certificate(
         self,
         *,
-        multipart_data: UploadSamlPublicCertificateMultipartData,
+        multipart_data: Union[UploadSamlPublicCertificateMultipartData, Dict],
     ) -> StatusOK:
         """Upload public certificate
 
@@ -291,7 +293,7 @@ class SamlApi(ApiBaseClass):
     async def upload_saml_private_certificate(
         self,
         *,
-        multipart_data: UploadSamlPrivateCertificateMultipartData,
+        multipart_data: Union[UploadSamlPrivateCertificateMultipartData, Dict],
     ) -> StatusOK:
         """Upload private key
 
@@ -406,7 +408,7 @@ class SamlApi(ApiBaseClass):
     async def reset_saml_auth_data_to_email(
         self,
         *,
-        json_body: ResetSamlAuthDataToEmailJsonBody,
+        json_body: Union[ResetSamlAuthDataToEmailJsonBody, Dict],
     ) -> ResetSamlAuthDataToEmailResponse200:
         """Reset AuthData to Email
 

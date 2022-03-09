@@ -1,3 +1,6 @@
+""" Base class and options for API clients """
+# pylint: disable=no-self-use,too-few-public-methods
+
 import abc
 import asyncio
 import inspect
@@ -8,7 +11,8 @@ from typing import Any, Callable, Dict, Optional, Union
 from urllib.parse import urljoin, urlparse
 
 import httpx
-import websockets
+import websockets.client as ws_client
+import websockets.exceptions as ws_exceptions
 from pydantic import AnyHttpUrl, AnyUrl, BaseModel, validator
 
 logger = logging.getLogger("matterapi.client")
@@ -19,6 +23,8 @@ class HttpxClientOptions(BaseModel):
     """Options for the httpx client"""
 
     class Config:
+        """Pydantic config for class"""
+
         extra = "allow"
         arbitrary_types_allowed = True
 
@@ -90,6 +96,7 @@ class ApiClientOptions(BaseModel):
     """ If this is set, responses will not be parsed into objects, but
         will be returned as raw httpx response """
 
+    # pylint: disable=no-self-argument
     @validator("ws_url", pre=True, always=True)
     def _ws_url_setter(cls, value, values):
         """Set the websocket url from the url if not set explicitly"""
@@ -103,7 +110,7 @@ class ApiClientOptions(BaseModel):
             return value
 
         raise ValueError(
-            "Url is not present in values and ws_url was not set explicitly"
+            "'url' is invalid or not present in values and ws_url was not set explicitly"
         )
 
 
@@ -122,6 +129,7 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
     Used for websocket connections
     """
 
+    # pylint: disable=no-self-argument
     @validator("options")
     def set_logging_mode(cls, value):
         if value.debug:
@@ -158,9 +166,9 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
                 await self._start_ws(event_handler)
             except (
                 socket.gaierror,
-                websockets.exceptions.ConnectionClosedError,
+                ws_exceptions.ConnectionClosedError,
                 ConnectionRefusedError,
-            ) as e:
+            ) as connection_error:
                 logger.info(
                     (
                         "Connection to websocket closed. Either the server is not"
@@ -169,8 +177,8 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
                     self.options.ws_reconnect_wait_time,
                     exc_info=True,
                 )
-                logger.info(e)
-            except websockets.exceptions.WebSocketException:
+                logger.info(connection_error)
+            except ws_exceptions.WebSocketException:
                 logger.exception("Got an unexpected exception from websocktes")
 
             await asyncio.sleep(self.options.ws_reconnect_wait_time)
@@ -185,8 +193,7 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
     async def _handle_messages(self, event_handler: Callable, message: Dict):
         if inspect.iscoroutinefunction(event_handler):
             return asyncio.create_task(event_handler(message))
-        else:
-            return asyncio.create_task(asyncio.to_thread(event_handler, message))
+        return asyncio.create_task(asyncio.to_thread(event_handler, message))
 
     async def _handle_message_async(self, event_handler: Callable, websocket):
         async for raw_message in websocket:
@@ -204,7 +211,7 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
 
         logger.info("Connecting to websocket")
         ws_url = urljoin(self.options.ws_url, "api/v4/websocket")
-        async with websockets.connect(ws_url) as websocket:
+        async with ws_client.connect(ws_url) as websocket:
             # Authenticate
             await websocket.send(json_auth_data)
             hello = json.loads(await websocket.recv())
@@ -238,8 +245,11 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
                 # In case we handle tasks concurrently we will want to collect results/exceptions
                 for task in list(tasks):
                     if task.done():
+                        # pylint: disable=broad-except
                         try:
                             await task
+                        except KeyboardInterrupt as kbdint:
+                            raise kbdint
                         except Exception:
                             logger.exception("Websocket task failed")
                         tasks.remove(task)

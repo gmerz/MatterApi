@@ -1,7 +1,7 @@
 """ Module to access the Emoji endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -61,7 +61,7 @@ class EmojiApi(ApiBaseClass):
     def create_emoji(
         self,
         *,
-        multipart_data: CreateEmojiMultipartData,
+        multipart_data: Union[CreateEmojiMultipartData, Dict],
     ) -> Emoji:
         """Create a custom emoji
 
@@ -240,7 +240,7 @@ class EmojiApi(ApiBaseClass):
     def search_emoji(
         self,
         *,
-        json_body: SearchEmojiJsonBody,
+        json_body: Union[SearchEmojiJsonBody, Dict],
     ) -> List[Emoji]:
         """Search custom emoji
 

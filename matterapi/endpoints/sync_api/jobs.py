@@ -1,7 +1,7 @@
 """ Module to access the Jobs endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -67,7 +67,7 @@ class JobsApi(ApiBaseClass):
     def create_job(
         self,
         *,
-        json_body: CreateJobJsonBody,
+        json_body: Union[CreateJobJsonBody, Dict],
     ) -> Job:
         """Create a new job.
 

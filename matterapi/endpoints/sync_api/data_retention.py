@@ -1,7 +1,7 @@
 """ Module to access the DataRetention endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -275,7 +275,7 @@ class DataRetentionApi(ApiBaseClass):
     def create_data_retention_policy(
         self,
         *,
-        json_body: DataRetentionPolicyCreate,
+        json_body: Union[DataRetentionPolicyCreate, Dict],
     ) -> DataRetentionPolicyWithTeamAndChannelCounts:
         """Create a new granular data retention policy
 
@@ -411,7 +411,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: DataRetentionPolicyWithTeamAndChannelIds,
+        json_body: Union[DataRetentionPolicyWithTeamAndChannelIds, Dict],
     ) -> DataRetentionPolicyWithTeamAndChannelCounts:
         """Patch a granular data retention policy
 
@@ -518,7 +518,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Add teams to a granular data retention policy
 
@@ -565,7 +565,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Delete teams from a granular data retention policy
 
@@ -612,7 +612,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: SearchTeamsForRetentionPolicyJsonBody,
+        json_body: Union[SearchTeamsForRetentionPolicyJsonBody, Dict],
     ) -> List[Team]:
         """Search for the teams in a granular data retention policy
 
@@ -717,7 +717,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Add channels to a granular data retention policy
 
@@ -764,7 +764,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Delete channels from a granular data retention policy
 
@@ -811,7 +811,7 @@ class DataRetentionApi(ApiBaseClass):
         self,
         policy_id: str,
         *,
-        json_body: SearchChannelsForRetentionPolicyJsonBody,
+        json_body: Union[SearchChannelsForRetentionPolicyJsonBody, Dict],
     ) -> ChannelListWithTeamData:
         """Search for the channels in a granular data retention policy
 

@@ -1,3 +1,5 @@
+""" Sync client to access the mattermost API """
+
 from collections.abc import Generator
 from contextlib import contextmanager
 from typing import Optional
@@ -60,6 +62,37 @@ from .exceptions import (
 )
 
 
+def raise_on_4xx_5xx(response):
+    try:
+        response.raise_for_status()
+    except httpx.HTTPStatusError as http_error:
+        try:
+            http_error.response.read()
+            data = http_error.response.json()
+            message = data.get("message", data)
+        except ValueError:
+            message = response.text
+        if http_error.response.status_code == 400:
+            raise InvalidOrMissingParameters(message) from http_error
+        if http_error.response.status_code == 401:
+            raise NoAccessTokenProvided(message) from http_error
+        if http_error.response.status_code == 403:
+            raise NotEnoughPermissions(message) from http_error
+        if http_error.response.status_code == 404:
+            raise ResourceNotFound(message) from http_error
+        if http_error.response.status_code == 405:
+            raise MethodNotAllowed(message) from http_error
+        if http_error.response.status_code == 413:
+            raise ContentTooLarge(message) from http_error
+        if http_error.response.status_code == 429:
+            raise TooManyRequests(message) from http_error
+        if http_error.response.status_code == 500:
+            raise InternalServerError(message) from http_error
+        if http_error.response.status_code == 501:
+            raise FeatureDisabled(message) from http_error
+        raise
+
+
 class SyncClient(BaseClient):
     """Synchronous mattermost api client implementation"""
 
@@ -76,13 +109,13 @@ class SyncClient(BaseClient):
         base_url = str(httpx.URL(self.options.url).join(self.options.basepath))
         httpx_client = httpx.Client(base_url=base_url, **dict(httpx_client_options))
         httpx_client.event_hooks["response"] = [
-            self.raise_on_4xx_5xx
+            raise_on_4xx_5xx
         ] + httpx_client.event_hooks["response"]
         if isinstance(self.options.auth, AuthToken):
             httpx_client.auth = self.options.auth
             self.active_token = self.options.auth.token
         if isinstance(self.options.auth, AuthLogin):
-            """Login with username and password and get a session_token"""
+            # Login with username and password and get a session_token
             response = httpx_client.post(
                 url="/users/login", json=self.options.auth.dict(exclude_unset=True)
             )
@@ -90,36 +123,6 @@ class SyncClient(BaseClient):
             httpx_client.auth = AuthToken(token=session_token)
             self.active_token = session_token
         return httpx_client
-
-    def raise_on_4xx_5xx(self, response):
-        try:
-            response.raise_for_status()
-        except httpx.HTTPStatusError as e:
-            try:
-                e.response.read()
-                data = e.response.json()
-                message = data.get("message", data)
-            except ValueError:
-                message = response.text
-            if e.response.status_code == 400:
-                raise InvalidOrMissingParameters(message) from e
-            if e.response.status_code == 401:
-                raise NoAccessTokenProvided(message) from e
-            if e.response.status_code == 403:
-                raise NotEnoughPermissions(message) from e
-            if e.response.status_code == 404:
-                raise ResourceNotFound(message) from e
-            if e.response.status_code == 405:
-                raise MethodNotAllowed(message) from e
-            if e.response.status_code == 413:
-                raise ContentTooLarge(message) from e
-            if e.response.status_code == 429:
-                raise TooManyRequests(message) from e
-            if e.response.status_code == 500:
-                raise InternalServerError(message) from e
-            if e.response.status_code == 501:
-                raise FeatureDisabled(message) from e
-            raise
 
     def _login(self):
         """Calling this creates a httpx client and sets .active_token, needed for websockets"""
@@ -140,6 +143,7 @@ class SyncClient(BaseClient):
     @contextmanager
     def session(self) -> Generator["SyncClient", None, None]:
         """Open a Session which re-uses the underlying httpx client and it's connections"""
+        # pylint: disable=protected-access
         api_client = self.copy()
         api_client._httpx_client = api_client._create_httpx_client()
         try:

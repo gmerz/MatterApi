@@ -1,7 +1,7 @@
 """ Module to access the Cloud endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
@@ -109,7 +109,7 @@ class CloudApi(ApiBaseClass):
     def confirm_customer_payment(
         self,
         *,
-        multipart_data: ConfirmCustomerPaymentMultipartData,
+        multipart_data: Union[ConfirmCustomerPaymentMultipartData, Dict],
     ) -> None:
         """Completes the payment setup intent
 
@@ -192,7 +192,7 @@ class CloudApi(ApiBaseClass):
     def update_cloud_customer(
         self,
         *,
-        json_body: UpdateCloudCustomerJsonBody,
+        json_body: Union[UpdateCloudCustomerJsonBody, Dict],
     ) -> CloudCustomer:
         """Update cloud customer
 
@@ -240,7 +240,7 @@ class CloudApi(ApiBaseClass):
     def update_cloud_customer_address(
         self,
         *,
-        json_body: Address,
+        json_body: Union[Address, Dict],
     ) -> CloudCustomer:
         """Update cloud customer address
 

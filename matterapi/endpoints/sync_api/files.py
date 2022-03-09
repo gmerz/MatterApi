@@ -1,7 +1,7 @@
 """ Module to access the Files endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 from ...models import (
     FileInfo,
@@ -20,7 +20,7 @@ class FilesApi(ApiBaseClass):
     def upload_file(
         self,
         *,
-        multipart_data: UploadFileMultipartData,
+        multipart_data: Union[UploadFileMultipartData, Dict],
         channel_id: Optional[str] = None,
         filename: Optional[str] = None,
     ) -> UploadFileResponse201:
@@ -287,7 +287,7 @@ class FilesApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        multipart_data: SearchFilesMultipartData,
+        multipart_data: Union[SearchFilesMultipartData, Dict],
     ) -> FileInfoList:
         """Search files in a team
 

@@ -1,5 +1,7 @@
 """ Module to access the Brand endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from ...models import StatusOK, UploadBrandImageMultipartData
 from ..base import ApiBaseClass
@@ -48,7 +50,7 @@ class BrandApi(ApiBaseClass):
     def upload_brand_image(
         self,
         *,
-        multipart_data: UploadBrandImageMultipartData,
+        multipart_data: Union[UploadBrandImageMultipartData, Dict],
     ) -> StatusOK:
         """Upload brand image
 

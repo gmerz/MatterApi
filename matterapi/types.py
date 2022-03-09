@@ -1,3 +1,4 @@
+# pylint: disable=no-member
 """ Contains some shared types for properties """
 from typing import Any, BinaryIO, Optional, TextIO, Tuple, Union
 

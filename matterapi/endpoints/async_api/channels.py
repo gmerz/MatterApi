@@ -1,7 +1,7 @@
 """ Module to access the Channels endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Dict, List, Optional, Union, cast
 
 from pydantic import BaseModel
 
@@ -97,7 +97,7 @@ class ChannelsApi(ApiBaseClass):
     async def create_channel(
         self,
         *,
-        json_body: CreateChannelJsonBody,
+        json_body: Union[CreateChannelJsonBody, Dict],
     ) -> Channel:
         """Create a channel
 
@@ -141,7 +141,7 @@ class ChannelsApi(ApiBaseClass):
     async def create_direct_channel(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> Channel:
         """Create a direct message channel
 
@@ -181,7 +181,7 @@ class ChannelsApi(ApiBaseClass):
     async def create_group_channel(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> Channel:
         """Create a group message channel
 
@@ -220,7 +220,7 @@ class ChannelsApi(ApiBaseClass):
     async def search_all_channels(
         self,
         *,
-        json_body: SearchAllChannelsJsonBody,
+        json_body: Union[SearchAllChannelsJsonBody, Dict],
         system_console: Optional[bool] = True,
     ) -> SearchAllChannelsResponse200:
         """Search all private and open type channels across all teams
@@ -275,7 +275,7 @@ class ChannelsApi(ApiBaseClass):
     async def search_group_channels(
         self,
         *,
-        json_body: SearchGroupChannelsJsonBody,
+        json_body: Union[SearchGroupChannelsJsonBody, Dict],
     ) -> List[Channel]:
         """Search Group Channels
 
@@ -324,7 +324,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[Channel]:
         """Get a list of channels by ids
 
@@ -440,7 +440,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: UpdateChannelJsonBody,
+        json_body: Union[UpdateChannelJsonBody, Dict],
     ) -> Channel:
         """Update a channel
 
@@ -535,7 +535,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: PatchChannelJsonBody,
+        json_body: Union[PatchChannelJsonBody, Dict],
     ) -> Channel:
         """Patch a channel
 
@@ -584,7 +584,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: UpdateChannelPrivacyJsonBody,
+        json_body: Union[UpdateChannelPrivacyJsonBody, Dict],
     ) -> Channel:
         """Update channel's privacy
 
@@ -671,7 +671,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: MoveChannelJsonBody,
+        json_body: Union[MoveChannelJsonBody, Dict],
     ) -> Channel:
         """Move a channel
 
@@ -1036,7 +1036,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: SearchChannelsJsonBody,
+        json_body: Union[SearchChannelsJsonBody, Dict],
     ) -> List[Channel]:
         """Search channels
 
@@ -1089,7 +1089,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         team_id: str,
         *,
-        json_body: SearchArchivedChannelsJsonBody,
+        json_body: Union[SearchArchivedChannelsJsonBody, Dict],
     ) -> List[Channel]:
         """Search archived channels
 
@@ -1279,7 +1279,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: AddChannelMemberJsonBody,
+        json_body: Union[AddChannelMemberJsonBody, Dict],
     ) -> ChannelMember:
         """Add user to channel
 
@@ -1319,7 +1319,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[ChannelMember]:
         """Get channel members by ids
 
@@ -1441,7 +1441,7 @@ class ChannelsApi(ApiBaseClass):
         channel_id: str,
         user_id: str,
         *,
-        json_body: UpdateChannelRolesJsonBody,
+        json_body: Union[UpdateChannelRolesJsonBody, Dict],
     ) -> StatusOK:
         """Update channel roles
 
@@ -1485,7 +1485,7 @@ class ChannelsApi(ApiBaseClass):
         channel_id: str,
         user_id: str,
         *,
-        json_body: UpdateChannelMemberSchemeRolesJsonBody,
+        json_body: Union[UpdateChannelMemberSchemeRolesJsonBody, Dict],
     ) -> StatusOK:
         """Update the scheme-derived roles of a channel member.
 
@@ -1535,7 +1535,7 @@ class ChannelsApi(ApiBaseClass):
         channel_id: str,
         user_id: str,
         *,
-        json_body: ChannelNotifyProps,
+        json_body: Union[ChannelNotifyProps, Dict],
     ) -> StatusOK:
         """Update channel notifications
 
@@ -1580,7 +1580,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: ViewChannelJsonBody,
+        json_body: Union[ViewChannelJsonBody, Dict],
     ) -> ViewChannelResponse200:
         """View channel
 
@@ -1813,7 +1813,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: UpdateChannelSchemeJsonBody,
+        json_body: Union[UpdateChannelSchemeJsonBody, Dict],
     ) -> StatusOK:
         """Set a channel's scheme
 
@@ -1994,7 +1994,7 @@ class ChannelsApi(ApiBaseClass):
         self,
         channel_id: str,
         *,
-        json_body: ChannelModerationPatch,
+        json_body: Union[ChannelModerationPatch, Dict],
     ) -> List[ChannelModeration]:
         """Update a channel's moderation settings.
 
@@ -2092,7 +2092,7 @@ class ChannelsApi(ApiBaseClass):
         team_id: str,
         user_id: str,
         *,
-        json_body: List[SidebarCategory],
+        json_body: Union[List[SidebarCategory], Dict],
     ) -> SidebarCategory:
         """Update user's sidebar categories
 
@@ -2144,7 +2144,7 @@ class ChannelsApi(ApiBaseClass):
         team_id: str,
         user_id: str,
         *,
-        json_body: SidebarCategory,
+        json_body: Union[SidebarCategory, Dict],
     ) -> SidebarCategory:
         """Create user's sidebar category
 
@@ -2231,7 +2231,7 @@ class ChannelsApi(ApiBaseClass):
         team_id: str,
         user_id: str,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[str]:
         """Update user's sidebar category order
 
@@ -2317,7 +2317,7 @@ class ChannelsApi(ApiBaseClass):
         user_id: str,
         category_id: str,
         *,
-        json_body: SidebarCategory,
+        json_body: Union[SidebarCategory, Dict],
     ) -> SidebarCategory:
         """Update sidebar category
 

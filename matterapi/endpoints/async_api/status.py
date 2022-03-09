@@ -1,7 +1,7 @@
 """ Module to access the Status endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import List
+from typing import Dict, List, Union
 
 from pydantic import BaseModel
 
@@ -57,7 +57,7 @@ class StatusApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserStatusJsonBody,
+        json_body: Union[UpdateUserStatusJsonBody, Dict],
     ) -> Status:
         """Update user status
 
@@ -101,7 +101,7 @@ class StatusApi(ApiBaseClass):
     async def get_users_statuses_by_ids(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> List[Status]:
         """Get user statuses by id
 
@@ -145,7 +145,7 @@ class StatusApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: UpdateUserCustomStatusJsonBody,
+        json_body: Union[UpdateUserCustomStatusJsonBody, Dict],
     ) -> None:
         """Update user custom status
 
@@ -220,7 +220,7 @@ class StatusApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: RemoveRecentCustomStatusJsonBody,
+        json_body: Union[RemoveRecentCustomStatusJsonBody, Dict],
     ) -> None:
         """Delete user's recent custom status
 
@@ -261,7 +261,7 @@ class StatusApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: PostUserRecentCustomStatusDeleteJsonBody,
+        json_body: Union[PostUserRecentCustomStatusDeleteJsonBody, Dict],
     ) -> None:
         """Delete user's recent custom status
 

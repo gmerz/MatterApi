@@ -1,7 +1,7 @@
 """ Module to access the System endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Dict, List, Optional, Union, cast
 
 from pydantic import BaseModel
 
@@ -183,7 +183,7 @@ class SystemApi(ApiBaseClass):
     async def mark_notices_viewed(
         self,
         *,
-        json_body: List[str],
+        json_body: Union[List[str], Dict],
     ) -> StatusOK:
         """Update notices as 'viewed'
 
@@ -258,7 +258,7 @@ class SystemApi(ApiBaseClass):
     async def test_email(
         self,
         *,
-        json_body: Config,
+        json_body: Union[Config, Dict],
     ) -> StatusOK:
         """Send a test email
 
@@ -303,7 +303,7 @@ class SystemApi(ApiBaseClass):
     async def test_site_url(
         self,
         *,
-        json_body: TestSiteURLJsonBody,
+        json_body: Union[TestSiteURLJsonBody, Dict],
     ) -> StatusOK:
         """Checks the validity of a Site URL
 
@@ -348,7 +348,7 @@ class SystemApi(ApiBaseClass):
     async def test_s3_connection(
         self,
         *,
-        json_body: Config,
+        json_body: Union[Config, Dict],
     ) -> StatusOK:
         """Test AWS S3 connection
 
@@ -429,7 +429,7 @@ class SystemApi(ApiBaseClass):
     async def update_config(
         self,
         *,
-        json_body: Config,
+        json_body: Union[Config, Dict],
     ) -> Config:
         """Update configuration
 
@@ -585,7 +585,7 @@ class SystemApi(ApiBaseClass):
     async def patch_config(
         self,
         *,
-        json_body: Config,
+        json_body: Union[Config, Dict],
     ) -> Config:
         """Patch configuration
 
@@ -631,7 +631,7 @@ class SystemApi(ApiBaseClass):
     async def upload_license_file(
         self,
         *,
-        multipart_data: UploadLicenseFileMultipartData,
+        multipart_data: Union[UploadLicenseFileMultipartData, Dict],
     ) -> StatusOK:
         """Upload license file
 
@@ -781,7 +781,7 @@ class SystemApi(ApiBaseClass):
     async def request_trial_license(
         self,
         *,
-        json_body: RequestTrialLicenseJsonBody,
+        json_body: Union[RequestTrialLicenseJsonBody, Dict],
     ) -> None:
         """Request and install a trial license for your server
 
@@ -982,7 +982,7 @@ class SystemApi(ApiBaseClass):
     async def post_log(
         self,
         *,
-        json_body: PostLogJsonBody,
+        json_body: Union[PostLogJsonBody, Dict],
     ) -> PostLogResponse200:
         """Add log message
 
@@ -1427,7 +1427,7 @@ class SystemApi(ApiBaseClass):
         self,
         warn_metric_id: str,
         *,
-        json_body: SendWarnMetricAckJsonBody,
+        json_body: Union[SendWarnMetricAckJsonBody, Dict],
     ) -> StatusOK:
         """Acknowledge a warning of a metric status
 
@@ -1596,7 +1596,7 @@ class SystemApi(ApiBaseClass):
     async def update_marketplace_visited_by_admin(
         self,
         *,
-        json_body: System,
+        json_body: Union[System, Dict],
     ) -> StatusOK:
         """Stores that the Plugin Marketplace has been visited by at least an
         admin.

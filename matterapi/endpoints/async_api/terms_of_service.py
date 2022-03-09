@@ -1,7 +1,7 @@
 """ Module to access the TermsOfService endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Union
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -66,7 +66,7 @@ class TermsOfServiceApi(ApiBaseClass):
         self,
         user_id: str,
         *,
-        json_body: RegisterTermsOfServiceActionJsonBody,
+        json_body: Union[RegisterTermsOfServiceActionJsonBody, Dict],
     ) -> StatusOK:
         """Records user action when they accept or decline custom terms of service
 

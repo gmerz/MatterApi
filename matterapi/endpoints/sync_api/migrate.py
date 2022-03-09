@@ -1,5 +1,7 @@
 """ Module to access the Migrate endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
+
+from typing import Dict, Union
 
 from pydantic import BaseModel
 
@@ -13,7 +15,7 @@ class MigrateApi(ApiBaseClass):
     def migrate_auth_to_ldap(
         self,
         *,
-        json_body: MigrateAuthToLdapJsonBody,
+        json_body: Union[MigrateAuthToLdapJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to LDAP.
 
@@ -55,7 +57,7 @@ class MigrateApi(ApiBaseClass):
     def migrate_auth_to_saml(
         self,
         *,
-        json_body: MigrateAuthToSamlJsonBody,
+        json_body: Union[MigrateAuthToSamlJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to SAML.
 

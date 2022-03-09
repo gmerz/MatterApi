@@ -1,7 +1,7 @@
 """ Module to access the Ldap endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -22,7 +22,7 @@ class LdapApi(ApiBaseClass):
     async def migrate_auth_to_ldap(
         self,
         *,
-        json_body: MigrateAuthToLdapJsonBody,
+        json_body: Union[MigrateAuthToLdapJsonBody, Dict],
     ) -> None:
         """Migrate user accounts authentication type to LDAP.
 
@@ -223,7 +223,7 @@ class LdapApi(ApiBaseClass):
     async def migrate_id_ldap(
         self,
         *,
-        json_body: MigrateIdLdapJsonBody,
+        json_body: Union[MigrateIdLdapJsonBody, Dict],
     ) -> StatusOK:
         """Migrate Id LDAP
 
@@ -267,7 +267,7 @@ class LdapApi(ApiBaseClass):
     async def upload_ldap_public_certificate(
         self,
         *,
-        multipart_data: UploadLdapPublicCertificateMultipartData,
+        multipart_data: Union[UploadLdapPublicCertificateMultipartData, Dict],
     ) -> StatusOK:
         """Upload public certificate
 
@@ -345,7 +345,7 @@ class LdapApi(ApiBaseClass):
     async def upload_ldap_private_certificate(
         self,
         *,
-        multipart_data: UploadLdapPrivateCertificateMultipartData,
+        multipart_data: Union[UploadLdapPrivateCertificateMultipartData, Dict],
     ) -> StatusOK:
         """Upload private key
 

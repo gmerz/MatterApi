@@ -1,7 +1,7 @@
 """ Module to access the Webhooks endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -75,7 +75,7 @@ class WebhooksApi(ApiBaseClass):
     def create_incoming_webhook(
         self,
         *,
-        json_body: CreateIncomingWebhookJsonBody,
+        json_body: Union[CreateIncomingWebhookJsonBody, Dict],
     ) -> IncomingWebhook:
         """Create an incoming webhook
 
@@ -157,7 +157,7 @@ class WebhooksApi(ApiBaseClass):
         self,
         hook_id: str,
         *,
-        json_body: UpdateIncomingWebhookJsonBody,
+        json_body: Union[UpdateIncomingWebhookJsonBody, Dict],
     ) -> IncomingWebhook:
         """Update an incoming webhook
 
@@ -290,7 +290,7 @@ class WebhooksApi(ApiBaseClass):
     def create_outgoing_webhook(
         self,
         *,
-        json_body: CreateOutgoingWebhookJsonBody,
+        json_body: Union[CreateOutgoingWebhookJsonBody, Dict],
     ) -> OutgoingWebhook:
         """Create an outgoing webhook
 
@@ -372,7 +372,7 @@ class WebhooksApi(ApiBaseClass):
         self,
         hook_id: str,
         *,
-        json_body: UpdateOutgoingWebhookJsonBody,
+        json_body: Union[UpdateOutgoingWebhookJsonBody, Dict],
     ) -> OutgoingWebhook:
         """Update an outgoing webhook
 

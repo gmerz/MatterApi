@@ -1,7 +1,7 @@
 """ Module to access the Groups endpoints """
-# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods
+# pylint: disable=too-many-lines,too-many-locals,too-many-public-methods,too-few-public-methods
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from pydantic import BaseModel
 
@@ -137,7 +137,7 @@ class GroupsApi(ApiBaseClass):
     def create_group(
         self,
         *,
-        json_body: CreateGroupJsonBody,
+        json_body: Union[CreateGroupJsonBody, Dict],
     ) -> None:
         """Create a custom group
 
@@ -254,7 +254,7 @@ class GroupsApi(ApiBaseClass):
         self,
         group_id: str,
         *,
-        json_body: PatchGroupJsonBody,
+        json_body: Union[PatchGroupJsonBody, Dict],
     ) -> Group:
         """Patch a group
 
@@ -621,7 +621,7 @@ class GroupsApi(ApiBaseClass):
         group_id: str,
         team_id: str,
         *,
-        json_body: PatchGroupSyncableForTeamJsonBody,
+        json_body: Union[PatchGroupSyncableForTeamJsonBody, Dict],
     ) -> GroupSyncableTeam:
         """Patch a GroupSyncable associated to Team
 
@@ -670,7 +670,7 @@ class GroupsApi(ApiBaseClass):
         group_id: str,
         channel_id: str,
         *,
-        json_body: PatchGroupSyncableForChannelJsonBody,
+        json_body: Union[PatchGroupSyncableForChannelJsonBody, Dict],
     ) -> GroupSyncableChannel:
         """Patch a GroupSyncable associated to Channel
 
@@ -764,7 +764,7 @@ class GroupsApi(ApiBaseClass):
         self,
         group_id: str,
         *,
-        json_body: AddGroupMembersJsonBody,
+        json_body: Union[AddGroupMembersJsonBody, Dict],
     ) -> StatusOK:
         """Adds members to a custom group
 
@@ -810,7 +810,7 @@ class GroupsApi(ApiBaseClass):
         self,
         group_id: str,
         *,
-        json_body: DeleteGroupMembersJsonBody,
+        json_body: Union[DeleteGroupMembersJsonBody, Dict],
     ) -> StatusOK:
         """Removes members from a custom group
 
