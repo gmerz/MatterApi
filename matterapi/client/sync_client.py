@@ -2,7 +2,7 @@
 
 from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Optional
+from typing import Optional, cast
 
 import httpx
 from pydantic import PrivateAttr
@@ -48,7 +48,7 @@ from ..endpoints.sync_api.threads import ThreadsApi
 from ..endpoints.sync_api.uploads import UploadsApi
 from ..endpoints.sync_api.users import UsersApi
 from ..endpoints.sync_api.webhooks import WebhooksApi
-from .base import AuthLogin, AuthToken, BaseClient, HttpxClientOptions
+from .base import ApiClientOptions, AuthLogin, AuthToken, BaseClient, HttpxClientOptions
 from .exceptions import (
     ContentTooLarge,
     FeatureDisabled,
@@ -101,6 +101,7 @@ class SyncClient(BaseClient):
 
     def _create_httpx_client(self):
         """Create a httpx.Client instance to be used for requests and perform authentication if needed"""
+        self.options = cast(ApiClientOptions, self.options)
         httpx_client_options = (
             self.options.httpx_client_options
             if self.options.httpx_client_options

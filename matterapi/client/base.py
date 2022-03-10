@@ -161,6 +161,9 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
                 and you need to acquire a new session token.
         """
 
+        if not self.active_token:
+            await self._relogin()
+
         while True:
             try:
                 await self._start_ws(event_handler)
