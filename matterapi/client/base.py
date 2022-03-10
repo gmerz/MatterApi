@@ -207,7 +207,7 @@ class BaseClient(BaseModel, metaclass=abc.ABCMeta):
                 "action": "authentication_challenge",
                 "data": {"token": self.active_token},
             }
-        ).encode("utf8")
+        )
 
         logger.info("Connecting to websocket")
         ws_url = urljoin(self.options.ws_url, "api/v4/websocket")
